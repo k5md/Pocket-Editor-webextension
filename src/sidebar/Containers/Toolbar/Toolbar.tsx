@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, ButtonGroup } from '@blueprintjs/core';
 import _ from 'lodash';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
+import FontPicker from '../FontPicker';
 
 const commands = [
   {
@@ -16,13 +17,6 @@ const commands = [
   }, {
     cmd: 'strikeThrough',
     icon: 'strikethrough',
-  }, {
-    cmd: 'fontName',
-    val: "'Inconsolata', monospace",
-  }, {
-    cmd: 'fontSize',
-    val: '1-7',
-    icon: 'text-height',
   }, {
     cmd: 'heading',
     val: 'h3',
@@ -102,6 +96,7 @@ class Toolbar extends Component {
 
     return (
       <React.Fragment>
+        <FontPicker />
         <ScrollMenu
           hideSingleArrow={true}
           data={commands.map(item => (
