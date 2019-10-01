@@ -1,0 +1,7 @@
+*.sublime-project
+*.sublime-workspace
+web-ext-artifacts
+node_modules
+.awcache
+PocketEditorFirefoxProfile
+dist
