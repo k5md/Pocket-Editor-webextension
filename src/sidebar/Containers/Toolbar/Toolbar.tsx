@@ -3,7 +3,7 @@ import { Button, ButtonGroup } from '@blueprintjs/core';
 import _ from 'lodash';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import FontPicker from '../FontPicker';
-
+import FontSizePicker from '../FontSizePicker';
 const commands = [
   {
     cmd: 'bold',
@@ -97,6 +97,7 @@ class Toolbar extends Component {
     return (
       <React.Fragment>
         <FontPicker />
+        <FontSizePicker />
         <ScrollMenu
           hideSingleArrow={true}
           data={commands.map(item => (
