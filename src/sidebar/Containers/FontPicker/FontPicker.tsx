@@ -11,14 +11,28 @@ class FontPicker extends React.Component {
   componentDidMount() {
     const d = new FontDetector();
     const installedFonts = fontFamilies.filter(d.detect);
-    this.setState({ installedFonts });
+    this.setState({ installedFonts, selectedFont: installedFonts[0] });
   }
 
   state = {
-    installedFonts: []
+    installedFonts: [],
+    selectedFont: '',
   };
 
   public render() {
+    const onItemSelect = (item) => {
+      const action = {
+        cmd: 'fontName',
+        val: item,
+      };
+
+      let { cmd, val } = action;
+      console.log(cmd, val);
+
+      document.execCommand(cmd, false, (val || ''));
+      this.setState({ selectedFont: item })
+    }
+
     const itemRenderer = (item, { handleClick, modifiers }) => {
       if (!modifiers.matchesPredicate) {
         return null;
@@ -29,7 +43,7 @@ class FontPicker extends React.Component {
           key={_.uniqueId()}
           onClick={handleClick}
           text={item}
-          style={{'font-family': item}}
+          style={{'fontFamily': item}}
         />
       );
     };
@@ -38,10 +52,6 @@ class FontPicker extends React.Component {
       const renderedItems = items.map(renderItem).filter(item => item != null);
       return (
         <Menu className="fontMenu" ulRef={itemsParentRef}>
-          <MenuItem
-              disabled={true}
-              text={`Found ${renderedItems.length} items matching "${query}"`}
-          />
           {renderedItems}
         </Menu>
       );
@@ -52,10 +62,16 @@ class FontPicker extends React.Component {
           items={this.state.installedFonts}
           itemRenderer={itemRenderer}
           itemListRenderer={renderMenu}
-          noResults={<MenuItem disabled={true} text="No fonts found..." />}
-          onItemSelect={(item) => console.log(item)}
+          onItemSelect={onItemSelect}
+          filterable={false}
+          activeItem={this.state.selectedFont}
+          popoverProps={{ minimal: true }}
       >
-          <Button text={this.state.installedFonts[0]} rightIcon="double-caret-vertical" />
+        <Button
+          text={this.state.selectedFont}
+          style={{'fontFamily': this.state.selectedFont}}
+          rightIcon="caret-down"
+        />
       </Select>
     );
   }
@@ -65,10 +81,7 @@ export default FontPicker;
 
 
 
-/*{
-    cmd: 'fontName',
-    val: "'Inconsolata', monospace",
-  }, {
+/* {
     cmd: 'fontSize',
     val: '1-7',
     icon: 'text-height',
