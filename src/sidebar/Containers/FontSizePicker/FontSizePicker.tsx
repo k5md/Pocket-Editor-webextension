@@ -5,6 +5,48 @@ import { Select } from "@blueprintjs/select";
 
 import _ from 'lodash';
 
+const isChildOf = (node, parentId) => {
+      while (node !== null) {
+        if (node.id === parentId) {
+          return true;
+        }
+        node = node.parentNode;
+      }
+
+      return false;
+    };
+
+const getCurrentCursorPosition = (parentId) => {
+    var selection = window.getSelection(),
+        charCount = -1,
+        node;
+
+    if (selection.focusNode) {
+      if (isChildOf(selection.focusNode, parentId)) {
+          node = selection.focusNode; 
+          charCount = selection.focusOffset;
+
+          while (node) {
+            if (node.id === parentId) {
+              break;
+            }
+
+            if (node.previousSibling) {
+              node = node.previousSibling;
+              charCount += node.textContent.length;
+            } else {
+               node = node.parentNode;
+               if (node === null) {
+                 break
+               }
+            }
+        }
+      }
+    }
+    console.log(selection, node);
+    return { selection, node };
+  }
+
 class FontSizePicker extends React.Component {
   state = {
     fontSize: 12,
@@ -15,13 +57,17 @@ class FontSizePicker extends React.Component {
     const onItemSelect = (item) => {
       const action = {
         cmd: 'fontSize',
-        val: 'item',
+        val: `${item}px`,
       };
 
       let { cmd, val } = action;
       console.log(cmd, val);
 
-      document.execCommand(cmd, false, (val || ''));
+      const { selection, node } = getCurrentCursorPosition();
+      document.execCommand("fontSize", false, "7");
+      if (node.parentNode.nodeName === 'FONT' && node.parentNode) {
+        node.parentNode.style['font-size'] = `${item}px`;
+      }
       this.setState({ fontSize: item })
     }
 

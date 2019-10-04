@@ -17,45 +17,75 @@ import {
   AnchorButton,
 } from "@blueprintjs/core";
 
-
-
 import mammoth from 'mammoth';
 
 import './styles.scss';
 
+const exportHandler = () => {
+  const payload = JSON.stringify(state()['#input-blacklist-pattern']);
+  const a = document.createElement('a');
+  a.download = 'TotalSuspenderBlacklist.json';
+  a.href = `data:application/octet-stream,${payload}`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
+
+const openHandler = () => {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.onchange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = async (fileContainer) => {
+      const arrayBuffer = fileContainer.target.result;
+      console.log(arrayBuffer);
+
+      const transformElement = (element) => {
+        if (element.children) {
+          var children = _.map(element.children, transformElement);
+          element = {...element, children: children};
+        }
+
+        if (element.type === "paragraph") {
+          element = transformParagraph(element);
+        }
+
+        return element;
+      }
+
+      const transformParagraph = (element) => {
+        if (element.alignment === "center" && !element.styleId) {
+          return {...element, styleId: "Heading2"};
+        } else {
+          return element;
+        }
+      }
+      const html = await mammoth.convertToHtml({ arrayBuffer }, {
+        ignoreEmptyParagraphs: false,
+        transformDocument: transformElement,
+      });
+      console.log(html);
+      console.log(this.editableArea);
+      document.querySelector("#textBox").innerHTML = html.value;
+      document.body.removeChild(fileInput);
+    });
+    reader.readAsArrayBuffer(file);
+  };
+  document.body.appendChild(fileInput);
+  fileInput.click();
+}
+
 class Editor extends Component {
+  state = {
+    editToolbarOpen: true,
+  }
+
+  toggleEditToolbar () {
+    this.setState({ editToolbarOpen: !this.state.editToolbarOpen});
+  }
+
   render() {
-    const exportHandler = () => {
-      const payload = JSON.stringify(state()['#input-blacklist-pattern']);
-      const a = document.createElement('a');
-      a.download = 'TotalSuspenderBlacklist.json';
-      a.href = `data:application/octet-stream,${payload}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    };
-
-    const openHandler = () => {
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = async (fileContainer) => {
-          const arrayBuffer = fileContainer.target.result;
-          console.log(arrayBuffer);
-          const html = await mammoth.convertToHtml({ arrayBuffer });
-          console.log(html);
-          console.log(this.editableArea);
-          document.querySelector("#textBox").innerHTML = html.value;
-          document.body.removeChild(fileInput);
-        });
-        reader.readAsArrayBuffer(file);
-      };
-      document.body.appendChild(fileInput);
-      fileInput.click();
-    }
-
     const fileMenu = (
       <Menu>
         <Menu.Item minimal icon="document" text="New" />
@@ -74,10 +104,11 @@ class Editor extends Component {
             <Popover content={fileMenu} >
               <AnchorButton minimal icon="document" rightIcon="caret-down" text="File" />
             </Popover>
-            <Button minimal icon="edit" text="Edit" />
+            <Button minimal icon="edit" text="Edit" onClick={() => this.toggleEditToolbar()}/>
+            <Button minimal icon="cog" text="Settings" />
           </ButtonGroup>
 
-          <Collapse isOpen={true}>
+          <Collapse isOpen={this.state.editToolbarOpen} keepChildrenMounted transitionDuration={100}>
             <Toolbar documentRef={this.editableArea}/>
           </Collapse>
         </div>

@@ -1,3 +1,6 @@
-.btn {
-  user-select: none;
+@import "~@blueprintjs/core/lib/scss/variables";
+
+.commandGroup {
+  padding: $pt-grid-size / 4 $pt-grid-size / 2;
+  vertical-align: middle;
 }

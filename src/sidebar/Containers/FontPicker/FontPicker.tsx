@@ -78,14 +78,3 @@ class FontPicker extends React.Component {
 }
 
 export default FontPicker;
-
-
-
-/* {
-    cmd: 'fontSize',
-    val: '1-7',
-    icon: 'text-height',
-  },*/
-
-
-

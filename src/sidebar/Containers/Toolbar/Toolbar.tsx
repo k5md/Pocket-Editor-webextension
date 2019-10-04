@@ -1,58 +1,60 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup } from '@blueprintjs/core';
+import { Button, ButtonGroup, Divider, } from '@blueprintjs/core';
 import _ from 'lodash';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import FontPicker from '../FontPicker';
 import FontSizePicker from '../FontSizePicker';
+
+
 const commands = [
-  {
-    cmd: 'bold',
-    icon: 'bold',
-  }, {
-    cmd: 'underline',
-    icon: 'underline',
-  }, {
-    cmd: 'italic',
-    icon: 'italic',
-  }, {
-    cmd: 'strikeThrough',
-    icon: 'strikethrough',
-  }, {
-    cmd: 'heading',
-    val: 'h3',
-    icon: 'header',
-  }, {
-    cmd: 'insertImage',
-    val: 'http://dummyimage.com/160x90',
-    icon: 'media',
-  }, {
-    cmd: 'insertOrderedList',
-    icon: 'numbered-list',
-  }, {
-    cmd: 'insertUnorderedList',
-    icon: 'properties',
-  }, {
-    cmd: 'insertParagraph',
-    icon: 'paragraph',
-  }, {
-    cmd: 'justifyLeft',
-    icon: 'align-left',
-  }, {
-    cmd: 'justifyCenter',
-    icon: 'align-center',
-  }, {
-    cmd: 'justifyRight',
-    icon: 'align-right',
-  }, {
-    cmd: 'justifyFull',
-    icon: 'align-justify',
-  }, {
-    cmd: 'redo',
-    icon: 'redo',
-  }, {
-    cmd: 'undo',
-    icon: 'undo',
-  }, 
+  [
+    {
+      cmd: 'bold',
+      icon: 'bold',
+    }, {
+      cmd: 'underline',
+      icon: 'underline',
+    }, {
+      cmd: 'italic',
+      icon: 'italic',
+    }, {
+      cmd: 'strikeThrough',
+      icon: 'strikethrough',
+    }, 
+  ],
+  [
+    {
+      cmd: 'insertOrderedList',
+      icon: 'numbered-list',
+    }, {
+      cmd: 'insertUnorderedList',
+      icon: 'properties',
+    }, 
+  ],
+  [
+    {
+      cmd: 'justifyLeft',
+      icon: 'align-left',
+    }, {
+      cmd: 'justifyCenter',
+      icon: 'align-center',
+    }, {
+      cmd: 'justifyRight',
+      icon: 'align-right',
+    }, {
+      cmd: 'justifyFull',
+      icon: 'align-justify',
+    },
+  ],
+  [
+    {
+      cmd: 'redo',
+      icon: 'redo',
+    }, {
+      cmd: 'undo',
+      icon: 'undo',
+    },
+  ],
 ];
 
 class Toolbar extends Component {
@@ -96,22 +98,23 @@ class Toolbar extends Component {
 
     return (
       <React.Fragment>
-        <FontPicker />
-        <FontSizePicker />
-        <ScrollMenu
-          hideSingleArrow={true}
-          data={commands.map(item => (
-            <Button
-              className="btn"
-              key={_.uniqueId()}
-              icon={item.icon}
-              title={item.cmd}
-              onClick={() => this.doCommand(item)}/>
-          ))}
-          arrowLeft={ArrowLeft}
-          arrowRight={ArrowRight}
-        />
+        <ButtonGroup className="commandGroup">
+          <FontPicker />
+          <FontSizePicker />
+        </ButtonGroup>
 
+
+        {commands.map(group => (
+            <ButtonGroup className="commandGroup">
+              {group.map(item => (
+                <Button
+                  key={_.uniqueId()}
+                  icon={item.icon}
+                  title={item.cmd}
+                  onClick={() => this.doCommand(item)}/>
+              ))}
+            </ButtonGroup>
+          ))}
       </React.Fragment>
     );
   }
