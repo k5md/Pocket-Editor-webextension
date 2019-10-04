@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Editor from './Containers/Editor';
 
+import { FocusStyleManager } from "@blueprintjs/core";
+ 
+FocusStyleManager.onlyShowFocusOnTabs();
+
+
 class App extends Component {
   render() {
     return (<Editor />);
