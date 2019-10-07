@@ -138,5 +138,6 @@ module.exports = {
         to: '_locales',
       },
     ]),
+
   ],
 };
