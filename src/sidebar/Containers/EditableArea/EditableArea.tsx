@@ -3,46 +3,20 @@ import React from "react";
 
 
 class EditableArea extends React.PureComponent {
-  isChildOf(node, parentId) {
-      while (node !== null) {
-        if (node.id === parentId) {
-          return true;
-        }
-        node = node.parentNode;
-      }
-
-      return false;
-    };
-
   getCurrentCursorPosition(parentId) {
-    var selection = window.getSelection(),
-        charCount = -1,
-        node;
+    const selection = window.getSelection();
 
-    if (selection.focusNode) {
-      if (this.isChildOf(selection.focusNode, parentId)) {
-          node = selection.focusNode; 
-          charCount = selection.focusOffset;
-
-          while (node) {
-            if (node.id === parentId) {
-              break;
-            }
-
-            if (node.previousSibling) {
-              node = node.previousSibling;
-              charCount += node.textContent.length;
-            } else {
-               node = node.parentNode;
-               if (node === null) {
-                 break
-               }
-            }
-        }
-      }
+    if (!selection.focusNode) {
+      return;
     }
-    console.log(selection, charCount, node, node.parentNode.nodeName === 'FONT' && node.parentNode.face);
-    return charCount;
+
+    const target = selection.focusNode;
+    let node = target;
+
+    while (node.id !== 'textBox') {
+      console.log(node);
+      node = node.parentNode;
+    }
   }
 
   public render() {

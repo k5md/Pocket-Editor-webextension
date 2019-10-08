@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Toolbar from '../Toolbar';
 import EditableArea from '../EditableArea';
-import { Elevation, Card FileInput } from "@blueprintjs/core";
+import { Elevation, Card, FileInput } from "@blueprintjs/core";
 import {
   Button,
   Intent,
@@ -18,6 +18,8 @@ import {
 } from "@blueprintjs/core";
 
 import mammoth from 'mammoth';
+import { connect } from 'react-redux';
+import { setCursorPosition } from '../../actions/editorActions';
 
 import './styles.scss';
 
@@ -69,7 +71,7 @@ const openHandler = () => {
       console.log(this.editableArea);
       document.querySelector("#textBox").innerHTML = html.value;
       document.body.removeChild(fileInput);
-    });
+    };
     reader.readAsArrayBuffer(file);
   };
   document.body.appendChild(fileInput);
@@ -105,10 +107,9 @@ class Editor extends Component {
               <AnchorButton minimal icon="document" rightIcon="caret-down" text="File" />
             </Popover>
             <Button minimal icon="edit" text="Edit" onClick={() => this.toggleEditToolbar()}/>
-            <Button minimal icon="cog" text="Settings" />
           </ButtonGroup>
 
-          <Collapse isOpen={this.state.editToolbarOpen} keepChildrenMounted transitionDuration={100}>
+          <Collapse isOpen={this.state.editToolbarOpen} keepChildrenMounted transitionDuration={200}>
             <Toolbar documentRef={this.editableArea}/>
           </Collapse>
         </div>
@@ -122,4 +123,15 @@ class Editor extends Component {
   }
 }
 
-export default Editor;
+const mapStateToProps = ({ editorReducer }) => {
+  const { cursorPosition } = editorReducer;
+  return {
+    cursorPosition,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  setCursorPosition: (cursorPosition) => dispatch(setCursorPosition(cursorPosition)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Editor);

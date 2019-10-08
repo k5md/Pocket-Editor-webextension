@@ -7,7 +7,7 @@ const common = require('./webpack.common.js');
 const smp = new SpeedMeasurePlugin();
 
 const webpackConfig = smp.wrap(merge(common, {
-  devtool: 'cheap-module-source-map',
+  devtool: false,
   plugins: [
     new SpeedMeasurePlugin(),
     new webpack.DefinePlugin({

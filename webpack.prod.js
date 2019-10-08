@@ -11,5 +11,6 @@ module.exports = merge(common, {
       PRODUCTION: JSON.stringify(true),
     }),
     new MinifyPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
 });

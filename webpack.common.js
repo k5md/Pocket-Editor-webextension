@@ -15,16 +15,24 @@ module.exports = {
     filename: MANIFEST_FILE,
     path: DIST_DIR,
   },
-  entry: MANIFEST_PATH,
+  entry: {
+    [MANIFEST_FILE]: MANIFEST_PATH,
+  },
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.json', '.ts', '.tsx'],
+    alias: {
+      react: 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom': 'preact/compat',
+    },
   },
   module: {
     rules: [
       {
         test: /\.html$/,
         use: [
+          'cache-loader',
           'file-loader',
           'extract-loader',
           {
@@ -86,9 +94,9 @@ module.exports = {
         test: /\.tsx?$/,
         use: [
           {
-            loader: 'awesome-typescript-loader',
+            loader: 'ts-loader',
             options: {
-              useCache: true,
+              transpileOnly: true,
             },
           },
         ],
@@ -107,10 +115,7 @@ module.exports = {
               ],
             },
           },
-          {
-            loader: 'imports-loader',
-            query: '__babelPolyfill=babel-polyfill',
-          },
+
         ],
       },
       {
@@ -121,10 +126,7 @@ module.exports = {
           'interpolate-loader',
         ]),
       },
-      {
-        test: require.resolve('webextension-polyfill'),
-        use: 'imports-loader?browser=>undefined',
-      },
+
     ],
   },
   plugins: [
@@ -138,6 +140,5 @@ module.exports = {
         to: '_locales',
       },
     ]),
-
   ],
 };

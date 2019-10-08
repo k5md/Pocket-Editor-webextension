@@ -111,10 +111,3 @@ class FontSizePicker extends React.Component {
 }
 
 export default FontSizePicker;
-
-
-
-
-
-
-
