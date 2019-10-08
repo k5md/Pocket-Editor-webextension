@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Divider, } from '@blueprintjs/core';
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import FontPicker from '../FontPicker';
 import FontSizePicker from '../FontSizePicker';
@@ -108,7 +108,7 @@ class Toolbar extends Component {
             <ButtonGroup className="commandGroup">
               {group.map(item => (
                 <Button
-                  key={_.uniqueId()}
+                  key={uniqueId()}
                   icon={item.icon}
                   title={item.cmd}
                   onClick={() => this.doCommand(item)}/>

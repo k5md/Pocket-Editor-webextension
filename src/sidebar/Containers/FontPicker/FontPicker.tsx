@@ -5,7 +5,7 @@ import { Select } from "@blueprintjs/select";
 
 import fontFamilies from './font-families.json';
 import FontDetector from './detect-available-fonts';
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 
 class FontPicker extends React.Component {
   componentDidMount() {
@@ -40,7 +40,7 @@ class FontPicker extends React.Component {
       return (
         <MenuItem
           active={modifiers.active}
-          key={_.uniqueId()}
+          key={uniqueId()}
           onClick={handleClick}
           text={item}
           style={{'fontFamily': item}}

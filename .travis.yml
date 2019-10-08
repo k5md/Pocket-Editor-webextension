@@ -9,5 +9,3 @@ sudo: false
 script:
 - make install
 - make build-prod
-- make lint
-- make test

@@ -1,15 +1,6 @@
 install:
 	npm install
 
-test:
-	npm run test
-
-test-watch:
-	npm run test-watch
-
-lint:
-	npm run lint
-
 build-dev:
 	npm run build-dev
 

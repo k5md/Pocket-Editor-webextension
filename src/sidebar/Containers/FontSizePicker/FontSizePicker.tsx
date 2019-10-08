@@ -3,7 +3,7 @@ import React from "react";
 import { Button, MenuItem, Menu } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 
 const isChildOf = (node, parentId) => {
       while (node !== null) {
@@ -75,7 +75,7 @@ class FontSizePicker extends React.Component {
       return (
         <MenuItem
           active={modifiers.active}
-          key={_.uniqueId()}
+          key={uniqueId()}
           onClick={handleClick}
           text={item}
         />

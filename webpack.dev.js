@@ -7,6 +7,7 @@ const common = require('./webpack.common.js');
 const smp = new SpeedMeasurePlugin();
 
 const webpackConfig = smp.wrap(merge(common, {
+  mode: 'development',
   devtool: false,
   plugins: [
     new SpeedMeasurePlugin(),
@@ -14,6 +15,9 @@ const webpackConfig = smp.wrap(merge(common, {
       PRODUCTION: JSON.stringify(false),
     }),
   ],
+  optimization: {
+    minimize: false,
+  },
 }));
 
 module.exports = webpackConfig;

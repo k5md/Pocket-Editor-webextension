@@ -1,98 +1,82 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const DIST_DIR = path.resolve(__dirname, 'dist');
 const SRC_DIR = path.resolve(__dirname, 'src');
 
-const MANIFEST_FILE = 'manifest.json';
-const MANIFEST_PATH = path.join(SRC_DIR, MANIFEST_FILE);
-
 module.exports = {
   output: {
-    filename: MANIFEST_FILE,
+    filename: '[name].js',
     path: DIST_DIR,
   },
   entry: {
-    [MANIFEST_FILE]: MANIFEST_PATH,
+    sidebar: './src/sidebar/index.tsx',
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    modules: [SRC_DIR, 'node_modules'],
     extensions: ['.js', '.json', '.ts', '.tsx'],
     alias: {
-      react: 'preact/compat',
+      'react': 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',
       'react-dom': 'preact/compat',
     },
   },
   module: {
     rules: [
-      {
-        test: /\.html$/,
+      // CSS for node_modules
+      { 
+        include: /node_modules/,
+        test: /\.css$/i,
         use: [
           'cache-loader',
-          'file-loader',
-          'extract-loader',
+          'style-loader',
           {
-            loader: 'html-loader',
+            loader: 'css-loader',
             options: {
-              attrs: [
-                'link:href',
-                'script:src',
-                'img:src',
-              ],
+              sourceMap: false,
+            }
+          },
+        ],
+        
+      },
+      {
+        test: /\.s[ac]ss$/i, // SCSS
+        use: [
+          'style-loader',
+          'css-loader',
+          'cache-loader',
+          { 
+            loader: 'sass-loader',
+            options: {
+              sourceMap: false,
             },
           },
         ],
       },
       {
-        test: /\.(scss|sass)$/,
+        test: /\.(woff(2)?|ttf|eot|svg|png)$/, // FONTS
         use: [
-          'cache-loader',
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.(css)$/,
-        use: [
-          'cache-loader',
-          'style-loader',
-          'css-loader',
-        ],
-      },
-      {
-        test: /\.(woff(2)?|ttf|eot|svg|png)$/,
-        use: [
+          { 
+            loader: 'cache-loader',
+          },
           {
             loader: 'file-loader',
             options: {
               name: '[hash].[ext]',
-              outputPath: 'assets/',
+              outputPath: 'fonts/',
             },
           },
         ],
       },
       {
-        test: /index\.js$/,
-        include: [
-          path.resolve(__dirname, 'src/sidebar/index.js'),
-        ],
+        test: /\.tsx?$/, // TYPESCRIPT
         use: [
           {
-            loader: 'spawn-loader',
-            options: {
-              name: '[hash].js',
-            },
+            loader: 'cache-loader',
           },
-        ],
-      },
-      {
-        test: /\.tsx?$/,
-        use: [
           {
             loader: 'ts-loader',
             options: {
@@ -102,43 +86,20 @@ module.exports = {
         ],
         exclude: /node_modules/,
       },
-      {
-        test: /\.js$/,
-        exclude: [/node_modules/],
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                '@babel/preset-env',
-                '@babel/preset-react',
-              ],
-            },
-          },
-
-        ],
-      },
-      {
-        test: MANIFEST_PATH,
-        use: ExtractTextPlugin.extract([
-          'raw-loader',
-          'extricate-loader',
-          'interpolate-loader',
-        ]),
-      },
-
     ],
   },
   plugins: [
-    new ExtractTextPlugin(MANIFEST_FILE),
     new webpack.ProvidePlugin({
       browser: 'webextension-polyfill',
     }),
     new CopyPlugin([
-      {
-        from: 'src/_locales',
-        to: '_locales',
-      },
+      { from: 'src/assets', to: '.' },
+      { from: 'src/manifest.json', to: '.'},
     ]),
+    new HtmlWebpackPlugin({
+      chunks: ['sidebar'],
+      template: 'src/sidebar/template.html',
+      filename: 'sidebar.html',
+    }),
   ],
 };
