@@ -4,6 +4,13 @@ import { Button, MenuItem, Menu } from "@blueprintjs/core";
 import { Select } from "@blueprintjs/select";
 
 import { uniqueId } from 'lodash';
+import { connect } from 'react-redux';
+
+const fontSizes = [...Array(80)
+  .fill(0)
+  .map((v, i) => i)
+  .filter(v => v % 2 === 0 && v >= 8)
+];
 
 const isChildOf = (node, parentId) => {
       while (node !== null) {
@@ -110,4 +117,13 @@ class FontSizePicker extends React.Component {
   }
 }
 
-export default FontSizePicker;
+const mapStateToProps = ({ editorReducer }) => {
+  const { modifiers: {
+    fontSize,
+  }} = editorReducer;
+
+  return { fontSize };
+};
+
+export default connect(mapStateToProps)(FontSizePicker);
+

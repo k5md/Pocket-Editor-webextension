@@ -2,11 +2,21 @@ import * as types from '../constants/actionTypes';
 
 const initialState = {
   cursorPosition: 0,
-  font: null,
-  fontSize: 0,
-  emphasis: null, // italic, bold, underlined, strikethrough
-  list: null, // ordered, undordered
-  justify: null, // left, center, right, full
+  modifiers: {
+    font: '',
+    fontSize: 12,
+    emphasis: {
+      italic: false,
+      bold: false,
+      underlined: false,
+      strikethrough: false,
+    },
+    list: {
+      ordered: false,
+      undordered: false,
+    },
+    justify: null, // left, center, right, full    
+  },
 };
 
 const handlers = {
@@ -15,6 +25,13 @@ const handlers = {
     return {
       ...state,
       cursorPosition,
+    };
+  },
+  [types.SET_MODIFIERS]: (state, action) => {
+    const { modifiers } = action;
+    return {
+      ...state,
+      modifiers,
     };
   },
 };

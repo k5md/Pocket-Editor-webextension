@@ -6,6 +6,7 @@ import { Select } from "@blueprintjs/select";
 import fontFamilies from './font-families.json';
 import FontDetector from './detect-available-fonts';
 import { uniqueId } from 'lodash';
+import { connect } from 'react-redux';
 
 class FontPicker extends React.Component {
   componentDidMount() {
@@ -34,9 +35,6 @@ class FontPicker extends React.Component {
     }
 
     const itemRenderer = (item, { handleClick, modifiers }) => {
-      if (!modifiers.matchesPredicate) {
-        return null;
-      }
       return (
         <MenuItem
           active={modifiers.active}
@@ -59,13 +57,13 @@ class FontPicker extends React.Component {
 
     return (
       <Select
-          items={this.state.installedFonts}
-          itemRenderer={itemRenderer}
-          itemListRenderer={renderMenu}
-          onItemSelect={onItemSelect}
-          filterable={false}
-          activeItem={this.state.selectedFont}
-          popoverProps={{ minimal: true }}
+        items={this.state.installedFonts}
+        itemRenderer={itemRenderer}
+        itemListRenderer={renderMenu}
+        onItemSelect={onItemSelect}
+        filterable={false}
+        activeItem={this.state.selectedFont}
+        popoverProps={{ minimal: true }}
       >
         <Button
           text={this.state.selectedFont}
@@ -77,4 +75,8 @@ class FontPicker extends React.Component {
   }
 }
 
-export default FontPicker;
+const mapStateToProps = () => {
+  return {};
+};
+
+export default connect(mapStateToProps)(FontPicker);
