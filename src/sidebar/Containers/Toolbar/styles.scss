@@ -3,4 +3,10 @@
 .commandGroup {
   padding: $pt-grid-size / 4 $pt-grid-size / 2;
   vertical-align: middle;
+  flex-wrap: wrap;
+
+  * {
+  	margin-top: $pt-grid-size / 4;
+  	margin-bottom: $pt-grid-size / 4;
+  }
 }

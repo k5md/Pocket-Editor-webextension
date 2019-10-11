@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import Toolbar from '../Toolbar';
 import EditableArea from '../EditableArea';
-import { Elevation, Card, FileInput } from "@blueprintjs/core";
+import { FileInput } from "@blueprintjs/core";
+
 import {
   Button,
   Intent,
@@ -19,7 +20,6 @@ import {
 
 import mammoth from 'mammoth';
 import { connect } from 'react-redux';
-import { setCursorPosition } from '../../actions/editorActions';
 
 import './styles.scss';
 
@@ -41,7 +41,6 @@ const openHandler = () => {
     const reader = new FileReader();
     reader.onload = async (fileContainer) => {
       const arrayBuffer = fileContainer.target.result;
-      console.log(arrayBuffer);
 
       const transformElement = (element) => {
         if (element.children) {
@@ -67,8 +66,7 @@ const openHandler = () => {
         ignoreEmptyParagraphs: false,
         transformDocument: transformElement,
       });
-      console.log(html);
-      console.log(this.editableArea);
+
       document.querySelector("#textBox").innerHTML = html.value;
       document.body.removeChild(fileInput);
     };
@@ -110,28 +108,19 @@ class Editor extends Component {
           </ButtonGroup>
 
           <Collapse isOpen={this.state.editToolbarOpen} keepChildrenMounted transitionDuration={200}>
-            <Toolbar documentRef={this.editableArea}/>
+            <Toolbar/>
           </Collapse>
         </div>
 
-        
-        <Card elevation={Elevation.TWO} className="editableArea">
-          <EditableArea ref={(ref) => { this.editableArea = ref; }}/>
-        </Card>
+        <EditableArea className="editableArea"/>
+
       </div>
     );
   }
 }
 
 const mapStateToProps = ({ editorReducer }) => {
-  const { cursorPosition } = editorReducer;
-  return {
-    cursorPosition,
-  };
+  return {};
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  setCursorPosition: (cursorPosition) => dispatch(setCursorPosition(cursorPosition)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Editor);
+export default connect(mapStateToProps)(Editor);

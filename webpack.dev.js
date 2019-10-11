@@ -8,7 +8,7 @@ const smp = new SpeedMeasurePlugin();
 
 const webpackConfig = smp.wrap(merge(common, {
   mode: 'development',
-  devtool: false,
+  devtool: 'inline-source-map',
   plugins: [
     new SpeedMeasurePlugin(),
     new webpack.DefinePlugin({

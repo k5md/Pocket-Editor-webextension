@@ -72,9 +72,9 @@ class FontSizePicker extends React.Component {
 
       const { selection, node } = getCurrentCursorPosition();
       document.execCommand("fontSize", false, "7");
-      if (node.parentNode.nodeName === 'FONT' && node.parentNode) {
+      /*if (node.parentNode.nodeName === 'FONT' && node.parentNode) {
         node.parentNode.style['font-size'] = `${item}px`;
-      }
+      }*/
       this.setState({ fontSize: item })
     }
 

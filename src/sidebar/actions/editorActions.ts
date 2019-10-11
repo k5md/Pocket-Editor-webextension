@@ -1,11 +1,7 @@
 import * as types from '../constants/actionTypes';
 
-export const setCursorPosition = (cursorPosition) => ({
-  type: types.SET_CURSOR_POSITION,
-  cursorPosition,
-});
-
-export const setModifiers = (modifiers) => ({
-  type: types.SET_MODIFIERS,
-  modifiers,
+export const retrieveModifiers = (command, value) => ({
+  type: types.RETRIEVE_MODIFIERS,
+  command,
+  value,
 });

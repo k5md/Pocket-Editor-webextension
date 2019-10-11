@@ -4,122 +4,60 @@ import { uniqueId } from 'lodash';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import FontPicker from '../FontPicker';
 import FontSizePicker from '../FontSizePicker';
-
-
-const commands = [
-  [
-    {
-      cmd: 'bold',
-      icon: 'bold',
-    }, {
-      cmd: 'underline',
-      icon: 'underline',
-    }, {
-      cmd: 'italic',
-      icon: 'italic',
-    }, {
-      cmd: 'strikeThrough',
-      icon: 'strikethrough',
-    }, 
-  ],
-  [
-    {
-      cmd: 'insertOrderedList',
-      icon: 'numbered-list',
-    }, {
-      cmd: 'insertUnorderedList',
-      icon: 'properties',
-    }, 
-  ],
-  [
-    {
-      cmd: 'justifyLeft',
-      icon: 'align-left',
-    }, {
-      cmd: 'justifyCenter',
-      icon: 'align-center',
-    }, {
-      cmd: 'justifyRight',
-      icon: 'align-right',
-    }, {
-      cmd: 'justifyFull',
-      icon: 'align-justify',
-    },
-  ],
-  [
-    {
-      cmd: 'redo',
-      icon: 'redo',
-    }, {
-      cmd: 'undo',
-      icon: 'undo',
-    },
-  ],
-];
+import { connect } from 'react-redux';
+import { retrieveModifiers } from '../../actions/editorActions';
+import { isUndefined, isNaN, omitBy } from 'lodash';
 
 class Toolbar extends Component {
-  constructor(props) {
-    super(props);
-    this.commandRelation = {};
-  }
-
-  doCommand(action) {
-    let { cmd, val } = action;
-    if (this.supported(cmd) === 'btn-error') {
-      alert('execCommand(“' + cmd + '”)\nis not supported in your browser');
-      return;
-    }
-    val = (typeof val !== 'undefined') ? prompt('Value for ' + cmd + '?', val) : '';
-    document.execCommand(cmd, false, (val || ''));
-  }
-
-  supported(cmd) {
-    var css = !!document.queryCommandSupported(cmd) ? 'btn-succes' : 'btn-error'
-    return css
-  };
-
-  componentDidMount() {
-    document.execCommand('enableInlineTableEditing', false, '');
-    document.execCommand('enableObjectResizing', false, '');
-  }
-
   render() {
-    const Arrow = ({ text, className }) => {
-      return (
-        <div
-          className={className}
-        >{text}</div>
-      );
-    };
-
-
-    const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
-    const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
+    const {
+      italic,
+      bold,
+      underlined,
+      strikethrough,
+      ordered,
+      unordered,
+      justifyLeft,
+      justifyCenter,
+      justifyRight,
+      justifyFull,
+      retrieveModifiers,
+    } = this.props;
 
     return (
-      <React.Fragment>
         <ButtonGroup className="commandGroup">
           <FontPicker />
           <FontSizePicker />
+          <Button icon='bold' active={bold} onClick={(e) => retrieveModifiers('bold', !bold)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='underline' active={underlined} onClick={(e) => retrieveModifiers('underline', !underlined)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='italic' active={italic} onClick={(e) => retrieveModifiers('italic', !italic)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='strikethrough' active={strikethrough} onClick={(e) => retrieveModifiers('strikeThrough', !strikethrough)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='numbered-list' active={ordered} onClick={(e) => retrieveModifiers('insertOrderedList', !ordered)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='properties' active={unordered} onClick={(e) => retrieveModifiers('insertUnorderedList', !unordered)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='align-left' active={justifyLeft} onClick={(e) => retrieveModifiers('justifyLeft', !justifyLeft)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='align-center' active={justifyCenter} onClick={(e) => retrieveModifiers('justifyCenter', !justifyCenter)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='align-right' active={justifyRight} onClick={(e) => retrieveModifiers('justifyRight', !justifyRight)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='align-justify' active={justifyFull} onClick={(e) => retrieveModifiers('justifyFull', !justifyFull)} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='redo' onClick={(e) => retrieveModifiers('redo')} onmousedown={(e) => e.preventDefault()} />
+          <Button icon='undo' onClick={(e) => retrieveModifiers('undo')} onmousedown={(e) => e.preventDefault()} />
         </ButtonGroup>
-
-
-        {commands.map(group => (
-            <ButtonGroup className="commandGroup">
-              {group.map(item => (
-                <Button
-                  key={uniqueId()}
-                  icon={item.icon}
-                  title={item.cmd}
-                  onClick={() => this.doCommand(item)}/>
-              ))}
-            </ButtonGroup>
-          ))}
-      </React.Fragment>
     );
   }
 }
 
-export default Toolbar;
+
+const mapStateToProps = ({ editorReducer }) => {
+  const { modifiers } = editorReducer;
+
+  return {
+    ...modifiers,
+  };
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  retrieveModifiers: (command, value) => dispatch(retrieveModifiers(command, value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);
 
 
