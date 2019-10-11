@@ -7,11 +7,7 @@ import { Card, Elevation } from '@blueprintjs/core';
 class EditableArea extends React.PureComponent {
   public render() {
     return (
-      <Card
-        elevation={Elevation.TWO}
-        className={this.props.className}
-      >
-                
+      <Card elevation={Elevation.TWO} className={this.props.className}>           
       <div
         id="textBox"
         onClick={() => this.props.retrieveModifiers()}

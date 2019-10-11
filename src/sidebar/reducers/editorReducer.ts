@@ -1,8 +1,10 @@
 import * as types from '../constants/actionTypes';
 import { omitBy, isUndefined, isNaN } from 'lodash';
+import mammoth from 'mammoth';
+
 
 const initialState = {
-  cursorPosition: 0,
+  documents: [],
   modifiers: {
     font: '',
     fontSize: 12,
@@ -20,14 +22,65 @@ const initialState = {
 };
 
 const handlers = {
-  [types.SET_CURSOR_POSITION]: (state, action) => {
-    const { cursorPosition } = action;
-    return {
-      ...state,
-      cursorPosition,
+  [types.EXPORT_DOCUMENT]: (state, action) => {
+    const payload = JSON.stringify(state()['#input-blacklist-pattern']);
+    const a = document.createElement('a');
+    a.download = 'TotalSuspenderBlacklist.json';
+    a.href = `data:application/octet-stream,${payload}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    return state;
+  },
+  [types.IMPORT_DOCUMENT]: (state, action) => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.onchange = (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = async (fileContainer) => {
+        const arrayBuffer = fileContainer.target.result;
+
+        const transformElement = (element) => {
+          if (element.children) {
+            var children = _.map(element.children, transformElement);
+            element = {...element, children: children};
+          }
+
+          if (element.type === "paragraph") {
+            element = transformParagraph(element);
+          }
+
+          return element;
+        }
+
+        const transformParagraph = (element) => {
+          if (element.alignment === "center" && !element.styleId) {
+            return {...element, styleId: "Heading2"};
+          } else {
+            return element;
+          }
+        }
+        const html = await mammoth.convertToHtml({ arrayBuffer }, {
+          ignoreEmptyParagraphs: false,
+          transformDocument: transformElement,
+        });
+
+        document.querySelector("#textBox").innerHTML = html.value;
+        document.body.removeChild(fileInput);
+      };
+      reader.readAsArrayBuffer(file);
     };
+    document.body.appendChild(fileInput);
+    fileInput.click();
+
+    return state;
   },
   [types.RETRIEVE_MODIFIERS]: (state, action) => {
+    // TODO: remove this awful non-pure bs from reducer!!!
+    // TODO: add not null selection check
+    // TODO: fix multiple-selection bug for mutually-exclusive modifiers
     const { command, value } = action;
     if (command) {
       document.execCommand(command, false, value || '');

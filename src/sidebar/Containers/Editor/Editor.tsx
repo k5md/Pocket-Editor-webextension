@@ -18,63 +18,10 @@ import {
   AnchorButton,
 } from "@blueprintjs/core";
 
-import mammoth from 'mammoth';
+
 import { connect } from 'react-redux';
-
+import { importDocument, exportDocument } from '../../actions/editorActions';
 import './styles.scss';
-
-const exportHandler = () => {
-  const payload = JSON.stringify(state()['#input-blacklist-pattern']);
-  const a = document.createElement('a');
-  a.download = 'TotalSuspenderBlacklist.json';
-  a.href = `data:application/octet-stream,${payload}`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-};
-
-const openHandler = () => {
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.onchange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = async (fileContainer) => {
-      const arrayBuffer = fileContainer.target.result;
-
-      const transformElement = (element) => {
-        if (element.children) {
-          var children = _.map(element.children, transformElement);
-          element = {...element, children: children};
-        }
-
-        if (element.type === "paragraph") {
-          element = transformParagraph(element);
-        }
-
-        return element;
-      }
-
-      const transformParagraph = (element) => {
-        if (element.alignment === "center" && !element.styleId) {
-          return {...element, styleId: "Heading2"};
-        } else {
-          return element;
-        }
-      }
-      const html = await mammoth.convertToHtml({ arrayBuffer }, {
-        ignoreEmptyParagraphs: false,
-        transformDocument: transformElement,
-      });
-
-      document.querySelector("#textBox").innerHTML = html.value;
-      document.body.removeChild(fileInput);
-    };
-    reader.readAsArrayBuffer(file);
-  };
-  document.body.appendChild(fileInput);
-  fileInput.click();
-}
 
 class Editor extends Component {
   state = {
@@ -86,13 +33,20 @@ class Editor extends Component {
   }
 
   render() {
+    const {
+      importDocument,
+      exportDocument,
+    } = this.props;
+
+    console.log(importDocument, exportDocument);
+
     const fileMenu = (
       <Menu>
         <Menu.Item minimal icon="document" text="New" />
-        <Menu.Item minimal icon="folder-shared" text="Open..." onClick={openHandler} />
+        <Menu.Item minimal icon="folder-shared" text="Open..." onClick={() => importDocument()} />
         <Menu.Item minimal icon="add-to-folder" text="Close" />
         <Menu.Item minimal icon="floppy-disk" text="Save" />
-        <Menu.Item minimal icon="floppy-disk" text="Save as..." />
+        <Menu.Item minimal icon="floppy-disk" text="Save as..." onClick={() => exportDocument()} />
       </Menu>
     );
 
@@ -123,4 +77,11 @@ const mapStateToProps = ({ editorReducer }) => {
   return {};
 };
 
-export default connect(mapStateToProps)(Editor);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    importDocument: () => dispatch(importDocument()),
+    exportDocument: () => dispatch(exportDocument()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Editor);

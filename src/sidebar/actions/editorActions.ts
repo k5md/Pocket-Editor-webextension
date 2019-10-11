@@ -5,3 +5,11 @@ export const retrieveModifiers = (command, value) => ({
   command,
   value,
 });
+
+export const importDocument = () => ({
+  type: types.IMPORT_DOCUMENT,
+});
+
+export const exportDocument = () => ({
+  type: types.EXPORT_DOCUMENT,
+});
