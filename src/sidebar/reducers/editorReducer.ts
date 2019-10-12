@@ -2,22 +2,18 @@ import * as types from '../constants/actionTypes';
 import { omitBy, isUndefined, isNaN } from 'lodash';
 import mammoth from 'mammoth';
 
-
 const initialState = {
   documents: [],
   modifiers: {
-    font: '',
+    font: 'Arial',
     fontSize: 12,
     italic: false,
     bold: false,
-    underlined: false,
+    underline: false,
     strikethrough: false,
     ordered: false,
     unordered: false,
-    justifyLeft: false,
-    justifyCenter: false,
-    justifyRight: false,
-    justifyFull: false,
+    justify: null,
   },
 };
 
@@ -79,87 +75,94 @@ const handlers = {
   },
   [types.RETRIEVE_MODIFIERS]: (state, action) => {
     // TODO: remove this awful non-pure bs from reducer!!!
-    // TODO: add not null selection check
-    // TODO: fix multiple-selection bug for mutually-exclusive modifiers
     const { command, value } = action;
+
     if (command) {
-      document.execCommand(command, false, value || '');
+      const commandHandlers = {
+        bold: (value) => {
+          document.execCommand('bold', false, value);
+          return document.queryCommandState(command);
+        },
+        underline: (value) => {
+          document.execCommand('underline', false, value);
+          return document.queryCommandState(command);
+        },
+        italic: (value) => {
+          document.execCommand('italic', false, value);
+          return document.queryCommandState(command);
+        },
+        strikethrough: (value) => {
+          document.execCommand('strikeThrough', false, value);
+          return document.queryCommandState(command);
+        },
+        ordered: (value) => {
+          document.execCommand('insertOrderedList', false, value);
+          return document.queryCommandState(command);
+        },
+        unordered: (value) => {
+          document.execCommand('insertUnorderedList', false, value);
+          return document.queryCommandState(command);
+        },
+        justify: (value) => {
+
+        },
+        font: (value) => document.execCommand('font', false, value),
+        fontSize: (value) => {
+          /*if (node.parentNode.nodeName === 'FONT' && node.parentNode) {
+            document.execCommand("fontSize", false, "7");
+            node.parentNode.style['font-size'] = `${item}px`;
+          }*/
+        },
+      };
+
+      const commandStatus = commandHandlers[command](value);
+      console.log(command, commandStatus, value && commandStatus);
+      const oldState = state;
+      const newState = {
+        ...state,
+        modifiers: {
+          ...state.modifiers,
+          [command]: value && commandStatus,
+        },
+      };
+      return newState;
     }
 
-    const selection = window.getSelection();
-    const target = selection.focusNode;
-
-    if (!target) {
-      return state;
-    }
-
-    const nameModifierMap = {
-      UL: () => ({ unordered: true }),
-      OL: () => ({ ordered: true }),
-      B: () => ({ bold: true }),
-      I:() => ({ italic: true }),
-      U: () => ({ underlined: true }),
-      STRIKE:() => ({ strikethrough: true }),
-      DIV: node => {
-        switch (node.align) {
-          case 'left':
-            return { justifyLeft: true };
-          case 'center':
-            return { justifyCenter: true };
-          case 'right':
-            return { justifyRight: true };
-          case 'full':
-            return { justifyFull: true };
-          default:
-            return {};
-        }
-      },
-      FONT: node => ({ font: node.face, fontSize: Number.parseInt(node.style['font-size'])}),
+    const selectorHandlers = {
+      'UL': () => ({ unordered: true }),
+      'OL': () => ({ ordered: true }),
+      'B': () => ({ bold: true }),
+      'I':() => ({ italic: true }),
+      'U': () => ({ underlined: true }),
+      'STRIKE':() => ({ strikethrough: true }),
+      'DIV[align]': node => ({ justify: node.align }),
+      'FONT[face]': node => ({ font: node.face }),
+      'FONT[style*="font-size"]': node => ({ fontSize: Number.parseInt(node.style['font-size']) }),
     };
 
-    const commandModifiersMap = {
-      bold: 'bold',
-      underline: 'underlined',
-      italic: 'italic',
-      strikeThrough: 'strikethrough',
-      insertOrderedList: 'ordered',
-      insertUnorderedList: 'unordered',
-      justifyLeft: 'justifyLeft',
-      justifyCenter: 'justifyCenter',
-      justifyRight: 'justifyRight',
-      justifyFull: 'justifyFull',
-    };
-
-    // First traverse the common ancestor of the selection to the top
-    // to get all modifiers
-    let node = target;
-    let modifiers = {};
-    while (node.id !== 'textBox') {
-      if (nameModifierMap[node.nodeName]) {
-        
-        const match = nameModifierMap[node.nodeName](node);
-        const modifier = omitBy(match, value => isUndefined(value) || value === '' || isNaN(value));
-        modifiers = {...modifiers, ...modifier };
-      }
-      node = node.parentNode;
+    const { anchorNode, focusNode } = window.getSelection(); // anchor - start, focus - end
+    const anchor = anchorNode.parentElement;
+    const focus = focusNode.parentElement;
+    // execCommand only 'negates' current modifier only if anchor and focus are
+    // equal in terms of node they represent, otherwise it will create new node,
+    // so compare parents and show user default values (unset) if they are NOT equal
+    if (anchor !== focus) {
+      return initialState;
     }
 
-    // After traversal, check if the function is called with a command
-    // This means that modifier needs to be changed accordingly
-    if (command) {
-      const modifier = commandModifiersMap[command];
-      modifiers[modifier] = value;
-    }
+    // Otherwise we need to construct modifiers object by traversing DOM to the container and
+    // applying handlers to, like, parse it
+    const container = document.querySelector("#textBox"); // topmost contentEditable element
+    const modifiers = Object.entries(selectorHandlers).reduce((acc, [selector, handler]) => {
+      const closest = anchor.closest(selector);
+      const closestExists = closest !== null && container.contains(closest);
+      return closestExists ? { ...acc, ...handler(closest) } : acc;
+    }, { ...initialState.modifiers });
 
-    const oldState = state;
-    const newState = {
+    return {
       ...state,
-      modifiers: {
-        ...state.modifiers,
-        ...modifiers,
-      },
+      modifiers
     };
-    return newState;
   },
 };
 
