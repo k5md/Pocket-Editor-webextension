@@ -19,7 +19,7 @@ const itemRenderer = (item, { handleClick, modifiers }) => (
 );
 
 const renderMenu = ({ items, itemsParentRef, query, renderItem }) => {
-  const renderedItems = items.map(renderItem).filter(item => item != null);
+  const renderedItems = items.map(renderItem);
 
   return (
     <Menu className="fontMenu" ulRef={itemsParentRef}>
@@ -42,7 +42,7 @@ const FontSizePicker = ({
       popoverProps={{ minimal: true }}
   >
     <Button
-      text={fontSize}
+      text={fontSize || 'Select size...'}
       rightIcon="caret-down"
     />
   </Select>

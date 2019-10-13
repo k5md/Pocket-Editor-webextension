@@ -21,11 +21,11 @@ const Toolbar = ({
     <ButtonGroup className="commandGroup">
       <FontPicker
         font={font}
-        onSelect={font => retrieveModifiers('font', font)}
+        onItemSelect={font => retrieveModifiers('font', font)}
       />
       <FontSizePicker
         fontSize={fontSize}
-        onSelect={fontSize => retrieveModifiers('fontSize', fontSize)}
+        onItemSelect={fontSize => retrieveModifiers('fontSize', fontSize)}
       />
     </ButtonGroup>
     <ButtonGroup className="commandGroup">
@@ -72,7 +72,6 @@ const Toolbar = ({
 
 const mapStateToProps = ({ editorReducer }) => {
   const { modifiers } = editorReducer;
-
   return {
     ...modifiers,
   };

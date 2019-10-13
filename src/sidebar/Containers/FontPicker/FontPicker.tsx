@@ -5,21 +5,40 @@ import fontFamilies from './font-families.json';
 import FontDetector from './detect-available-fonts';
 import { uniqueId } from 'lodash';
 
-const itemRenderer = (item, { handleClick, modifiers }) => (
-  <MenuItem
-    active={modifiers.active}
-    key={uniqueId()}
-    onClick={handleClick}
-    text={item}
-    style={{'fontFamily': item}}
-  />
-);
+const itemRenderer = (item, { handleClick, modifiers }) => {
+  return (
+    <MenuItem
+      active={modifiers.active}
+      key={uniqueId()}
+      onClick={handleClick}
+      text={item}
+      style={{'fontFamily': item}}
+    />
+  );
+};
 
-const renderMenu = ({ items, itemsParentRef, query, renderItem }) => {
-  const renderedItems = items.map(renderItem).filter(item => item != null);
+const itemListPredicate = (query, items) => {
+  return items.filter(item => item.toLowerCase().indexOf(query.toLowerCase()) >= 0);
+};
+
+const itemListRenderer = ({
+  items,
+  filteredItems,
+  itemsParentRef,
+  query,
+  renderItem,
+}) => {
+  // NOTE: for some reason during first render with empty query, filtered items is an empty array
+  // though if one types anything and then deletes, getting empty query again, filtered items
+  // would contain all items as expected
+  const renderedItems = (query === '' ? items : filteredItems).map(renderItem);
 
   return (
     <Menu className="fontMenu" ulRef={itemsParentRef}>
+      <MenuItem
+        disabled={true}
+        text={`Found ${renderedItems.length} fonts matching "${query}"`}
+      />
       {renderedItems}
     </Menu>
   );
@@ -47,15 +66,16 @@ class FontPicker extends React.Component {
       <Select
         items={installedFonts}
         itemRenderer={itemRenderer}
-        itemListRenderer={renderMenu}
+        itemListRenderer={itemListRenderer}
         onItemSelect={onItemSelect}
+        itemListPredicate={itemListPredicate}
         filterable={false}
         activeItem={font}
         popoverProps={{ minimal: true }}
       >
         <Button
-          text={font}
-          style={{'fontFamily': font}}
+          text={font || 'Select font...'}
+          style={{'fontFamily': font || 'inherit'}}
           rightIcon="caret-down"
         />
       </Select>
