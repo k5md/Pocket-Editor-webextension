@@ -48,6 +48,7 @@ To monitor changes in browser with hot-reloading you can do
 The extension uses [i18n](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Internationalization), so if you want to participate in translating the extension texts into your language, please, refer to [messages.json](https://github.com/k5md/Total-Suspender-webextension/blob/master/src/_locales/en/messages.json) as an example and either create a pull request or create an issue on github. Note, that only "messages" properties needs to be translated, "descriptions" are aimed to help translators.
 
 ## Todos:
+- fix contentEditable bug when executing fontName/fontSize command with a font-family/size argument does not affect list (both ordered and unordered) markers, this is default document.execCommand behaviour for insertOrderedList and insertUnorderedList
 - make selectables filterable, since filterability makes contentEditable lose focus and selection
 becomes empty
 - make fontSize be numeric input with suggested values

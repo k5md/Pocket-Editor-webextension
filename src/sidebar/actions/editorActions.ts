@@ -19,3 +19,19 @@ export const importDocument = () => ({
 export const exportDocument = () => ({
   type: types.EXPORT_DOCUMENT,
 });
+
+export const newDocument = () => ({
+  type: types.NEW_DOCUMENT,
+});
+
+export const deleteDocument = () => ({
+  type: types.DELETE_DOCUMENT,
+});
+
+export const saveDocument = () => ({
+  type: types.SAVE_DOCUMENT,
+});
+
+export const setDocument = () => ({
+  type: types.SET_DOCUMENT,
+});

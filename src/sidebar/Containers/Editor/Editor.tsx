@@ -43,10 +43,10 @@ class Editor extends Component {
     const fileMenu = (
       <Menu>
         <Menu.Item minimal icon="document" text="New" />
-        <Menu.Item minimal icon="folder-shared" text="Open..." onClick={() => importDocument()} />
+        <Menu.Item minimal icon="folder-shared" text="Import" onClick={() => importDocument()} />
         <Menu.Item minimal icon="add-to-folder" text="Close" />
         <Menu.Item minimal icon="floppy-disk" text="Save" />
-        <Menu.Item minimal icon="floppy-disk" text="Save as..." onClick={() => exportDocument()} />
+        <Menu.Item minimal icon="floppy-disk" text="Export" onClick={() => exportDocument()} />
       </Menu>
     );
 

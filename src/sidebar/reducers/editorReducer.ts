@@ -5,8 +5,6 @@ import mammoth from 'mammoth';
 const initialState = {
   documents: [],
   modifiers: {
-    font: '',
-    fontSize: null,
     italic: false,
     bold: false,
     underline: false,
@@ -37,30 +35,8 @@ const handlers = {
       const reader = new FileReader();
       reader.onload = async (fileContainer) => {
         const arrayBuffer = fileContainer.target.result;
-
-        const transformElement = (element) => {
-          if (element.children) {
-            var children = _.map(element.children, transformElement);
-            element = {...element, children: children};
-          }
-
-          if (element.type === "paragraph") {
-            element = transformParagraph(element);
-          }
-
-          return element;
-        }
-
-        const transformParagraph = (element) => {
-          if (element.alignment === "center" && !element.styleId) {
-            return {...element, styleId: "Heading2"};
-          } else {
-            return element;
-          }
-        }
         const html = await mammoth.convertToHtml({ arrayBuffer }, {
           ignoreEmptyParagraphs: false,
-          transformDocument: transformElement,
         });
 
         document.querySelector("#textBox").innerHTML = html.value;
@@ -87,6 +63,20 @@ const handlers = {
       };
 
       const commandHandlers = {
+        redo: () => {
+          const { commandStatus } = makeHandler('redo')();
+          return {
+            change: {},
+            commandStatus,
+          };
+        },
+        undo: () => {
+          const { commandStatus } = makeHandler('undo')();
+          return {
+            change: {},
+            commandStatus,
+          };
+        },
         strikethrough: (value) => {
           const { commandStatus } = makeHandler('strikeThrough')(value);
           return {
@@ -109,65 +99,6 @@ const handlers = {
 
           return justifyHandlers[value](true);
         },
-        font: (value) => {
-          const { change, commandStatus } = makeHandler('fontName')(value);
-          return {
-            change: { font: value, },
-            commandStatus,
-          };
-        },
-        fontSize: (value) => {
-          // NOTE: fontSizes are limited to 1-7, so set it to 7, thus creating a new parent node of
-          // font with size attribute set, find closest matching size selector and set style
-          // font-size to custom size value. This approach, however, creates problems when
-          // working with selections with font size already set, since custom style and font
-          // size won't get restructured. Fix this manually - if somewhere upper in the tree
-          // font-size already exists, set it to other value!
-          // Yeah, this is a footgun
-          //
-          // NOTE: get anchor, focus AFTER having commands executed
-          // (i.e DOM being modified) to get expected results, don't optimize code by moving
-          // this anchor, anchorNode to top
-
-          // remove size attributes set to 7 from ALL elements inside selection
-          const { change, commandStatus } = makeHandler('fontSize')('6');
-       
-          // now we have only one element with font size attribute set, but styled font elements
-          // still exist, they may be font-family related and/or font-size related
-          // set font-size style
-          
-          const { focusNode } = window.getSelection(); // anchor - start, focus - end
-          const focus = focusNode.parentElement;
-          const selector = 'FONT[size="6"]';
-          const closest = focus.closest(selector);
-          closest.style['font-size'] = `${value}px`;
-          console.log(closest);
-
-          const descendants = closest.getElementsByTagName("FONT");
-
-          for (let element of descendants) {
-            element.style['font-size'] = null;
-            // if font element has empty styles remove that attribute
-            if (!element.style.length) element.removeAttribute('style');
-
-            // if font node has no attributes after this operation 
-            // remove it from the DOM, but preserve its children
-            if (!element.attributes.length) {
-              const fragment = document.createDocumentFragment();
-              while(element.firstChild) {
-                fragment.appendChild(element.firstChild);
-              }
-              element.parentNode.replaceChild(fragment, element);
-            }
-          };
-          closest.normalize(); // remove empty text-nodes, concat adjacent ones*/
-
-          closest.setAttribute('size', '6')
-          return {
-            change: { fontSize: value, },
-            commandStatus,
-          };
-        },
       };
 
       const { change } = commandHandlers[command](value);
@@ -187,12 +118,11 @@ const handlers = {
       'UL': () => ({ unordered: true }),
       'OL': () => ({ ordered: true }),
       'B': () => ({ bold: true }),
+      'STRONG': () => ({ bold: true }),
       'I':() => ({ italic: true }),
       'U': () => ({ underline: true }),
       'STRIKE':() => ({ strikethrough: true }),
       'DIV[align]': node => ({ justify: node.align }),
-      'FONT[face]': node => ({ font: node.face }),
-      'FONT[style*="font-size"]': node => ({ fontSize: Number.parseInt(node.style['font-size']) }),
     };
 
     const { anchorNode, focusNode } = window.getSelection(); // anchor - start, focus - end

@@ -11,7 +11,7 @@ import reducers from '../reducers';
 const configureStore = () => {
 	const rootReducer = combineReducers(reducers);
   const middlewares = [
-    // logger,
+    logger,
     thunk,
   ];
 	const store = createStore(rootReducer, applyMiddleware(...middlewares));

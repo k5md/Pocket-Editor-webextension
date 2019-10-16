@@ -1,12 +1,18 @@
 @import "~@blueprintjs/core/lib/scss/variables";
 
+.toolbar {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .commandGroup {
   padding: $pt-grid-size / 6 $pt-grid-size / 4;
   vertical-align: middle;
   flex-wrap: wrap;
 
   * {
-  	margin-top: $pt-grid-size / 6;
-  	margin-bottom: $pt-grid-size / 6;
+    margin-top: $pt-grid-size / 6;
+    margin-bottom: $pt-grid-size / 6;
   }
 }
