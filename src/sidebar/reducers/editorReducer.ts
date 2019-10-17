@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 import { omitBy, isUndefined, isNaN, merge } from 'lodash';
-import mammoth from 'mammoth';
+
 
 const initialState = {
   documents: [],
@@ -16,140 +16,7 @@ const initialState = {
 };
 
 const handlers = {
-  [types.EXPORT_DOCUMENT]: (state, action) => {
-    const payload = JSON.stringify(state()['#input-blacklist-pattern']);
-    const a = document.createElement('a');
-    a.download = 'TotalSuspenderBlacklist.json';
-    a.href = `data:application/octet-stream,${payload}`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
 
-    return state;
-  },
-  [types.IMPORT_DOCUMENT]: (state, action) => {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.onchange = (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = async (fileContainer) => {
-        const arrayBuffer = fileContainer.target.result;
-        const html = await mammoth.convertToHtml({ arrayBuffer }, {
-          ignoreEmptyParagraphs: false,
-        });
-
-        document.querySelector("#textBox").innerHTML = html.value;
-        document.body.removeChild(fileInput);
-      };
-      reader.readAsArrayBuffer(file);
-    };
-    document.body.appendChild(fileInput);
-    fileInput.click();
-
-    return state;
-  },
-  [types.RETRIEVE_MODIFIERS]: (state, action) => {
-    const { command, value } = action;
-    if (command) {
-      // NOTE: actual commands may be different from their corresponding
-      // modifiers (e.g strikeThrough), some modifiers can group many commands
-      // (like justify) and some need additional acitons (fontSize) taken
-      const makeHandler = command => (value) => {
-        document.execCommand(command, false, value);
-        const commandStatus = document.queryCommandState(command); // indicates whether command is still active
-        const change = { [command]: commandStatus && value, };
-        return { change, commandStatus };
-      };
-
-      const commandHandlers = {
-        redo: () => {
-          const { commandStatus } = makeHandler('redo')();
-          return {
-            change: {},
-            commandStatus,
-          };
-        },
-        undo: () => {
-          const { commandStatus } = makeHandler('undo')();
-          return {
-            change: {},
-            commandStatus,
-          };
-        },
-        strikethrough: (value) => {
-          const { commandStatus } = makeHandler('strikeThrough')(value);
-          return {
-            change: { strikethrough: commandStatus && value, },
-            commandStatus,
-          };
-        },
-        bold: makeHandler('bold'),
-        underline: makeHandler('underline'),
-        italic: makeHandler('italic'),
-        ordered: makeHandler('insertOrderedList'),
-        unordered: makeHandler('insertUnorderedList'),
-        justify: (value) => {
-          const justifyHandlers = {
-            left: makeHandler('justifyLeft'),
-            center: makeHandler('justifyCenter'),
-            right: makeHandler('justifyRight'),
-            full: makeHandler('justifyFull'),
-          };
-
-          return justifyHandlers[value](true);
-        },
-      };
-
-      const { change } = commandHandlers[command](value);
-      const modifiers = {
-        ...state.modifiers,
-        ...change,
-      };
-      const newState = {
-        ...state,
-        modifiers,
-      };
-
-      return newState;
-    }
-
-    const selectorHandlers = {
-      'UL': () => ({ unordered: true }),
-      'OL': () => ({ ordered: true }),
-      'B': () => ({ bold: true }),
-      'STRONG': () => ({ bold: true }),
-      'I':() => ({ italic: true }),
-      'U': () => ({ underline: true }),
-      'STRIKE':() => ({ strikethrough: true }),
-      'DIV[align]': node => ({ justify: node.align }),
-    };
-
-    const { anchorNode, focusNode } = window.getSelection(); // anchor - start, focus - end
-    const anchor = anchorNode.parentElement;
-    const focus = focusNode.parentElement;
-    const container = document.querySelector("#textBox"); // topmost contentEditable element
-
-    // execCommand only 'negates' current modifier only if anchor and focus are
-    // equal in terms of node they represent, otherwise it will create new node,
-    // so compare parents and show user default values (unset) if they are NOT equal
-    if (anchor !== focus) {
-      return initialState;
-    }
-
-    // Otherwise we need to construct modifiers object by traversing DOM to the container and
-    // applying handlers to, like, parse it
-    const modifiers = Object.entries(selectorHandlers).reduce((acc, [selector, handler]) => {
-      const closest = anchor.closest(selector);
-      const closestExists = closest !== null && container.contains(closest);
-      return closestExists ? { ...acc, ...handler(closest) } : acc;
-    }, { ...initialState.modifiers });
-
-    return {
-      ...state,
-      modifiers,
-    };
-  },
 };
 
 const editorReducer = (state = initialState, action) => {

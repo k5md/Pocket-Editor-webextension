@@ -46,7 +46,17 @@ module.exports = {
         test: /\.s[ac]ss$/i, // SCSS
         use: [
           'style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              import: true,
+              modules: {
+                mode: 'local',
+                localIdentName: '[local]__[hash:base64:5]',
+              },
+            },
+          },
           'cache-loader',
           { 
             loader: 'sass-loader',

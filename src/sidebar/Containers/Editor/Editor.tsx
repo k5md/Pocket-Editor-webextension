@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 
 import Toolbar from '../Toolbar';
-import EditableArea from '../EditableArea';
 import Menubar from '../Menubar';
+import DocumentPanel from '../DocumentPanel';
 
 import { connect } from 'react-redux';
-import { importDocument, exportDocument } from '../../actions/editorActions';
-import './styles.scss';
+import * as classes from './styles.scss';
 
 class Editor extends Component {
 
 
   render() {
     return (
-      <div className="editor">
+      <div className={classes.editor}>
         <Menubar />
         <Toolbar/>
-        <EditableArea className="editableArea"/>
+        <DocumentPanel/>
       </div>
     );
   }

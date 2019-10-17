@@ -1,16 +1,17 @@
 import React from "react";
-import { omitBy, isUndefined, isNaN } from 'lodash';
 import { connect } from 'react-redux';
-import { retrieveModifiers } from '../../actions/editorActions';
+import { getModifiers } from '../../actions/editorActions';
 import { Card, Elevation } from '@blueprintjs/core';
+
+import * as classes from './styles.scss';
 
 class EditableArea extends React.PureComponent {
   public render() {
     return (
-      <Card elevation={Elevation.TWO} className={this.props.className}>           
+      <Card elevation={Elevation.TWO} className={classes.editableArea}>           
       <div
         id="textBox"
-        onClick={() => this.props.retrieveModifiers()}
+        onClick={() => this.props.getModifiers()}
         contentEditable="true"
       >
         <p>Lorem ipsum</p>
@@ -23,7 +24,7 @@ class EditableArea extends React.PureComponent {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  retrieveModifiers: (command, value) => dispatch(retrieveModifiers(command, value)),
+  getModifiers: (command, value) => dispatch(getModifiers()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditableArea);

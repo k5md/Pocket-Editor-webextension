@@ -1,0 +1,32 @@
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.control {
+  display: flex;
+
+  * {
+    align-self: center;
+  }
+}
+
+.left {
+  justify-content: flex-start;
+}
+
+.leftInner .rightInner {
+  opacity: 0.5;
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.tabs {}
+
+.tab {}
