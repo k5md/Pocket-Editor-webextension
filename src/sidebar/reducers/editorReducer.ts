@@ -3,7 +3,11 @@ import { omitBy, isUndefined, isNaN, merge } from 'lodash';
 
 
 const initialState = {
-  documents: [],
+  documents: [
+    { title: 'Untitled', content: '<p>Lorem ipsum</p>' },
+    { title: 'Untitled', content: '<p>Test</p>' },
+  ],
+  currentDocument: 0,
   modifiers: {
     italic: false,
     bold: false,
@@ -16,7 +20,18 @@ const initialState = {
 };
 
 const handlers = {
-
+  [types.NEW_DOCUMENT]: (state, action) => {
+    const newDocument = {
+      title: 'Untitled',
+      content: '',
+    };
+    return {
+      ...state,
+      documents: state.documents.concat(newDocument),
+      currentDocument: state.documents.length,
+    };
+  },
+  [types.SET_ACTIVE_DOCUMENT]: (state, { index }) => ({ ...state, currentDocument: index}),
 };
 
 const editorReducer = (state = initialState, action) => {

@@ -1,3 +1,5 @@
+.container {}
+
 .controls {
   display: flex;
   justify-content: space-between;
@@ -15,8 +17,8 @@
   justify-content: flex-start;
 }
 
-.leftInner .rightInner {
-  opacity: 0.5;
+.leftInner, .rightInner {
+  opacity: 0.3;
 }
 
 .right {
@@ -27,6 +29,4 @@
   visibility: hidden;
 }
 
-.tabs {}
-
-.tab {}
+.panel {}

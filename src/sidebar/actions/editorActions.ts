@@ -1,7 +1,8 @@
 import * as types from '../constants/actionTypes';
 
-export const getModifiers = () => ({
+export const getModifiers = (ref) => ({
   type: types.GET_MODIFIERS,
+  ref,
 });
 
 export const setModifiers = (command, value) => ({
@@ -24,6 +25,11 @@ export const saveDocument = () => ({
 
 export const deleteDocument = () => ({
   type: types.DELETE_DOCUMENT,
+});
+
+export const setActiveDocument = (index) => ({
+  type: types.SET_ACTIVE_DOCUMENT,
+  index,
 });
 
 export const importDocument = () => ({ 

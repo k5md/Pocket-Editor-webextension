@@ -11,10 +11,15 @@ import {
 import {
   importDocument,
   exportDocument,
+  newDocument,
 } from '../../actions/editorActions';
 
 const Menubar = ({
   importDocument,
+  exportDocument,
+  newDocument,
+  closeDocument,
+  saveDocument,
   exportDocument,
 }) => (
   <ButtonGroup>
@@ -27,20 +32,20 @@ const Menubar = ({
         interactionKind={PopoverInteractionKind.HOVER}
       />
       <Menu>
-        <Menu.Item minimal icon="document" text="New" />
-        <Menu.Item minimal icon="folder-shared" text="Import"
-          onClick={(e) => {
-            e.preventDefault();
-            importDocument()
-          }} 
+        <Menu.Item minimal icon="document" text="New"
+          onClick={(e) => { e.preventDefault(); newDocument(); }}
         />
-        <Menu.Item minimal icon="add-to-folder" text="Close" />
-        <Menu.Item minimal icon="floppy-disk" text="Save" />
+        <Menu.Item minimal icon="folder-shared" text="Import"
+          onClick={(e) => { e.preventDefault(); importDocument(); }}
+        />
+        <Menu.Item minimal icon="add-to-folder" text="Close"
+          onClick={(e) => { e.preventDefault(); closeDocument(); }}
+        />
+        <Menu.Item minimal icon="floppy-disk" text="Save" 
+          onClick={(e) => { e.preventDefault(); saveDocument(); }}
+        />
         <Menu.Item minimal icon="floppy-disk" text="Export"
-          onClick={(e) => {
-            e.preventDefault();
-            exportDocument()
-          }} 
+          onClick={(e) => { e.preventDefault(); exportDocument(); }} 
         />
       </Menu>
     </Popover>
@@ -51,6 +56,10 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
   importDocument: () => dispatch(importDocument()),
+  exportDocument: () => dispatch(exportDocument()),
+  newDocument: () => dispatch(newDocument()),
+  closeDocument: () => dispatch(closeDocument()),
+  saveDocument: () => dispatch(saveDocument()),
   exportDocument: () => dispatch(exportDocument()),
 });
 
