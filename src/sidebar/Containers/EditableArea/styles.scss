@@ -2,6 +2,6 @@
 
 .editableArea {
   margin: $pt-grid-size * 2;
-  height: 100%;
   overflow: auto;
+  height: 100vh;
 }

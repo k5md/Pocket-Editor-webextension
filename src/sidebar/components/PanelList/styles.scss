@@ -1,4 +1,10 @@
-.container {}
+@import "~@blueprintjs/core/lib/scss/variables";
+
+.container, .panel {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
 
 .controls {
   display: flex;
@@ -28,5 +34,3 @@
 .hidden {
   visibility: hidden;
 }
-
-.panel {}
