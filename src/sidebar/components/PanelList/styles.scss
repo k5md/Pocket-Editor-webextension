@@ -13,7 +13,9 @@
 
 .control {
   display: flex;
-
+  overflow: hidden;
+  width: 33%;
+  justify-content: center;
   * {
     align-self: center;
   }
@@ -23,12 +25,17 @@
   justify-content: flex-start;
 }
 
+.right {
+  justify-content: flex-end;
+}
+
 .leftInner, .rightInner {
   opacity: 0.3;
 }
 
-.right {
-  justify-content: flex-end;
+.leftInner, .centerInner, .rightInner {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hidden {

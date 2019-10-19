@@ -3,8 +3,9 @@ import { omitBy, isUndefined, isNaN, merge } from 'lodash';
 
 export const initialState = {
   documents: [
-    { title: 'Untitled', content: '<p>Lor<b>em</b> ipsum</p>', ref: null },
-    { title: 'Untitled', content: '<p>Test</p>', ref: null },
+    { title: 'U', content: '<p>Lor<b>em</b> ipsum</p>', ref: null },
+    { title: 'Untiasdffffffffffffffffffffffffffffffffffffffffffffffftled', content: '<p>Test</p>', ref: null },
+    { title: 'asdffasdffffffffffffffffff', content: '<p>Test</p>', ref: null },
   ],
   currentDocument: 0,
   modifiers: {
