@@ -31,6 +31,7 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-redux": "^7.1.1",
+    "react-transition-group": "^4.3.0",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-promise": "^0.6.0",
