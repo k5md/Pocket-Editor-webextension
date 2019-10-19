@@ -1,6 +1,8 @@
 import mammoth from 'mammoth';
 
 import * as types from '../constants/actionTypes';
+import { initialState } from '../reducers/editorReducer';
+import { setModifiers } from '../actions/editorActions';
 
 export const documentUpdater = store => next => action => {
   const watchables = {
@@ -41,73 +43,68 @@ export const documentUpdater = store => next => action => {
       fileInput.click();
 
       return state;
-    },
-    [types.SET_MODIFIERS]: (state, action) => {
+    },*/
+    [types.MODIFY_DOCUMENT]: ({ editorReducer }, action) => {
       const { command, value } = action;
-      if (command) {
-        // NOTE: actual commands may be different from their corresponding
-        // modifiers (e.g strikeThrough), some modifiers can group many commands
-        // (like justify) and some need additional acitons (fontSize) taken
-        const makeHandler = command => (value) => {
-          document.execCommand(command, false, value);
-          const commandStatus = document.queryCommandState(command); // indicates whether command is still active
-          const change = { [command]: commandStatus && value, };
-          return { change, commandStatus };
-        };
+      // NOTE: actual commands may be different from their corresponding
+      // modifiers (e.g strikeThrough), some modifiers can group many commands
+      // (like justify) and some need additional acitons (fontSize) taken
+      const makeHandler = command => (value) => {
+        document.execCommand(command, false, value);
+        const commandStatus = document.queryCommandState(command); // indicates whether command is still active
+        const change = { [command]: commandStatus && value, };
+        return { change, commandStatus };
+      };
 
-        const commandHandlers = {
-          redo: () => {
-            const { commandStatus } = makeHandler('redo')();
-            return {
-              change: {},
-              commandStatus,
-            };
-          },
-          undo: () => {
-            const { commandStatus } = makeHandler('undo')();
-            return {
-              change: {},
-              commandStatus,
-            };
-          },
-          strikethrough: (value) => {
-            const { commandStatus } = makeHandler('strikeThrough')(value);
-            return {
-              change: { strikethrough: commandStatus && value, },
-              commandStatus,
-            };
-          },
-          bold: makeHandler('bold'),
-          underline: makeHandler('underline'),
-          italic: makeHandler('italic'),
-          ordered: makeHandler('insertOrderedList'),
-          unordered: makeHandler('insertUnorderedList'),
-          justify: (value) => {
-            const justifyHandlers = {
-              left: makeHandler('justifyLeft'),
-              center: makeHandler('justifyCenter'),
-              right: makeHandler('justifyRight'),
-              full: makeHandler('justifyFull'),
-            };
+      const commandHandlers = {
+        redo: () => {
+          const { commandStatus } = makeHandler('redo')();
+          return {
+            change: {},
+            commandStatus,
+          };
+        },
+        undo: () => {
+          const { commandStatus } = makeHandler('undo')();
+          return {
+            change: {},
+            commandStatus,
+          };
+        },
+        strikethrough: (value) => {
+          const { commandStatus } = makeHandler('strikeThrough')(value);
+          return {
+            change: { strikethrough: commandStatus && value, },
+            commandStatus,
+          };
+        },
+        bold: makeHandler('bold'),
+        underline: makeHandler('underline'),
+        italic: makeHandler('italic'),
+        ordered: makeHandler('insertOrderedList'),
+        unordered: makeHandler('insertUnorderedList'),
+        justify: (value) => {
+          const justifyHandlers = {
+            left: makeHandler('justifyLeft'),
+            center: makeHandler('justifyCenter'),
+            right: makeHandler('justifyRight'),
+            full: makeHandler('justifyFull'),
+          };
 
-            return justifyHandlers[value](true);
-          },
-        };
+          return justifyHandlers[value](true);
+        },
+      };
 
-        const { change } = commandHandlers[command](value);
-        const modifiers = {
-          ...state.modifiers,
-          ...change,
-        };
-        const newState = {
-          ...state,
-          modifiers,
-        };
+      const { change } = commandHandlers[command](value);
 
-        return newState;
-      }
+      const modifiers = {
+        ...editorReducer.modifiers,
+        ...change,
+      };
+      return store.dispatch(setModifiers(modifiers));
     },
-    [types.GET_MODIFIERS]: (action) => {
+    [types.RETRIEVE_MODIFIERS]: ({ editorReducer }, action) => {
+      const { documents, currentDocument } = editorReducer;
       const selectorHandlers = {
         'UL': () => ({ unordered: true }),
         'OL': () => ({ ordered: true }),
@@ -122,14 +119,14 @@ export const documentUpdater = store => next => action => {
       const { anchorNode, focusNode } = window.getSelection(); // anchor - start, focus - end
       const anchor = anchorNode.parentElement;
       const focus = focusNode.parentElement;
-      const container = document.querySelector("#textBox"); // topmost contentEditable element
+      const container = documents[currentDocument].ref; // topmost contentEditable element
 
       // execCommand only 'negates' current modifier only if anchor and focus are
       // equal in terms of node they represent, otherwise it will create new node,
       // so compare parents and show user default values (unset) if they are NOT equal
       if (anchor !== focus) {
-        store.dispatch(actions.getCurrentUserFailure(error));
-        return initialState;
+        const { modifiers } = initialState;
+        return store.dispatch(setModifiers(modifiers));
       }
 
       // Otherwise we need to construct modifiers object by traversing DOM to the container and
@@ -140,21 +137,15 @@ export const documentUpdater = store => next => action => {
         return closestExists ? { ...acc, ...handler(closest) } : acc;
       }, { ...initialState.modifiers });
 
-      return {
-        ...state,
-        modifiers,
-      };
+      return store.dispatch(setModifiers(modifiers));
     },
-  */
   };
 
-  const editorReducer = (state = initialState, action) => {
-    if (!Object.prototype.hasOwnProperty.call(handlers, action.type)) {
-      return state;
-    }
-    return handlers[action.type](state, action);
-  };
-
+  if (Object.prototype.hasOwnProperty.call(watchables, action.type)) {
+    const state = store.getState();
+    watchables[action.type](state, action);
+  }
+  
   return next(action);
 };
 

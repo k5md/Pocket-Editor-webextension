@@ -29,6 +29,9 @@ export const PanelList = ({
 
   return (
     <div className={classes.container}>
+      <div className={classes.panel}>
+        {children[activePanel]}
+      </div>
       <div className={classes.controls}>
         <div className={cn([
           classes.control,
@@ -56,9 +59,6 @@ export const PanelList = ({
             <Icon icon={IconNames.ARROW_RIGHT} />
           </AnchorButton>
         </div>
-      </div>
-      <div className={classes.panel}>
-        {children[activePanel]}
       </div>
     </div>
   );

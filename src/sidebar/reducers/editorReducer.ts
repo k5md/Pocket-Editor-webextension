@@ -1,11 +1,10 @@
 import * as types from '../constants/actionTypes';
 import { omitBy, isUndefined, isNaN, merge } from 'lodash';
 
-
-const initialState = {
+export const initialState = {
   documents: [
-    { title: 'Untitled', content: '<p>Lorem ipsum</p>' },
-    { title: 'Untitled', content: '<p>Test</p>' },
+    { title: 'Untitled', content: '<p>Lor<b>em</b> ipsum</p>', ref: null },
+    { title: 'Untitled', content: '<p>Test</p>', ref: null },
   ],
   currentDocument: 0,
   modifiers: {
@@ -19,7 +18,7 @@ const initialState = {
   },
 };
 
-const handlers = {
+export const handlers = {
   [types.NEW_DOCUMENT]: (state, action) => {
     const newDocument = {
       title: 'Untitled',
@@ -32,9 +31,15 @@ const handlers = {
     };
   },
   [types.SET_ACTIVE_DOCUMENT]: (state, { index }) => ({ ...state, currentDocument: index}),
+  [types.SET_DOCUMENT_REF]: (state, { ref }) => {
+    let documents = [ ...state.documents ];
+    documents[state.currentDocument].ref = ref;
+    return { ...state, documents };
+  },
+  [types.SET_MODIFIERS]: (state, { modifiers }) => ({ ...state, modifiers }),
 };
 
-const editorReducer = (state = initialState, action) => {
+export const editorReducer = (state = initialState, action) => {
   if (!Object.prototype.hasOwnProperty.call(handlers, action.type)) {
     return state;
   }
