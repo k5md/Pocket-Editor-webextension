@@ -5,7 +5,7 @@ import {
   Popover,
   AnchorButton,
   Menu,
-  Classes,
+  MenuItem,
   PopoverInteractionKind,
   FileInput,
 } from '@blueprintjs/core';
@@ -13,53 +13,46 @@ import {
   importDocument,
   exportDocument,
   newDocument,
+  deleteDocument,
+  saveDocument,
 } from '../../actions/editorActions';
 
 import * as classes from './styles.scss';
+
+// NOTE: as soon, as the BUG with MenuItems not dismissing the popover correctly because of 
+// isDefaultPrevented missing function ( https://github.com/palantir/blueprint/issues/2820 )
+// remove event modification, since it WILL cause bugs 
+const breakE = (e) => { e.isDefaultPrevented = () => false; };
 
 const Menubar = ({
   importDocument,
   exportDocument,
   newDocument,
-  closeDocument,
+  deleteDocument,
   saveDocument,
   exportDocument,
-}) => (
-  <ButtonGroup>
+}) => {
+  const fileInput = (
+    <FileInput
+      className={classes.labelElement}
+      onInputChange={e => importDocument(e.target.files[0])}
+      text="Choose file..."
+    />
+  );
+
+  return (
     <Popover>
-      <AnchorButton
-        minimal
-        icon="document"
-        rightIcon="caret-down"
-        text="File"
-        interactionKind={PopoverInteractionKind.HOVER}
-      />
+      <AnchorButton minimal icon="document" rightIcon="caret-down" text="File"/>
       <Menu>
-        <Menu.Item minimal icon="document" text="New"
-          onClick={(e) => { e.preventDefault(); newDocument(); }}
-        />
-        <Menu.Item minimal icon="folder-shared" text="Import" className={classes.menuItemFile} 
-          labelElement={
-            <FileInput
-              className={classes.labelElement}
-              onInputChange={(e) => importDocument(e.target.files[0])}
-              text="Choose file..."
-            />
-          }
-        />
-        <Menu.Item minimal icon="add-to-folder" text="Close"
-          onClick={(e) => { e.preventDefault(); closeDocument(); }}
-        />
-        <Menu.Item minimal icon="floppy-disk" text="Save" 
-          onClick={(e) => { e.preventDefault(); saveDocument(); }}
-        />
-        <Menu.Item minimal icon="floppy-disk" text="Export"
-          onClick={(e) => { e.preventDefault(); exportDocument(); }} 
-        />
+        <MenuItem icon="document" text="New" onClick={e => breakE(e) || newDocument()} />
+        <MenuItem icon="folder-shared" text="Import" className={classes.menuItemFile} onClick={e => breakE(e)} labelElement={fileInput} />
+        <MenuItem icon="add-to-folder" text="Delete" onClick={e => breakE(e) || deleteDocument()} />
+        <MenuItem icon="floppy-disk" text="Save" onClick={e => breakE(e) || saveDocument()} />
+        <MenuItem icon="floppy-disk" text="Export" onClick={e => breakE(e) || exportDocument()} />
       </Menu>
     </Popover>
-  </ButtonGroup>
-);
+  );
+};
 
 const mapStateToProps = () => ({});
 
@@ -67,7 +60,7 @@ const mapDispatchToProps = (dispatch) => ({
   importDocument: (file) => dispatch(importDocument(file)),
   exportDocument: () => dispatch(exportDocument()),
   newDocument: () => dispatch(newDocument()),
-  closeDocument: () => dispatch(closeDocument()),
+  deleteDocument: () => dispatch(deleteDocument()),
   saveDocument: () => dispatch(saveDocument()),
   exportDocument: () => dispatch(exportDocument()),
 });
