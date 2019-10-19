@@ -41,10 +41,30 @@ export const setDocumentRef = (ref) => ({
   ref,
 });
 
-export const importDocument = () => ({ 
+export const importDocument = (file) => ({ 
   type: types.IMPORT_DOCUMENT,
+  file,
+});
+
+export const importDocumentSuccess = (document) => ({
+  type: types.IMPORT_DOCUMENT_SUCCESS,
+  document,
+});
+
+export const importDocumentError = (error) => ({
+  type: types.IMPORT_DOCUMENT_ERROR,
+  error,
 });
 
 export const exportDocument = () => ({
   type: types.EXPORT_DOCUMENT,
+});
+
+export const exportDocumentSuccess = () => ({
+  type: types.EXPORT_DOCUMENT_SUCCESS,
+});
+
+export const exportDocumentError = (error) => ({
+  type: types.EXPORT_DOCUMENT.ERROR,
+  error,
 });

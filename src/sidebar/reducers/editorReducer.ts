@@ -16,6 +16,7 @@ export const initialState = {
     unordered: false,
     justify: null,
   },
+  errors: [],
 };
 
 export const handlers = {
@@ -37,6 +38,15 @@ export const handlers = {
     return { ...state, documents };
   },
   [types.SET_MODIFIERS]: (state, { modifiers }) => ({ ...state, modifiers }),
+  [types.IMPORT_DOCUMENT_SUCCESS]: (state, { document }) => {
+    const newDocument = { ...document, ref: null };
+    const documents = state.documents.concat(newDocument);
+    return { ...state, documents };
+  },
+  [types.IMPORT_DOCUMENT_ERROR]: (state, { error }) => ({
+    ...state,
+    errors: state.errors.concat(error),
+  }),
 };
 
 export const editorReducer = (state = initialState, action) => {

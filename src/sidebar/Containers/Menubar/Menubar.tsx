@@ -7,12 +7,15 @@ import {
   Menu,
   Classes,
   PopoverInteractionKind,
+  FileInput,
 } from '@blueprintjs/core';
 import {
   importDocument,
   exportDocument,
   newDocument,
 } from '../../actions/editorActions';
+
+import * as classes from './styles.scss';
 
 const Menubar = ({
   importDocument,
@@ -35,8 +38,14 @@ const Menubar = ({
         <Menu.Item minimal icon="document" text="New"
           onClick={(e) => { e.preventDefault(); newDocument(); }}
         />
-        <Menu.Item minimal icon="folder-shared" text="Import"
-          onClick={(e) => { e.preventDefault(); importDocument(); }}
+        <Menu.Item minimal icon="folder-shared" text="Import" className={classes.menuItemFile} 
+          labelElement={
+            <FileInput
+              className={classes.labelElement}
+              onInputChange={(e) => importDocument(e.target.files[0])}
+              text="Choose file..."
+            />
+          }
         />
         <Menu.Item minimal icon="add-to-folder" text="Close"
           onClick={(e) => { e.preventDefault(); closeDocument(); }}
@@ -55,7 +64,7 @@ const Menubar = ({
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  importDocument: () => dispatch(importDocument()),
+  importDocument: (file) => dispatch(importDocument(file)),
   exportDocument: () => dispatch(exportDocument()),
   newDocument: () => dispatch(newDocument()),
   closeDocument: () => dispatch(closeDocument()),

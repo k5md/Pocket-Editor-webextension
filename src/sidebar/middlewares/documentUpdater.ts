@@ -2,7 +2,7 @@ import mammoth from 'mammoth';
 
 import * as types from '../constants/actionTypes';
 import { initialState } from '../reducers/editorReducer';
-import { setModifiers } from '../actions/editorActions';
+import * as actions from '../actions/editorActions';
 
 export const documentUpdater = store => next => action => {
   const watchables = {
@@ -17,33 +17,28 @@ export const documentUpdater = store => next => action => {
       document.body.removeChild(a);
 
       return state;
-    },
-    [types.IMPORT_DOCUMENT]: (action) => {
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = async (fileContainer) => {
-          const arrayBuffer = fileContainer.target.result;
-          const html = await mammoth.convertToHtml({ arrayBuffer }, {
-            ignoreEmptyParagraphs: false,
-          });
-
-          document.querySelector("#textBox").innerHTML = html.value;
-          document.body.removeChild(fileInput);
-        };
-        reader.onerror = (e) => {
-          reader.abort();
-          store.dispatch({ type: 'STOP_PLAYING', origin: playbackOrigin });
-        }
-        reader.readAsArrayBuffer(file);
-      };
-      document.body.appendChild(fileInput);
-      fileInput.click();
-
-      return state;
     },*/
+    [types.IMPORT_DOCUMENT]: ({ editorReducer }, action) => {
+      const { file } = action;
+      const reader = new FileReader();
+      reader.onload = async (fileContainer) => {
+        const arrayBuffer = fileContainer.target.result;
+        const html = await mammoth.convertToHtml({ arrayBuffer }, {
+          ignoreEmptyParagraphs: false,
+        });
+
+        const document = {
+          title: file.name.replace(/(.*)\.(.*?)$/, "$1"),
+          content: html.value,
+        };
+        store.dispatch(actions.importDocumentSuccess(document))
+      };
+      reader.onerror = (error) => {
+        reader.abort();
+        store.dispatch(actions.importDocumentError(error));
+      }
+      reader.readAsArrayBuffer(file);
+    },
     [types.MODIFY_DOCUMENT]: ({ editorReducer }, action) => {
       const { command, value } = action;
       // NOTE: actual commands may be different from their corresponding
@@ -101,7 +96,7 @@ export const documentUpdater = store => next => action => {
         ...editorReducer.modifiers,
         ...change,
       };
-      return store.dispatch(setModifiers(modifiers));
+      return store.dispatch(actions.setModifiers(modifiers));
     },
     [types.RETRIEVE_MODIFIERS]: ({ editorReducer }, action) => {
       const { documents, currentDocument } = editorReducer;
@@ -126,7 +121,7 @@ export const documentUpdater = store => next => action => {
       // so compare parents and show user default values (unset) if they are NOT equal
       if (anchor !== focus) {
         const { modifiers } = initialState;
-        return store.dispatch(setModifiers(modifiers));
+        return store.dispatch(actions.setModifiers(modifiers));
       }
 
       // Otherwise we need to construct modifiers object by traversing DOM to the container and
@@ -137,7 +132,7 @@ export const documentUpdater = store => next => action => {
         return closestExists ? { ...acc, ...handler(closest) } : acc;
       }, { ...initialState.modifiers });
 
-      return store.dispatch(setModifiers(modifiers));
+      return store.dispatch(actions.setModifiers(modifiers));
     },
   };
 
