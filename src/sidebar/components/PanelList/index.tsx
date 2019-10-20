@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, AnchorButton, Icon } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import cn from 'classnames';
@@ -30,7 +30,7 @@ export const PanelList = ({
   return (
     <div className={classes.container}>
       <div className={classes.panel}>
-        {children[activePanel]}
+        {children.map((child, index) => index === activePanel && child)}
       </div>
       <div className={classes.controls}>
         <div className={cn([

@@ -96,7 +96,10 @@ export const documentUpdater = store => next => action => {
         ...editorReducer.modifiers,
         ...change,
       };
-      return store.dispatch(actions.setModifiers(modifiers));
+
+      store.dispatch(actions.setModifiers(modifiers));
+      store.dispatch(actions.saveDocument(editorReducer.documents[editorReducer.currentDocument].ref));
+      return;
     },
     [types.RETRIEVE_MODIFIERS]: ({ editorReducer }, action) => {
       const { documents, currentDocument } = editorReducer;
@@ -121,7 +124,8 @@ export const documentUpdater = store => next => action => {
       // so compare parents and show user default values (unset) if they are NOT equal
       if (anchor !== focus) {
         const { modifiers } = initialState;
-        return store.dispatch(actions.setModifiers(modifiers));
+        store.dispatch(actions.setModifiers(modifiers));
+        return;
       }
 
       // Otherwise we need to construct modifiers object by traversing DOM to the container and
@@ -132,7 +136,8 @@ export const documentUpdater = store => next => action => {
         return closestExists ? { ...acc, ...handler(closest) } : acc;
       }, { ...initialState.modifiers });
 
-      return store.dispatch(actions.setModifiers(modifiers));
+      store.dispatch(actions.setModifiers(modifiers));
+      return;
     },
   };
 

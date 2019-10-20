@@ -17,8 +17,9 @@ export const loadDocument = () => ({
   type: types.LOAD_DOCUMENT,
 });
 
-export const saveDocument = () => ({
+export const saveDocument = (ref) => ({
   type: types.SAVE_DOCUMENT,
+  ref,
 });
 
 export const deleteDocument = () => ({

@@ -48,6 +48,12 @@ export const handlers = {
     ...state,
     errors: state.errors.concat(error),
   }),
+  [types.SAVE_DOCUMENT]: (state, { ref }) => {
+    const newDocument = { ...state.documents[state.currentDocument], content: ref.innerHTML };
+    let documents = [ ...state.documents ];
+    documents.splice(state.currentDocument, 1, newDocument);
+    return { ...state, documents };
+  },
 };
 
 export const editorReducer = (state = initialState, action) => {
