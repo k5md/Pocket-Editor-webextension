@@ -43,7 +43,7 @@ export const documentUpdater = store => next => action => {
       const { command, value } = action;
       // NOTE: actual commands may be different from their corresponding
       // modifiers (e.g strikeThrough), some modifiers can group many commands
-      // (like justify) and some need additional acitons (fontSize) taken
+      // (like justify) and some need additional actions (fontSize) taken
       const makeHandler = command => (value) => {
         document.execCommand(command, false, value);
         const commandStatus = document.queryCommandState(command); // indicates whether command is still active
