@@ -38,13 +38,14 @@ const Menubar = ({
         onClick={() => setMenuOpen(false)}
         onInputChange={e => importDocument(e.target.files[0])}
         label='Word document (.docx)'
+        inputProps={{ accept: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }}
       />
     </MenuItem>
   );
 
   const exportSubmenu = (
     <MenuItem icon="folder-shared" text="Export">
-      <AnchorButton minimal onClick={() => { exportDocument('docx'); setMenuOpen(false);}}>Word document (.docx)</AnchorButton>
+      <AnchorButton minimal onClick={() => { exportDocument('doc'); setMenuOpen(false);}}>Word document (.doc)</AnchorButton>
     </MenuItem>
   );
 

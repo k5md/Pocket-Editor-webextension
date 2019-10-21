@@ -7,6 +7,7 @@ import * as classes from './styles.scss';
 export const FileInput = ({
   onInputChange,
   label,
+  inputProps,
   ...containerProps,
 }) => {
   const id = uniqueId();
@@ -15,7 +16,7 @@ export const FileInput = ({
     <div {...containerProps}>
       <AnchorButton minimal className={classes.inputContainer}>
         <Portal>
-          <input type="file" id={id} className={classes.inputElement} onChange={onInputChange} />
+          <input type="file" id={id} className={classes.inputElement} onChange={onInputChange} {...inputProps}/>
         </Portal>
         <label for={id}>{label}</label>
       </AnchorButton>

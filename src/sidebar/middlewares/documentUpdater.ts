@@ -1,37 +1,43 @@
-import mammoth from 'mammoth';
-
+import * as extensions from '../../extensions';
 import * as types from '../constants/actionTypes';
 import { initialState } from '../reducers/editorReducer';
 import * as actions from '../actions/editorActions';
 
 export const documentUpdater = store => next => action => {
   const watchables = {
-  /*
-    [types.EXPORT_DOCUMENT]: (state, action) => {
-      const payload = JSON.stringify(state()['#input-blacklist-pattern']);
-      const a = document.createElement('a');
-      a.download = 'TotalSuspenderBlacklist.json';
-      a.href = `data:application/octet-stream,${payload}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      return state;
-    },*/
-    [types.IMPORT_DOCUMENT]: ({ editorReducer }, action) => {
-      const { file } = action;
+    [types.EXPORT_DOCUMENT]: ({ editorReducer }, { extension }) => {
+      if (!extensions[extension]) {
+        return;
+      }
+      extensions[extension].fromHTML(
+        editorReducer.documents[editorReducer.currentDocument].content,
+        editorReducer.documents[editorReducer.currentDocument].title
+      );
+    },
+    [types.IMPORT_DOCUMENT]: ({ editorReducer }, { file }) => {
       const reader = new FileReader();
       reader.onload = async (fileContainer) => {
-        const arrayBuffer = fileContainer.target.result;
-        const html = await mammoth.convertToHtml({ arrayBuffer }, {
-          ignoreEmptyParagraphs: false,
-        });
+        try {
+          const arrayBuffer = fileContainer.target.result;
+          const extension = file.name.replace(/(.*)\.(.*?)$/, "$2");
 
-        const document = {
-          title: file.name.replace(/(.*)\.(.*?)$/, "$1"),
-          content: html.value,
-        };
-        store.dispatch(actions.importDocumentSuccess(document))
+          console.log(extensions, extension, extensions[extension]);
+          if (!extensions[extension]) {
+            throw new Error(`${extension} is not a supported file type`);
+          }
+
+          const html = await extensions[extension].toHTML(arrayBuffer);
+
+          const document = {
+            title: file.name.replace(/(.*)\.(.*?)$/, "$1"),
+            content: html,
+          };
+          console.log(document);
+          store.dispatch(actions.importDocumentSuccess(document));
+        } catch (error) {
+          reader.abort();
+          store.dispatch(actions.importDocumentError(error));
+        }
       };
       reader.onerror = (error) => {
         reader.abort();
