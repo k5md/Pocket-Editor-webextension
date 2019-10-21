@@ -17,9 +17,8 @@ export const loadDocument = () => ({
   type: types.LOAD_DOCUMENT,
 });
 
-export const saveDocument = (ref) => ({
+export const saveDocument = () => ({
   type: types.SAVE_DOCUMENT,
-  ref,
 });
 
 export const deleteDocument = () => ({
@@ -57,8 +56,9 @@ export const importDocumentError = (error) => ({
   error,
 });
 
-export const exportDocument = () => ({
+export const exportDocument = (extension) => ({
   type: types.EXPORT_DOCUMENT,
+  extension,
 });
 
 export const exportDocumentSuccess = () => ({
