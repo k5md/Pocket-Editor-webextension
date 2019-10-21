@@ -7,8 +7,8 @@ import {
   Menu,
   MenuItem,
   PopoverInteractionKind,
-  FileInput,
 } from '@blueprintjs/core';
+import { FileInput } from '../../components';
 import {
   importDocument,
   exportDocument,
@@ -16,8 +16,6 @@ import {
   deleteDocument,
   saveDocument,
 } from '../../actions/editorActions';
-
-import * as classes from './styles.scss';
 
 // NOTE: as soon, as the BUG with MenuItems not dismissing the popover correctly because of 
 // isDefaultPrevented missing function ( https://github.com/palantir/blueprint/issues/2820 )
@@ -32,12 +30,16 @@ const Menubar = ({
   saveDocument,
   exportDocument,
 }) => {
-  const fileInput = (
-    <FileInput
-      className={classes.labelElement}
-      onInputChange={e => importDocument(e.target.files[0])}
-      text="Choose file..."
-    />
+  const importSubmenu = (
+    <MenuItem icon="folder-shared" text="Import"  onClick={e => breakE(e)}>
+      <FileInput onInputChange={e => importDocument(e.target.files[0])} label='Word document (.docx)' />
+    </MenuItem>
+  );
+
+  const exportSubmenu = (
+    <MenuItem icon="floppy-disk" text="Export" onClick={e => breakE(e)}>
+      <AnchorButton minimal onClick={() => exportDocument('.docx')}>Word document (.docx)</AnchorButton>
+    </MenuItem>
   );
 
   return (
@@ -45,10 +47,10 @@ const Menubar = ({
       <AnchorButton minimal icon="document" rightIcon="caret-down" text="File"/>
       <Menu>
         <MenuItem icon="document" text="New" onClick={e => breakE(e) || newDocument()} />
-        <MenuItem icon="folder-shared" text="Import" className={classes.menuItemFile} onClick={e => breakE(e)} labelElement={fileInput} />
-        <MenuItem icon="add-to-folder" text="Delete" onClick={e => breakE(e) || deleteDocument()} />
+        {importSubmenu}
+        {exportSubmenu}
         <MenuItem icon="floppy-disk" text="Save" onClick={e => breakE(e) || saveDocument()} />
-        <MenuItem icon="floppy-disk" text="Export" onClick={e => breakE(e) || exportDocument()} />
+        <MenuItem icon="add-to-folder" text="Delete" onClick={e => breakE(e) || deleteDocument()} />
       </Menu>
     </Popover>
   );
