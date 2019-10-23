@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+}
+
+.out { 
+  opacity: 0;
+}
+
+.in {
+  opacity: 1;
+}
+
+.fade {
+  transition: opacity 300ms ease-in 0ms;
+}

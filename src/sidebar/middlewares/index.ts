@@ -3,9 +3,9 @@ import thunk from 'redux-thunk';
 import documentUpdater from './documentUpdater';
 
 export const middlewares = [
-  logger,
   thunk,
   documentUpdater,
+  logger,
 ];
 
 export default middlewares;

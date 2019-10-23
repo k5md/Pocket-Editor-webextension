@@ -51,7 +51,7 @@ const Menubar = ({
 
   const menu = (
     <Menu>
-      <MenuItem icon="document" text="New" onClick={()=> breakE(e) || newDocument()} />
+      <MenuItem icon="document" text="New" onClick={(e)=> breakE(e) || newDocument()} />
       {importSubmenu}
       {exportSubmenu}
       <MenuItem icon="floppy-disk" text="Save" onClick={e => breakE(e) || saveDocument()} />

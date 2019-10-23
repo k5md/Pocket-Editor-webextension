@@ -1,11 +1,38 @@
 import * as types from '../constants/actionTypes';
-import { omitBy, isUndefined, isNaN, merge } from 'lodash';
+import { uniqueId } from 'lodash';
 
 export const initialState = {
   documents: [
-    { title: 'U', content: '<p>Lor<b>em</b> ipsum</p>', ref: null },
-    { title: 'Untiasdffffffffffffffffffffffffffffffffffffffffffffffftled', content: '<p>Test</p>', ref: null },
-    { title: 'asdffasdffffffffffffffffff', content: '<p>Test</p>', ref: null },
+    {
+      title: 'U',
+      content: '<p>Lor<b>em</b> ipsum</p>',
+      ref: null,
+      id: 0,
+    },
+    {
+      title: 'Untiasdffffffffffffffffffffffffffffffffffffffffffffffftled',
+      content: '<p>Test</p>',
+      ref: null,
+      id: 1,
+    },
+    {
+      title: 'asdffasdffffffffffffffffff',
+      content: '<p>Test</p>',
+      ref: null,
+      id: 2,
+    },
+    {
+      title: 'affffffffffffff',
+      content: '<p>Tsst</p>',
+      ref: null,
+      id: 3,
+    },
+    {
+      title: 'asdffasdffffffffffffffffff',
+      content: '<p>sst</p>',
+      ref: null,
+      id: 4,
+    },
   ],
   currentDocument: 0,
   modifiers: {
@@ -24,7 +51,8 @@ export const handlers = {
   [types.NEW_DOCUMENT]: (state, action) => {
     const newDocument = {
       title: 'Untitled',
-      content: '',
+      content: '<p></p>',
+      id: uniqueId(),
     };
     return {
       ...state,
@@ -40,7 +68,7 @@ export const handlers = {
   },
   [types.SET_MODIFIERS]: (state, { modifiers }) => ({ ...state, modifiers }),
   [types.IMPORT_DOCUMENT_SUCCESS]: (state, { document }) => {
-    const newDocument = { ...document, ref: null };
+    const newDocument = { ...document, ref: null, id: uniqueId(), };
     const documents = state.documents.concat(newDocument);
     return { ...state, documents };
   },

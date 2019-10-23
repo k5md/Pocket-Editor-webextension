@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Toolbar from '../Toolbar';
 import Menubar from '../Menubar';
-import DocumentPanel from '../DocumentPanel';
+import DocumentList from '../DocumentList';
 
 import { connect } from 'react-redux';
 import * as classes from './styles.scss';
@@ -15,7 +15,7 @@ class Editor extends Component {
       <div className={classes.editor}>
         <Menubar />
         <Toolbar/>
-        <DocumentPanel/>
+        <DocumentList/>
       </div>
     );
   }

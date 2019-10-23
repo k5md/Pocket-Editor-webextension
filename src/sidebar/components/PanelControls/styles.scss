@@ -1,0 +1,35 @@
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.control {
+  display: flex;
+  overflow: hidden;
+  width: 33%;
+  justify-content: center;
+  * {
+    align-self: center;
+  }
+}
+
+.left {
+  justify-content: flex-start;
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+.leftInner, .rightInner {
+  opacity: 0.3;
+}
+
+.leftInner, .centerInner, .rightInner {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hidden {
+  visibility: hidden;
+}

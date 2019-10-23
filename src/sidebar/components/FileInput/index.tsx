@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { uniqueId } from 'lodash';
 import { AnchorButton, Portal } from '@blueprintjs/core';
 
@@ -10,7 +10,8 @@ export const FileInput = ({
   inputProps,
   ...containerProps,
 }) => {
-  const id = uniqueId();
+  const [ id ] = useState(() => uniqueId());
+
   // NOTE: use portal here to cover the case when fileInput is being used in popover children
   return (
     <div {...containerProps}>

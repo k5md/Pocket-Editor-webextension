@@ -1,43 +1,10 @@
-@import "~@blueprintjs/core/lib/scss/variables";
-
-.container, .panel {
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-}
-
-.controls {
-  display: flex;
-  justify-content: space-between;
-}
-
-.control {
-  display: flex;
+.listContainer {
+  all: inherit;
   overflow: hidden;
-  width: 33%;
-  justify-content: center;
-  * {
-    align-self: center;
-  }
 }
 
-.left {
-  justify-content: flex-start;
-}
-
-.right {
-  justify-content: flex-end;
-}
-
-.leftInner, .rightInner {
-  opacity: 0.3;
-}
-
-.leftInner, .centerInner, .rightInner {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.hidden {
-  visibility: hidden;
+.scrollWrapper {
+  display: inline-flex;
+  overflow-x: visible;
+  height: 100%;
 }
