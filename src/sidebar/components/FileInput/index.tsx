@@ -17,7 +17,13 @@ export const FileInput = ({
     <div {...containerProps}>
       <AnchorButton minimal text={label} onClick={() => inputRef.current.click()}>
         <Portal>
-          <input ref={inputRef} type="file" id={id} className={classes.inputElement} onChange={onInputChange} {...inputProps}/>
+          <input
+            ref={inputRef}
+            type="file"
+            id={id}
+            className={classes.inputElement}
+            onChange={onInputChange}
+          />
         </Portal>   
       </AnchorButton>
     </div>

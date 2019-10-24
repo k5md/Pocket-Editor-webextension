@@ -104,7 +104,7 @@ export const documentUpdater = store => next => action => {
       };
 
       store.dispatch(actions.setModifiers(modifiers));
-      store.dispatch(actions.saveDocument(editorReducer.documents[editorReducer.currentDocument].ref));
+      store.dispatch(actions.saveDocument());
       return;
     },
     [types.RETRIEVE_MODIFIERS]: ({ editorReducer }, action) => {

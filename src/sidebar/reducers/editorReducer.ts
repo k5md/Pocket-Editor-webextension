@@ -78,9 +78,10 @@ export const handlers = {
     errors: state.errors.concat(error),
   }),
   [types.SAVE_DOCUMENT]: (state) => {
-    const newDocument = { ...state.documents[state.currentDocument], content: state.documents[state.currentDocument].ref.innerHTML };
-    let documents = [ ...state.documents ];
-    documents.splice(state.currentDocument, 1, newDocument);
+    const documents = state.documents.map((document, index) => index === state.currentDocument 
+      ? { ...document, content: document.ref.innerHTML }
+      : document
+    );
     return { ...state, documents };
   },
 };
