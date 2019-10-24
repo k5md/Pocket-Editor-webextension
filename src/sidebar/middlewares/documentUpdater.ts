@@ -91,8 +91,8 @@ export const documentUpdater = store => next => action => {
             right: makeHandler('justifyRight'),
             full: makeHandler('justifyFull'),
           };
-
-          return justifyHandlers[value](true);
+          const change = justifyHandlers[value](true);
+          return change;
         },
       };
 

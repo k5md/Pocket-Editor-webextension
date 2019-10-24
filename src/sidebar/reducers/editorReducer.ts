@@ -5,33 +5,33 @@ export const initialState = {
   documents: [
     {
       title: 'U',
-      content: '<p>Lor<b>em</b> ipsum</p>',
+      content: '<p>L0or<b>em</b> ipsum</p>',
       ref: null,
-      id: 0,
+      id: uniqueId(),
     },
     {
       title: 'Untiasdffffffffffffffffffffffffffffffffffffffffffffffftled',
-      content: '<p>Test</p>',
+      content: '<p>T1st</p>',
       ref: null,
-      id: 1,
+      id: uniqueId(),
     },
     {
       title: 'asdffasdffffffffffffffffff',
-      content: '<p>Test</p>',
+      content: '<p>T2st</p>',
       ref: null,
-      id: 2,
+      id: uniqueId(),
     },
     {
       title: 'affffffffffffff',
-      content: '<p>Tsst</p>',
+      content: '<p>Ts3st</p>',
       ref: null,
-      id: 3,
+      id: uniqueId(),
     },
     {
       title: 'asdffasdffffffffffffffffff',
-      content: '<p>sst</p>',
+      content: '<p>s4st</p>',
       ref: null,
-      id: 4,
+      id: uniqueId(),
     },
   ],
   currentDocument: 0,
@@ -51,8 +51,9 @@ export const handlers = {
   [types.NEW_DOCUMENT]: (state, action) => {
     const newDocument = {
       title: 'Untitled',
-      content: '<p></p>',
+      content: '<p><br></p>',
       id: uniqueId(),
+      ref: null,
     };
     return {
       ...state,

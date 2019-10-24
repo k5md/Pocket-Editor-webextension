@@ -43,11 +43,10 @@ export const PanelControls = ({
         classes.right,
         !nextAvailable && classes.hidden,
       ])}>
-
+        {captions.right && <div className={classes.rightInner}>{captions.right}</div>}
         <AnchorButton minimal small onClick={activateNext}>
           <Icon icon={IconNames.ARROW_RIGHT} />
         </AnchorButton>
-        {captions.right && <div className={classes.rightInner}>{captions.right}</div>}
       </div>
     </div>
   );

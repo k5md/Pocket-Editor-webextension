@@ -14,8 +14,8 @@ export const PanelList = ({
   const left = previousActiveIndex > activeIndex;
   const right = previousActiveIndex < activeIndex;
 
-  if (left) setScroll(scroll + 100);
-  if (right) setScroll(scroll - 100)
+  if (left) setScroll(scroll + 100 * (previousActiveIndex - activeIndex));
+  if (right) setScroll(scroll - 100 * (activeIndex - previousActiveIndex));
 
   const scrollStyle = {
     transform: `translateX(${scroll}%)`,
