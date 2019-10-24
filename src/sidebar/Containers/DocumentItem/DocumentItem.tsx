@@ -1,12 +1,37 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { retrieveModifiers, setDocumentRef, saveDocument } from '../../actions/editorActions';
 import { Card, Elevation } from '@blueprintjs/core';
 
 import * as classes from './styles.scss';
 
+function saveSelection() {
+    if (window.getSelection) {
+        const sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            return sel.getRangeAt(0);
+        }
+    } else if (document.selection && document.selection.createRange) {
+        return document.selection.createRange();
+    }
+    return null;
+}
+
+function restoreSelection(range) {
+  console.log(range);
+    if (range) {
+        if (window.getSelection) {
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else if (document.selection && range.select) {
+            range.select();
+        }
+    }
+}
+
 const DocumentItem = ({
-  content,
+  content: initialContent,
   retrieveModifiers,
   setDocumentRef,
   saveDocument,
@@ -20,6 +45,19 @@ const DocumentItem = ({
   const onSelectableChange = () => {
     return retrieveModifiers();
   };
+
+  const [ up, setUp ] = useState(false);
+  const [ selection, setSelection ] = useState(null);
+  const [ content ] = useState(initialContent);
+
+  if (selection) {
+    if (up) {
+      console.log(selection);
+      restoreSelection(selection);
+      setSelection(null);   
+      setUp(false);
+    }
+  }
 
   const onPaste = (e) => {
     const paste = (e.clipboardData || window.clipboardData).getData('text');
@@ -39,6 +77,7 @@ const DocumentItem = ({
         ref={editableAreaRef}
         onClick={onSelectableChange}
         onPaste={onPaste}
+        onKeyUp={() => { setSelection(saveSelection()); setUp(true); saveDocument(); }}
         contentEditable="true"
         dangerouslySetInnerHTML={({ __html: content })}
       />
