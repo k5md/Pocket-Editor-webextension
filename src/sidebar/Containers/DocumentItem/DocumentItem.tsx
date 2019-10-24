@@ -5,7 +5,7 @@ import { Card, Elevation } from '@blueprintjs/core';
 
 import * as classes from './styles.scss';
 
-const EditableArea = ({
+const DocumentItem = ({
   content,
   retrieveModifiers,
   setDocumentRef,
@@ -41,4 +41,4 @@ const mapDispatchToProps = (dispatch) => ({
   setDocumentRef: (ref) => dispatch(setDocumentRef(ref)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditableArea);
+export default connect(mapStateToProps, mapDispatchToProps)(DocumentItem);

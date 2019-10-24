@@ -20,8 +20,6 @@ export const PanelControls = ({
     right: nextAvailable && renderCaption(items[activeIndex + 1]),
   };
 
-  console.log(items);
-
   return (
     <div className={classes.controls}>
       <div className={cn([
