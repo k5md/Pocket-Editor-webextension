@@ -76,11 +76,11 @@ export const importDocumentError = (error) => ({
   error,
 });
 
-export const exportDocument = (extension) => (dispatch) => {
+export const exportDocument = (extension) => (dispatch, getState) => {
   dispatch({ type: types.EXPORT_DOCUMENT, extension });
 
   if (extensions[extension]) {
-    const { documents, currentDocument } = state;
+    const { documents, currentDocument } = getState().editorReducer;
     const { content, title } = documents[currentDocument];
     extensions[extension].fromHTML(content, title);
   }
