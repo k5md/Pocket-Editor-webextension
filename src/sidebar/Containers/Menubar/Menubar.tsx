@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { connect } from 'react-redux';
 import {
-  ButtonGroup,
   Popover,
   Button,
   AnchorButton,
@@ -9,33 +7,29 @@ import {
   MenuItem,
 } from '@blueprintjs/core';
 import { FileInput } from '../../components';
-import {
-  importDocument,
-  exportDocument,
-  newDocument,
-  deleteDocument,
-  saveDocument,
-} from '../../actions/editorActions';
 
 // NOTE: as soon, as the BUG with MenuItems not dismissing the popover correctly because of 
 // isDefaultPrevented missing function ( https://github.com/palantir/blueprint/issues/2820 )
 // remove event modification, since it WILL cause bugs
 // TLDR: before refactoring, consider existing bugs with menu & popover
-const breakE = (e) => { e.isDefaultPrevented = () => false; };
+import { breakE } from '../../../utils';
 
 const Menubar = ({
   importDocument,
   exportDocument,
   newDocument,
   deleteDocument,
-  saveDocument,
 }) => {
-  const [ menuOpen, setMenuOpen ] = useState(false);
+  const [ fileMenuOpen, setFileMenuOpen ] = useState(false);
 
-  const importSubmenu = (
+  const newMenuItem = (
+    <MenuItem icon="document" text="New" onClick={(e)=> breakE(e) || newDocument()} />
+  );
+
+  const importMenuItem = (
     <MenuItem icon="add-to-folder" text="Import">
       <FileInput
-        onClick={() => setMenuOpen(false)}
+        onClick={() => setFileMenuOpen(false)}
         onInputChange={e => importDocument(e.target.files[0])}
         label='Word document (.docx)'
         inputProps={{ accept: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }}
@@ -43,37 +37,30 @@ const Menubar = ({
     </MenuItem>
   );
 
-  const exportSubmenu = (
+  const exportMenuItem = (
     <MenuItem icon="folder-shared" text="Export">
-      <AnchorButton minimal onClick={() => { exportDocument('doc'); setMenuOpen(false);}}>Word document (.doc)</AnchorButton>
+      <AnchorButton minimal onClick={() => { exportDocument('doc'); setFileMenuOpen(false);}}>Word document (.doc)</AnchorButton>
     </MenuItem>
   );
 
-  const menu = (
+  const deleteMenuItem = (
+    <MenuItem icon="delete" text="Delete" onClick={e => breakE(e) || deleteDocument()} />
+  );
+
+  const fileMenu = (
     <Menu>
-      <MenuItem icon="document" text="New" onClick={(e)=> breakE(e) || newDocument()} />
-      {importSubmenu}
-      {exportSubmenu}
-      <MenuItem icon="floppy-disk" text="Save" onClick={e => breakE(e) || saveDocument()} />
-      <MenuItem icon="delete" text="Delete" onClick={e => breakE(e) || deleteDocument()} />
+      {newMenuItem}
+      {importMenuItem}
+      {exportMenuItem}
+      {deleteMenuItem}
     </Menu>
   );
 
   return (
-    <Popover content={menu} isOpen={menuOpen} onInteraction={state => setMenuOpen(state)}>
+    <Popover content={fileMenu} isOpen={fileMenuOpen} onInteraction={state => setFileMenuOpen(state)}>
       <Button minimal icon="document" rightIcon="caret-down" text="File"/>
     </Popover>
   );
 };
 
-const mapStateToProps = () => ({});
-
-const mapDispatchToProps = (dispatch) => ({
-  importDocument: (file) => dispatch(importDocument(file)),
-  exportDocument: (extension) => dispatch(exportDocument(extension)),
-  newDocument: () => dispatch(newDocument()),
-  deleteDocument: () => dispatch(deleteDocument()),
-  saveDocument: () => dispatch(saveDocument()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Menubar);
+export default Menubar;

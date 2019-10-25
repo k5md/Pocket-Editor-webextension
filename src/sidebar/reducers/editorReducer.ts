@@ -1,5 +1,6 @@
-import * as types from '../constants/actionTypes';
 import { uniqueId } from 'lodash';
+import * as types from '../constants/actionTypes';
+import { createReducer } from '../../utils';
 
 export const initialState = {
   documents: [
@@ -34,7 +35,6 @@ export const initialState = {
       id: uniqueId(),
     },
   ],
-  currentDocument: 0,
   modifiers: {
     italic: false,
     bold: false,
@@ -44,6 +44,7 @@ export const initialState = {
     unordered: false,
     justify: null,
   },
+  currentDocument: 0,
   errors: [],
 };
 
@@ -52,7 +53,7 @@ export const handlers = {
     const newDocument = {
       title: 'Untitled',
       content: '<p><br></p>',
-      id: uniqueId(),
+      id: uniqueId('document'),
       ref: null,
     };
     return {
@@ -61,7 +62,7 @@ export const handlers = {
       currentDocument: state.documents.length,
     };
   },
-  [types.SET_ACTIVE_DOCUMENT]: (state, { index }) => ({ ...state, currentDocument: index}),
+  [types.SET_CURRENT_DOCUMENT]: (state, { index }) => ({ ...state, currentDocument: index}),
   [types.SET_DOCUMENT_REF]: (state, { ref }) => {
     let documents = [ ...state.documents ];
     documents[state.currentDocument].ref = ref;
@@ -71,7 +72,7 @@ export const handlers = {
   [types.IMPORT_DOCUMENT_SUCCESS]: (state, { document }) => {
     const newDocument = { ...document, ref: null, id: uniqueId(), };
     const documents = state.documents.concat(newDocument);
-    return { ...state, documents };
+    return { ...state, documents, currentDocument: state.documents.length };
   },
   [types.IMPORT_DOCUMENT_ERROR]: (state, { error }) => ({
     ...state,
@@ -86,11 +87,6 @@ export const handlers = {
   },
 };
 
-export const editorReducer = (state = initialState, action) => {
-  if (!Object.prototype.hasOwnProperty.call(handlers, action.type)) {
-    return state;
-  }
-  return handlers[action.type](state, action);
-};
+const editorReducer = createReducer(handlers, initialState);
 
 export default editorReducer;

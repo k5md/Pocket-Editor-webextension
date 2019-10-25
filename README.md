@@ -61,6 +61,8 @@ becomes empty
 - TYPEscript
 - save/load using indexedDB
 - multiple documents open in the same time
+- sanitize import like paste
+- fix list etc
 - ???
 - PROFIT!
 

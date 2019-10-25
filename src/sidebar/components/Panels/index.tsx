@@ -14,12 +14,12 @@ export const Panels = ({
 
   const activatePrev = () => {
     if (!prevAvailable) return;
-    onActiveChange(activeIndex, activeIndex - 1);
+    onActiveChange(activeIndex - 1, activeIndex);
   };
 
   const activateNext = () => {
     if (!nextAvailable) return;
-    onActiveChange(activeIndex, activeIndex + 1);
+    onActiveChange(activeIndex + 1, activeIndex);
   };
 
   return (
