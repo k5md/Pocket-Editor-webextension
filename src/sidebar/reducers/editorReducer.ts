@@ -5,33 +5,8 @@ import { createReducer } from '../../utils';
 export const initialState = {
   documents: [
     {
-      title: 'U',
+      title: 'Greetings, travellerasdfasdffffffffffffffff! asdfffffffffffffffff',
       content: '<p>L0or<b>em</b> ipsum</p>',
-      ref: null,
-      id: uniqueId(),
-    },
-    {
-      title: 'Untiasdffffffffffffffffffffffffffffffffffffffffffffffftled',
-      content: '<p>T1st</p>',
-      ref: null,
-      id: uniqueId(),
-    },
-    {
-      title: 'asdffasdffffffffffffffffff',
-      content: '<p>T2st</p>',
-      ref: null,
-      id: uniqueId(),
-    },
-    {
-      title: 'affffffffffffff',
-      content: '<p>Ts3st</p>',
-      ref: null,
-      id: uniqueId(),
-    },
-    {
-      title: 'asdffasdffffffffffffffffff',
-      content: '<p>s4st</p>',
-      ref: null,
       id: uniqueId(),
     },
   ],
@@ -54,7 +29,6 @@ export const handlers = {
       title: 'Untitled',
       content: '<p><br></p>',
       id: uniqueId('document'),
-      ref: null,
     };
     return {
       ...state,
@@ -63,11 +37,6 @@ export const handlers = {
     };
   },
   [types.SET_CURRENT_DOCUMENT]: (state, { index }) => ({ ...state, currentDocument: index}),
-  [types.SET_DOCUMENT_REF]: (state, { ref }) => {
-    let documents = [ ...state.documents ];
-    documents[state.currentDocument].ref = ref;
-    return { ...state, documents };
-  },
   [types.SET_MODIFIERS]: (state, { modifiers }) => ({ ...state, modifiers }),
   [types.IMPORT_DOCUMENT_SUCCESS]: (state, { document }) => {
     const newDocument = { ...document, ref: null, id: uniqueId(), };
@@ -79,7 +48,6 @@ export const handlers = {
     errors: state.errors.concat(error),
   }),
   [types.SAVE_DOCUMENT]: (state, { content }) => {
-    console.log(content);
     const documents = state.documents.map((document, index) => index === state.currentDocument 
       ? { ...document, content }
       : document

@@ -28,11 +28,6 @@ export const setCurrentDocument = (index) => ({
   index,
 });
 
-export const setDocumentRef = (ref) => ({
-  type: types.SET_DOCUMENT_REF,
-  ref,
-});
-
 export const importDocument = (file) => (dispatch) => {
   dispatch({ type: types.IMPORT_DOCUMENT, file });
 
@@ -42,7 +37,6 @@ export const importDocument = (file) => (dispatch) => {
       const arrayBuffer = fileContainer.target.result;
       const extension = file.name.replace(/(.*)\.(.*?)$/, "$2");
 
-      console.log(extensions, extension, extensions[extension]);
       if (!extensions[extension]) {
         throw new Error(`${extension} is not a supported file type`);
       }
@@ -53,7 +47,6 @@ export const importDocument = (file) => (dispatch) => {
         title: file.name.replace(/(.*)\.(.*?)$/, "$1"),
         content: html,
       };
-      console.log(document);
       dispatch(importDocumentSuccess(document));
     } catch (error) {
       reader.abort();
