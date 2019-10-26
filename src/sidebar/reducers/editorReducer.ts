@@ -78,9 +78,10 @@ export const handlers = {
     ...state,
     errors: state.errors.concat(error),
   }),
-  [types.SAVE_DOCUMENT]: (state) => {
+  [types.SAVE_DOCUMENT]: (state, { content }) => {
+    console.log(content);
     const documents = state.documents.map((document, index) => index === state.currentDocument 
-      ? { ...document, content: document.ref.innerHTML }
+      ? { ...document, content }
       : document
     );
     return { ...state, documents };

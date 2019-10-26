@@ -3,13 +3,16 @@ import Toolbar from './Toolbar.tsx';
 import { saveDocument, setModifiers } from '../../actions/editorActions';
 
 const mapStateToProps = ({ editorReducer }) => {
-  const { modifiers } = editorReducer;
-  return { modifiers };
+  const { modifiers, documents, currentDocument } = editorReducer;
+  return {
+    modifiers,
+    documentId: documents[currentDocument].id,
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
   setModifiers: modifiers => dispatch(setModifiers(modifiers)),
-  saveDocument: () => dispatch(saveDocument()),
+  saveDocument: (content) => dispatch(saveDocument(content)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);

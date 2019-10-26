@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button, ButtonGroup } from '@blueprintjs/core';
-import { mutateDocumentWithModifiers } from '../../../utils';
+import { mutateDocumentWithModifiers, getContent } from '../../../utils';
 import * as classes from './styles.scss';
 
 const Toolbar = ({
   modifiers,
   setModifiers,
   saveDocument,
+  documentId,
 }) => {
   const {
     italic,
@@ -21,13 +22,11 @@ const Toolbar = ({
   const modifyDocument = (command, value) => {
     const { change } = mutateDocumentWithModifiers(command, value);
 
-    const newModifiers = {
-      ...modifiers,
-      ...change,
-    };
-
+    const newModifiers = { ...modifiers, ...change };
     setModifiers(newModifiers);
-    saveDocument();
+
+    const content = getContent(documentId);
+    saveDocument(content);
   };
 
   // NOTE: preventDefault everywhere so that focus on contentEditable is not lost

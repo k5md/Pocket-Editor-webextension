@@ -47,25 +47,6 @@ To monitor changes in browser with hot-reloading you can do
 
 The extension uses [i18n](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Internationalization), so if you want to participate in translating the extension texts into your language, please, refer to [messages.json](https://github.com/k5md/Total-Suspender-webextension/blob/master/src/_locales/en/messages.json) as an example and either create a pull request or create an issue on github. Note, that only "messages" properties needs to be translated, "descriptions" are aimed to help translators.
 
-## Todos:
-- fix contentEditable bug when executing fontName/fontSize command with a font-family/size argument does not affect list (both ordered and unordered) markers, this is default document.execCommand behaviour for insertOrderedList and insertUnorderedList
-- make selectables filterable, since filterability makes contentEditable lose focus and selection
-becomes empty
-- make fontSize be numeric input with suggested values
-- move everything from reducer, does not belong there
-- create facade for import/export stuff to allow consuming files of various extensions
-- stop using mammoth.js
-- add shortcut (connected to the save/lose focus problem) to paste to sidebar
-- enable internationalization
-- enable modules,
-- TYPEscript
-- save/load using indexedDB
-- multiple documents open in the same time
-- sanitize import like paste
-- fix list etc
-- ???
-- PROFIT!
-
 ## Credits
 
 Note icon is made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [Flaticon](https://www.flaticon.com/) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/).

@@ -1,44 +1,26 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Elevation } from '@blueprintjs/core';
-import { saveSelection, restoreSelection, collectModifiersFromSelection } from '../../../utils';
-
+import { collectModifiersFromSelection } from '../../../utils';
 import * as classes from './styles.scss';
 
 const DocumentItem = ({
-  content: initialContent,
-  retrieveModifiers,
-  setDocumentRef,
+  content: storedContent,
+  updateModifiers,
   saveDocument,
-  id: identifier,
+  id,
   setModifiers,
 }) => {
-  console.log(identifier, identifier)
+  const [ content ] = useState(storedContent);
 
-  const editableAreaRef = useRef(null);
+  const updateModifiers = (e) => {
+    const modifiers = collectModifiersFromSelection(e.target);
+    setModifiers(modifiers);
+  };
+
+  // reset toolbar state on mount
   useEffect(() => {
-    setDocumentRef(editableAreaRef.current);
-    return () => setDocumentRef(null);
+    setModifiers({});
   }, []);
-
-  const [ up, setUp ] = useState(false);
-  const [ selection, setSelection ] = useState(null);
-  const [ content ] = useState(initialContent);
-
-  console.log(identifier);
-  useEffect(() => {
-    console.log('mount', identifier);
-    try {
-      retrieveModifiers();
-      setSelection(null);  
-
-    } catch (e) { console.log(e)};
-  }, [ identifier ]);
-
-  if (selection && up) {
-      restoreSelection(selection);
-      setSelection(null);   
-      setUp(false);
-  }
 
   const onPaste = (e) => {
     const paste = (e.clipboardData || window.clipboardData).getData('Text');
@@ -50,22 +32,21 @@ const DocumentItem = ({
     selection.getRangeAt(0).insertNode(document.createTextNode(paste));
     selection.collapseToEnd();
     event.preventDefault();
-    saveDocument();
+    saveDocument(e.target.innerHTML);
   };
 
-  const retrieveModifiers = () => {
-    const modifiers = collectModifiersFromSelection(editableAreaRef.current);
-    setModifiers(modifiers);
+  const onKeyUp = (e) => {
+    updateModifiers(e);
+    saveDocument(e.target.innerHTML);
   };
 
   return (
     <Card elevation={Elevation.TWO} className={classes.editableArea}>           
       <div
-        ref={editableAreaRef}
-        onInput={retrieveModifiers}
-        onClick={retrieveModifiers}
+        onClick={updateModifiers}
         onPaste={onPaste}
-        onKeyUp={() => { setSelection(saveSelection()); setUp(true); saveDocument(); }}
+        onKeyUp={onKeyUp}
+        id={id}
         contentEditable="true"
         dangerouslySetInnerHTML={({ __html: content })}
       />

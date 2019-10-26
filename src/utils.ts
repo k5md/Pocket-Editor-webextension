@@ -110,6 +110,10 @@ export const collectModifiersFromSelection = (container) => {
   return modifiers;
 };
 
+export const getContent = (selector) => {
+  const content = document.getElementById(selector).innerHTML;
+  return content;
+};
 
 export const saveSelection = () => {
   if (window.getSelection) {

@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
 import {
-  retrieveModifiers,
-  setDocumentRef,
   saveDocument,
   setModifiers,
 } from '../../actions/editorActions';
@@ -17,9 +15,8 @@ const mapStateToProps = ({ editorReducer }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setDocumentRef: (ref) => dispatch(setDocumentRef(ref)),
-  saveDocument: () => dispatch(saveDocument()),
-  setModifiers: (modifiers) => dispatch(setModifiers(modifiers)),
+  saveDocument: content => dispatch(saveDocument(content)),
+  setModifiers: modifiers => dispatch(setModifiers(modifiers)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentItem);
