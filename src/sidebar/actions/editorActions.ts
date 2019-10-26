@@ -17,6 +17,7 @@ export const loadDocument = () => ({
 export const saveDocument = (content) => ({
   type: types.SAVE_DOCUMENT,
   content,
+  meta: { throttle: { time: 1000 } },
 });
 
 export const deleteDocument = () => ({

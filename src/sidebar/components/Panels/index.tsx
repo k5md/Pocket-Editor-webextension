@@ -9,6 +9,10 @@ export const Panels = ({
   activeIndex,
   onActiveChange,
 }) => {
+  if (!items.length) {
+    return null;
+  }
+
   const prevAvailable = activeIndex - 1 >= 0;
   const nextAvailable = activeIndex + 1 < items.length;
 

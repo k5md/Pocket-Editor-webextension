@@ -5,7 +5,8 @@ export const docx = {
     const { value } = await mammoth.convertToHtml({ arrayBuffer }, {
       ignoreEmptyParagraphs: false,
     });
-    return value;
+    const plainText = value.replace(/<[^>]*>/g, ' ');
+    return plainText;
   },
 };
 

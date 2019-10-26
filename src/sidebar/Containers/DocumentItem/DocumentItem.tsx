@@ -5,7 +5,6 @@ import * as classes from './styles.scss';
 
 const DocumentItem = ({
   content: storedContent,
-  updateModifiers,
   saveDocument,
   id,
   setModifiers,

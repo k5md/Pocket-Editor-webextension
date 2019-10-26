@@ -7,6 +7,7 @@ import * as classes from './styles.scss';
 export const FileInput = ({
   onInputChange,
   label,
+  inputProps = {},
   ...containerProps,
 }) => {
   const [ id ] = useState(() => uniqueId());
@@ -23,6 +24,7 @@ export const FileInput = ({
             id={id}
             className={classes.inputElement}
             onChange={onInputChange}
+            {...inputProps}
           />
         </Portal>   
       </AnchorButton>

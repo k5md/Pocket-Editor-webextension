@@ -29,6 +29,10 @@ const Toolbar = ({
     saveDocument(content);
   };
 
+  if (!documentId) {
+    return null;
+  }
+
   // NOTE: preventDefault everywhere so that focus on contentEditable is not lost
   return (
     <div className={classes.toolbar}>
