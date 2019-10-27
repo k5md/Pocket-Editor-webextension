@@ -54,6 +54,13 @@ export const handlers = {
       currentDocument: documents.length - 1,
     };
   },
+  [types.SET_DOCUMENT_TITLE]: (state, { title }) => {
+    const documents = state.documents.map((document, index) => index === state.currentDocument 
+      ? { ...document, title }
+      : document
+    );
+    return { ...state, documents };
+  },
 };
 
 const editorReducer = createReducer(handlers, initialState);

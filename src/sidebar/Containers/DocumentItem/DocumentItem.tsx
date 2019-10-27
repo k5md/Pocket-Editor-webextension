@@ -6,7 +6,6 @@ import * as classes from './styles.scss';
 const DocumentItem = ({
   content: storedContent,
   saveDocument,
-  id,
   setModifiers,
 }) => {
   const [ content ] = useState(storedContent);
@@ -45,7 +44,6 @@ const DocumentItem = ({
         onClick={updateModifiers}
         onPaste={onPaste}
         onKeyUp={onKeyUp}
-        id={id}
         contentEditable="true"
         dangerouslySetInnerHTML={({ __html: content })}
       />

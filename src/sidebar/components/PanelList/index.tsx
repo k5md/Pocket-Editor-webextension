@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { PanelItem } from '../';
 import { usePrevious } from '../../hooks';
 import * as classes from './styles.scss';
@@ -11,15 +11,14 @@ export const PanelList = ({
   
   const [ scroll, setScroll ] = useState(0);
 
-  const left = previousActiveIndex > activeIndex;
-  const right = previousActiveIndex < activeIndex;
-
-  if (left) setScroll(scroll + 100 * (previousActiveIndex - activeIndex));
-  if (right) setScroll(scroll - 100 * (activeIndex - previousActiveIndex));
-
+  useEffect(() => {
+    const offset = previousActiveIndex === undefined ? -1 * activeIndex : previousActiveIndex - activeIndex;
+    setScroll(scroll + 100 * offset);
+  }, [ activeIndex ]);
+  
   const scrollStyle = {
     transform: `translateX(${scroll}%)`,
-    transition: 'transform 300ms linear 0ms',
+    transition: 'transform 200ms linear 0ms',
   };
 
   const itemRenderer = (item, index) => {

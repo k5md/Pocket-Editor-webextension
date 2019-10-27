@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import DocumentList from './DocumentList';
-import { setCurrentDocument } from '../../actions/editorActions';
+import { setCurrentDocument, setDocumentTitle } from '../../actions/editorActions';
 
 const mapStateToProps = ({ editorReducer }) => {
   const { documents, currentDocument } = editorReducer;
@@ -12,6 +12,7 @@ const mapStateToProps = ({ editorReducer }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentDocument: index => dispatch(setCurrentDocument(index)),
+  setDocumentTitle: title => dispatch(setDocumentTitle(title)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentList);

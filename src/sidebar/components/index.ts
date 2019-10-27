@@ -3,3 +3,4 @@ export * from './PanelList';
 export * from './PanelControls';
 export * from './Panels';
 export * from './FileInput';
+export * from './EditableText';

@@ -15,9 +15,9 @@ export const PanelControls = ({
   renderCaption = (item) => item.props.title,
 }) => {
   const captions = {
-    left: prevAvailable && renderCaption(items[activeIndex - 1]),
-    center: renderCaption(items[activeIndex]),
-    right: nextAvailable && renderCaption(items[activeIndex + 1]),
+    left: prevAvailable && renderCaption(items[activeIndex - 1], activeIndex - 1),
+    center: renderCaption(items[activeIndex], activeIndex),
+    right: nextAvailable && renderCaption(items[activeIndex + 1], activeIndex + 1),
   };
 
   return (

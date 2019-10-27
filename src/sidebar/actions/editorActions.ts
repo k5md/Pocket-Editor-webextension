@@ -90,3 +90,9 @@ export const exportDocumentError = (error) => ({
   type: types.EXPORT_DOCUMENT.ERROR,
   error,
 });
+
+export const setDocumentTitle = (title) => ({
+  type: types.SET_DOCUMENT_TITLE,
+  title,
+});
+

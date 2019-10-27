@@ -1,0 +1,9 @@
+.inputContainer {
+  position: relative !important;
+}
+
+.ellipsized {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

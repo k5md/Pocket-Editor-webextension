@@ -8,6 +8,7 @@ export const Panels = ({
   children: items,
   activeIndex,
   onActiveChange,
+  renderCaption,
 }) => {
   if (!items.length) {
     return null;
@@ -36,6 +37,7 @@ export const Panels = ({
         prevAvailable={prevAvailable}
         items={items}
         activeIndex={activeIndex}
+        renderCaption={renderCaption}
       />
     </div>
   );
