@@ -2,6 +2,12 @@
 
 ## Features
 
+Pocket Editor is a text editor add-on for Firefox. It allows you to quickly compose your documents right in the sidebar while browsing, which is very useful when collecting some data for publications, because it breaks the tedious "copy - switch to editor - paste - switch to browser" cycle!
+
+What's most exciting - it supports editing multiple documents at once - you have as many open documents, as you want and switch between them using buttons in the bottom. To rename document one should click on its title.
+
+Note, however, that it is a regular browser extension, and that is why it has no access to local files on users PC. However, all the extension data, related to one's documents is stored in indexedDB, they won't get lost. And there is always import/export feature to save users' time.
+
 ## Build
 
 #### Linux
@@ -43,14 +49,10 @@ To monitor changes in browser with hot-reloading you can do
 - `npm run watch` or `make watch` to start rebuilding dist on every save in src directory. This is achieved via running webpack and web-ext both in watch mode with concurrently npm package. You can load extension in browser with `npm run browser` or `make browser`. 
 - Sometimes the above is not the best choice, since browser can stop reloading the extension rebuild due to errors, in this case you should avoid running webpack and web-ext in watch mode. If you want to monitor changes, you can just `npm run browser` once after first build-dev and then run build-dev on each change you want to inspect.
 
-## Internationalization
-
-The extension uses [i18n](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Internationalization), so if you want to participate in translating the extension texts into your language, please, refer to [messages.json](https://github.com/k5md/Total-Suspender-webextension/blob/master/src/_locales/en/messages.json) as an example and either create a pull request or create an issue on github. Note, that only "messages" properties needs to be translated, "descriptions" are aimed to help translators.
-
 ## Credits
 
 Note icon is made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [Flaticon](https://www.flaticon.com/) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/).
 
 ## Problems, requests, suggestions
 
-If you find a problem, please, [create an issue](https://github.com/k5md/Total-Suspender-webextension/issues/new).
+If you find a problem, please, [create an issue](https://github.com/k5md/Pocket-Editor-webextension/issues/new).

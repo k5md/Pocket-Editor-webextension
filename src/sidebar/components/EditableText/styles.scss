@@ -1,5 +1,9 @@
 .inputContainer {
   position: relative !important;
+
+  input {
+    border: none;
+  }
 }
 
 .ellipsized {
