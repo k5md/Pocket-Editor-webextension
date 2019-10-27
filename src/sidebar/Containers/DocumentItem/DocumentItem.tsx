@@ -22,13 +22,7 @@ const DocumentItem = ({
 
   const onPaste = (e) => {
     const paste = (e.clipboardData || window.clipboardData).getData('Text');
-
-    const selection = window.getSelection();
-    if (!selection.rangeCount) return false;
-
-    selection.deleteFromDocument();
-    selection.getRangeAt(0).insertNode(document.createTextNode(paste));
-    selection.collapseToEnd();
+    document.execCommand('insertText', false, paste);
     event.preventDefault();
     saveDocument(e.target.innerHTML);
   };
