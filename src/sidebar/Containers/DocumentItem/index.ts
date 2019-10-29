@@ -3,7 +3,7 @@ import {
   saveDocument,
   setModifiers,
 } from '../../actions/editorActions';
-import DocumentItem from './DocumentItem.tsx';
+import DocumentItem from './DocumentItem';
 
 const mapDispatchToProps = (dispatch) => ({
   saveDocument: content => dispatch(saveDocument(content)),

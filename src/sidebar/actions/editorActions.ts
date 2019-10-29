@@ -87,7 +87,7 @@ export const exportDocumentSuccess = () => ({
 });
 
 export const exportDocumentError = (error) => ({
-  type: types.EXPORT_DOCUMENT.ERROR,
+  type: types.EXPORT_DOCUMENT_ERROR,
   error,
 });
 

@@ -19,7 +19,7 @@ const Toolbar = ({
     justify,
   } = modifiers;
 
-  const modifyDocument = (command, value) => {
+  const modifyDocument = (command: string, value?: any) => {
     const { change } = mutateDocumentWithModifiers(command, value);
 
     const newModifiers = { ...modifiers, ...change };
@@ -37,23 +37,23 @@ const Toolbar = ({
   return (
     <div className={classes.toolbar}>
       <ButtonGroup className={classes.commandGroup}>
-        <Button icon='bold' active={bold} onClick={() => modifyDocument('bold', !bold)} onmousedown={(e) => e.preventDefault()} />
-        <Button icon='underline' active={underline} onClick={() => modifyDocument('underline', !underline)} onmousedown={(e) => e.preventDefault()} />
-        <Button icon='italic' active={italic} onClick={() => modifyDocument('italic', !italic)} onmousedown={(e) => e.preventDefault()} />
-        <Button icon='strikethrough' active={strikethrough} onClick={() => modifyDocument('strikethrough', !strikethrough)} onmousedown={(e) => e.preventDefault()} />
+        <Button icon='bold' active={bold} onClick={() => modifyDocument('bold', !bold)} onMouseDown={(e) => e.preventDefault()} />
+        <Button icon='underline' active={underline} onClick={() => modifyDocument('underline', !underline)} onMouseDown={(e) => e.preventDefault()} />
+        <Button icon='italic' active={italic} onClick={() => modifyDocument('italic', !italic)} onMouseDown={(e) => e.preventDefault()} />
+        <Button icon='strikethrough' active={strikethrough} onClick={() => modifyDocument('strikethrough', !strikethrough)} onMouseDown={(e) => e.preventDefault()} />
       </ButtonGroup>
       <ButtonGroup className={classes.commandGroup}>
         <Button
           icon='align-left'
           active={justify === 'left'}
           onClick={() => modifyDocument('justifyLeft')}
-          onmousedown={(e) => e.preventDefault()}
+          onMouseDown={(e) => e.preventDefault()}
         />
         <Button
           icon='align-center'
           active={justify === 'center'}
           onClick={() => modifyDocument('justifyCenter')}
-          onmousedown={(e) => e.preventDefault()}
+          onMouseDown={(e) => e.preventDefault()}
         />
         <Button
           icon='align-right'
@@ -64,16 +64,16 @@ const Toolbar = ({
           icon='align-justify'
           active={justify === 'full'}
           onClick={() => modifyDocument('justifyFull')}
-          onmousedown={(e) => e.preventDefault()}
+          onMouseDown={(e) => e.preventDefault()}
         />
       </ButtonGroup>
       <ButtonGroup className={classes.commandGroup}>
-        <Button icon='numbered-list' active={ordered} onClick={() => modifyDocument('ordered', !ordered)} onmousedown={(e) => e.preventDefault()} />
-        <Button icon='properties' active={unordered} onClick={() => modifyDocument('unordered', !unordered)} onmousedown={(e) => e.preventDefault()} />
+        <Button icon='numbered-list' active={ordered} onClick={() => modifyDocument('ordered', !ordered)} onMouseDown={(e) => e.preventDefault()} />
+        <Button icon='properties' active={unordered} onClick={() => modifyDocument('unordered', !unordered)} onMouseDown={(e) => e.preventDefault()} />
       </ButtonGroup>
       <ButtonGroup className={classes.commandGroup}>
-        <Button icon='undo' onClick={() => modifyDocument('undo')} onmousedown={(e) => e.preventDefault()} />
-        <Button icon='redo' onClick={() => modifyDocument('redo')} onmousedown={(e) => e.preventDefault()} />
+        <Button icon='undo' onClick={() => modifyDocument('undo')} onMouseDown={(e) => e.preventDefault()} />
+        <Button icon='redo' onClick={() => modifyDocument('redo')} onMouseDown={(e) => e.preventDefault()} />
       </ButtonGroup>
     </div>
   );

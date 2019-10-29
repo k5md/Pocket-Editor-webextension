@@ -9,7 +9,7 @@ export const initialState = {
     {
       title: 'Greetings!',
       content: "<div align=\"center\">Greetings traveller!</div><div>Welcome to just another text editor, right inside your browser - <b>Pocket Editor</b>!</div><div><br></div><div>Enjoy its neat features, such as:</div><div><ul><li>Slow text editing</li><li>You can edit multiple documents - use controls at the bottom of the screen to navigate through them. Click on document's title to change it<br></li><li>Import / Export files</li><li><div align=\"right\">...though currently only .doc is supported</div></li></ul>There <strike>are</strike> may be bugs to encounter, since it is in early stage of development and is not block-based!</div><div><br></div><div>Use it just like a typical rich text editor!<br></div><div><br></div>",
-      id: documentId('document'),
+      id: documentId(),
     },
   ],
   currentDocument: 0,

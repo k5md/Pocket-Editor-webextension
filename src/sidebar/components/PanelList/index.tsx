@@ -3,16 +3,21 @@ import { PanelItem } from '../';
 import { usePrevious } from '../../hooks';
 import * as classes from './styles.scss';
 
-export const PanelList = ({
+type Props = {
+  items: Array<React.ReactNode>,
+  activeIndex: number,
+};
+
+export const PanelList: React.FC<Props> = ({
   items,
   activeIndex,
 }) => {
-  const previousActiveIndex = usePrevious(activeIndex);
+  const previousActiveIndex: number | undefined = usePrevious(activeIndex);
   
   const [ scroll, setScroll ] = useState(0);
 
   useEffect(() => {
-    const offset = previousActiveIndex === undefined ? -1 * activeIndex : previousActiveIndex - activeIndex;
+    const offset = previousActiveIndex === undefined ? -activeIndex : previousActiveIndex - activeIndex;
     setScroll(scroll + 100 * offset);
   }, [ activeIndex ]);
   

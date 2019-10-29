@@ -1,12 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import DocumentItem from '../DocumentItem';
 import { Panels, EditableText } from '../../components';
-import {
-  Overlay,
-  Button,
-  InputGroup,
-} from '@blueprintjs/core';
-import * as classes from './styles.scss';
 
 const DocumentList = ({
   documents,

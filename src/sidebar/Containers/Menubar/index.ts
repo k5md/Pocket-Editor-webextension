@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Menubar from './Menubar.tsx';
+import Menubar from './Menubar';
 import {
   importDocument,
   exportDocument,

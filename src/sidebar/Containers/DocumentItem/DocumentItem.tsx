@@ -3,7 +3,14 @@ import { Card, Elevation } from '@blueprintjs/core';
 import { collectModifiersFromSelection } from '../../../utils';
 import * as classes from './styles.scss';
 
-const DocumentItem = ({
+type Props = {
+  content: string,
+  saveDocument: (arg0: string) => void,
+  setModifiers: (arg0: object) => void,
+  title?: string,
+};
+
+const DocumentItem: React.FC<Props> = ({
   content: storedContent,
   saveDocument,
   setModifiers,
@@ -21,7 +28,7 @@ const DocumentItem = ({
   }, []);
 
   const onPaste = (e) => {
-    const paste = (e.clipboardData || window.clipboardData).getData('Text');
+    const paste = e.clipboardData.getData('Text');
     document.execCommand('insertText', false, paste);
     event.preventDefault();
     saveDocument(e.target.innerHTML);
@@ -38,7 +45,7 @@ const DocumentItem = ({
         onClick={updateModifiers}
         onPaste={onPaste}
         onKeyUp={onKeyUp}
-        contentEditable="true"
+        contentEditable
         dangerouslySetInnerHTML={({ __html: content })}
       />
     </Card>

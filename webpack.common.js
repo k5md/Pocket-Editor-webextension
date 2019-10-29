@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const DIST_DIR = path.resolve(__dirname, 'dist');
 const SRC_DIR = path.resolve(__dirname, 'src');
@@ -45,7 +46,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i, // SCSS
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -82,7 +83,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.tsx?$/, // TYPESCRIPT
+        test: /\.(js|ts)x?$/, // TYPESCRIPT
         use: [
           {
             loader: 'cache-loader',
@@ -90,7 +91,7 @@ module.exports = {
           {
             loader: 'ts-loader',
             options: {
-              transpileOnly: true,
+              transpileOnly: false,
             },
           },
         ],
@@ -111,5 +112,6 @@ module.exports = {
       template: 'src/sidebar/template.html',
       filename: 'sidebar.html',
     }),
+    new MiniCssExtractPlugin(),
   ],
 };

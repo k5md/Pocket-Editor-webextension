@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Editor from './containers/Editor';
 
-class App extends Component {
-  render() {
-    return (<Editor />);
-  }
-}
+const App: React.FC = () => {
+  return (<Editor />);
+};
 
 export default App;

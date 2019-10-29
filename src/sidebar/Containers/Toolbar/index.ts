@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Toolbar from './Toolbar.tsx';
+import Toolbar from './Toolbar';
 import { saveDocument, setModifiers } from '../../actions/editorActions';
 
 const mapStateToProps = ({ editorReducer, documentReducer }) => {

@@ -4,11 +4,18 @@ import { PanelList } from '../';
 import { PanelControls } from '../';
 import * as classes from './styles.scss';
 
-export const Panels = ({
+type Props = {
+  children: Array<React.ReactNode>,
+  activeIndex: number,
+  onActiveChange: (arg0: number, arg1: number) => void,
+  renderCaption: Function,
+}
+
+export const Panels: React.FC<Props>= ({
   children: items,
   activeIndex,
   onActiveChange,
-  renderCaption,
+  renderCaption = (item) => item.props.title,
 }) => {
   if (!items.length) {
     return null;

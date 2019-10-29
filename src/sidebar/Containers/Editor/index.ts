@@ -1,3 +1,3 @@
-import Editor from './Editor.tsx';
+import Editor from './Editor';
 
 export default Editor;

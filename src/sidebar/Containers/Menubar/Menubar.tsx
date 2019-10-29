@@ -23,7 +23,10 @@ const Menubar = ({
   const [ fileMenuOpen, setFileMenuOpen ] = useState(false);
 
   const newMenuItem = (
-    <MenuItem icon="document" text="New" onClick={(e)=> breakE(e) || newDocument()} />
+    <MenuItem icon="document" text="New" onClick={(e)=> {
+      breakE(e);
+      newDocument()
+    }}/>
   );
 
   const importMenuItem = (
@@ -39,12 +42,20 @@ const Menubar = ({
 
   const exportMenuItem = (
     <MenuItem icon="folder-shared" text="Export">
-      <AnchorButton minimal onClick={() => { exportDocument('doc'); setFileMenuOpen(false);}}>Word document (.doc)</AnchorButton>
+      <AnchorButton minimal onClick={() => {
+        exportDocument('doc');
+        setFileMenuOpen(false);
+      }}>
+        Word document (.doc)
+      </AnchorButton>
     </MenuItem>
   );
 
   const deleteMenuItem = (
-    <MenuItem icon="delete" text="Delete" onClick={e => breakE(e) || deleteDocument()} />
+    <MenuItem icon="delete" text="Delete" onClick={(e) => {
+      breakE(e);
+      deleteDocument()
+    }} />
   );
 
   const fileMenu = (

@@ -29,7 +29,7 @@
     "128": "./icons/128.png"
   },
   "description": "__MSG_extensionDescription__",
-  "homepage_url": "https://github.com/k5md/Total-Suspender-webextension",
+  "homepage_url": "https://github.com/k5md/Pocket-Editor-webextension",
   "manifest_version": 2,
   "name": "Pocket Editor",
   "version": "0.0.1",

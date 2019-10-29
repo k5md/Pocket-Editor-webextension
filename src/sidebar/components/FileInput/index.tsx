@@ -8,7 +8,7 @@ export const FileInput = ({
   onInputChange,
   label,
   inputProps = {},
-  ...containerProps,
+  ...containerProps
 }) => {
   const [ id ] = useState(() => uniqueId());
   const inputRef = useRef(null);

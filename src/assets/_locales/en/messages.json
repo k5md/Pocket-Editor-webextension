@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "A minimalistic web extension for firefox that suspends natively (with tabs.discard) all non-active tabs and requires only minimal permissions to store it's settings and filter URL's.",
+    "message": "Text editor add-on for Firefox",
     "description": "Description of the extension."
   }
 }
