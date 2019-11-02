@@ -1,11 +1,14 @@
-import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import throttle from './throttle';
 
-export const middlewares = [
+const middlewares = [
   thunk,
   throttle,
-  logger,
 ];
+
+if (!PRODUCTION) {
+  const { logger } = require('redux-logger');
+  middlewares.push(logger);
+}
 
 export default middlewares;

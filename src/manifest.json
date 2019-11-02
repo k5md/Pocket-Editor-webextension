@@ -5,9 +5,7 @@
     }
   },
   "permissions": [
-    "storage",
-    "tabs",
-    "menus"
+    "storage"
   ],
   "sidebar_action": {
     "default_icon": "./icons/note.svg",

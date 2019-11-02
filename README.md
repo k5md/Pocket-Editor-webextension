@@ -6,7 +6,7 @@ Pocket Editor is a text editor add-on for Firefox. It allows you to quickly comp
 
 What's most exciting - it supports editing multiple documents at once - you have as many open documents, as you want and switch between them using buttons in the bottom. To rename document one should click on its title.
 
-Note, however, that it is a regular browser extension, and that is why it has no access to local files on users PC. However, all the extension data, related to one's documents is stored in indexedDB, they won't get lost. And there is always import/export feature to save users' time.
+Note, that it is a regular browser extension, and that is why it has no access to local files on users PC. However, all the extension data, related to one's documents is stored in indexedDB, they won't get lost. And there is always import/export feature to save users' time.
 
 ## Build
 

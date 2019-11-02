@@ -37,16 +37,30 @@ const Menubar = ({
         label='Word document (.docx)'
         inputProps={{ accept: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }}
       />
+      <FileInput
+        onClick={() => setFileMenuOpen(false)}
+        onInputChange={e => importDocument(e.target.files[0])}
+        label='Plain text (.txt)'
+        inputProps={{ accept: 'text/plain' }}
+      />
+      <FileInput
+        onClick={() => setFileMenuOpen(false)}
+        onInputChange={e => importDocument(e.target.files[0])}
+        label='Markdown (.md)'
+      />
     </MenuItem>
   );
 
   const exportMenuItem = (
     <MenuItem icon="folder-shared" text="Export">
-      <AnchorButton minimal onClick={() => {
-        exportDocument('doc');
-        setFileMenuOpen(false);
-      }}>
+      <AnchorButton minimal onClick={() => { exportDocument('doc'); setFileMenuOpen(false); }}>
         Word document (.doc)
+      </AnchorButton>
+      <AnchorButton minimal onClick={() => { exportDocument('txt'); setFileMenuOpen(false); }}>
+        Plain text (.txt)
+      </AnchorButton>
+      <AnchorButton minimal onClick={() => { exportDocument('md'); setFileMenuOpen(false); }}>
+        Markdown (.md)
       </AnchorButton>
     </MenuItem>
   );
