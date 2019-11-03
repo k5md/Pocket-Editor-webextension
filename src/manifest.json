@@ -12,6 +12,14 @@
     "default_title" : "Pocket Editor",
     "default_panel": "./sidebar.html"
   },
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "./icons/note.svg",
+    "default_title": "Pocket Editor"
+  },
+  "background": {
+    "scripts": [ "./background.js" ]
+  },
   "commands": {
     "_execute_sidebar_action": {
       "suggested_key": {

@@ -15,6 +15,7 @@ module.exports = {
   },
   entry: {
     sidebar: './src/sidebar/index.tsx',
+    background: './src/background/index.js',
   },
   resolve: {
     modules: [SRC_DIR, 'node_modules'],
@@ -97,6 +98,10 @@ module.exports = {
         ],
         exclude: /node_modules/,
       },
+      {
+        test: require.resolve('webextension-polyfill'),
+        use: 'imports-loader?browser=>undefined',
+      },      
     ],
   },
   plugins: [
