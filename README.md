@@ -1,5 +1,12 @@
 # Pocket Editor
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/64623da37a4bfd1fadbc/maintainability)](https://codeclimate.com/github/k5md/Pocket-Editor-webextension/maintainability)
+[![Build Status](https://travis-ci.com/k5md/Pocket-Editor-webextension.svg?branch=master)](https://travis-ci.com/k5md/Pocket-Editor-webextension)
+
+A sidebar text-editing addon for firefox
+
+[Addon page on mozilla.org](https://addons.mozilla.org/ru/firefox/addon/pocket-editor/)
+
 ## Features
 
 Pocket Editor is a text editor add-on for Firefox. It allows you to quickly compose your documents right in the sidebar while browsing, which is very useful when collecting some data for publications, because it breaks the tedious "copy - switch to editor - paste - switch to browser" cycle!
