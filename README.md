@@ -58,7 +58,7 @@ To monitor changes in browser with hot-reloading you can do
 
 ## Credits
 
-Note icon is made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [Flaticon](https://www.flaticon.com/) is licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/).
+Note icon is made by [Freepic](https://www.flaticon.com/authors/freepik) from [Flaticon](https://www.flaticon.com/) is licensed under Flaticon License.
 
 ## Problems, requests, suggestions
 
