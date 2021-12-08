@@ -1,6 +1,9 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
 .controls {
   display: flex;
   justify-content: space-between;
+  padding: 0 $pt-grid-size / 2 $pt-grid-size $pt-grid-size / 2;
 }
 
 .control {
@@ -10,6 +13,9 @@
   justify-content: center;
   * {
     align-self: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
@@ -23,12 +29,6 @@
 
 .leftInner, .rightInner {
   opacity: 0.3;
-}
-
-.leftInner, .centerInner, .rightInner {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .hidden {

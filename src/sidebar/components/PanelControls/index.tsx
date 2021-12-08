@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Card, AnchorButton, Icon } from "@blueprintjs/core";
+import React from "react";
+import { AnchorButton } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import cn from 'classnames';
 
@@ -27,10 +27,13 @@ export const PanelControls = ({
         classes.left,
         !prevAvailable && classes.hidden,
       ])}>
-        <AnchorButton minimal small onClick={activatePrev}>
-          <Icon icon={IconNames.ARROW_LEFT} />
-        </AnchorButton>
-        {captions.left && <div className={classes.leftInner}>{captions.left}</div>}
+        <AnchorButton
+          minimal
+          small
+          onClick={activatePrev}
+          text={captions.left && <div className={classes.leftInner}>{captions.left}</div>}
+          icon={IconNames.ARROW_LEFT}
+        />
       </div>
       <div className={cn(
         classes.control,
@@ -43,10 +46,13 @@ export const PanelControls = ({
         classes.right,
         !nextAvailable && classes.hidden,
       ])}>
-        {captions.right && <div className={classes.rightInner}>{captions.right}</div>}
-        <AnchorButton minimal small onClick={activateNext}>
-          <Icon icon={IconNames.ARROW_RIGHT} />
-        </AnchorButton>
+        <AnchorButton
+          minimal
+          small
+          onClick={activateNext}
+          text={captions.right && <div className={classes.rightInner}>{captions.right}</div>}
+          rightIcon={IconNames.ARROW_RIGHT}
+        />
       </div>
     </div>
   );
