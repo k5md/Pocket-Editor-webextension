@@ -4,6 +4,7 @@ import { collectModifiersFromSelection } from '../../../utils';
 import * as classes from './styles.scss';
 
 type Props = {
+  documentId: string,
   content: string,
   saveDocument: (arg0: string) => void,
   setModifiers: (arg0: object) => void,
@@ -11,6 +12,7 @@ type Props = {
 };
 
 const DocumentItem: React.FC<Props> = ({
+  documentId,
   content: storedContent,
   saveDocument,
   setModifiers,
@@ -30,7 +32,7 @@ const DocumentItem: React.FC<Props> = ({
   const onPaste = (e) => {
     const paste = e.clipboardData.getData('Text');
     document.execCommand('insertText', false, paste);
-    event.preventDefault();
+    e.preventDefault();
     saveDocument(e.target.innerHTML);
   };
 
@@ -42,6 +44,7 @@ const DocumentItem: React.FC<Props> = ({
   return (
     <Card elevation={Elevation.TWO} className={classes.editableArea}>           
       <div
+        id={documentId}
         onClick={updateModifiers}
         onPaste={onPaste}
         onKeyUp={onKeyUp}

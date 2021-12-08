@@ -24,7 +24,7 @@ const DocumentList = ({
       renderCaption={renderInput}
     >
       {documents.map(({ content, id, title }) => (
-        <DocumentItem key={id} title={title} content={content} />
+        <DocumentItem key={id} title={title} content={content} documentId={id} />
       ))}
     </Panels>
   );
