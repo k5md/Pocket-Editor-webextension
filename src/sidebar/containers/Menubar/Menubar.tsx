@@ -13,6 +13,7 @@ import { FileInput } from '../../components';
 // remove event modification, since it WILL cause bugs
 // TLDR: before refactoring, consider existing bugs with menu & popover
 import { breakE } from '../../../utils';
+import * as classes from './styles.scss';
 
 const Menubar = ({
   importDocument,
@@ -81,10 +82,26 @@ const Menubar = ({
     </Menu>
   );
 
+  const quickActions = (
+    <div className={classes.quickActions}>
+      <Button minimal icon="document" onClick={(e)=> {
+        breakE(e);
+        newDocument()
+      }} />
+      <Button minimal icon="delete" onClick={(e) => {
+        breakE(e);
+        deleteDocument()
+      }} />
+    </div>
+  );
+
   return (
-    <Popover content={fileMenu} isOpen={fileMenuOpen} onInteraction={state => setFileMenuOpen(state)}>
-      <Button minimal icon="document" rightIcon="caret-down" text="File"/>
-    </Popover>
+    <div className={classes.menubar}>
+      <Popover content={fileMenu} isOpen={fileMenuOpen} onInteraction={state => setFileMenuOpen(state)}>
+        <Button minimal icon="document" rightIcon="caret-down" text="File"/>
+      </Popover>
+      {quickActions}
+    </div>
   );
 };
 

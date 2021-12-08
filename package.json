@@ -3,9 +3,9 @@
   "scripts": {
     "build-dev": "npx rimraf ./dist && npx webpack --config ./webpack.dev.js",
     "build-prod": "npx rimraf ./dist && npx webpack --config ./webpack.prod.js",
-    "browser-firefox": "web-ext run -t firefox-desktop --config .web-ext-config.js",
-    "pack": "npm run build-prod && web-ext build --config .web-ext-config.js",
-    "watch": "npm run build-dev && concurrently \"npx webpack --config ./webpack.dev.js --watch\" \"web-ext run --config .web-ext-config.js\""
+    "browser-firefox": "npx web-ext run -t firefox-desktop --config .web-ext-config.js",
+    "pack": "npm run build-prod && npx web-ext build --config .web-ext-config.js",
+    "watch": "npm run build-dev && npx concurrently \"npx webpack --config ./webpack.dev.js --watch\" \"npx web-ext run --config .web-ext-config.js\""
   },
   "author": "k5md",
   "license": "ISC",
@@ -52,11 +52,10 @@
     "ts-loader": "^6.2.0",
     "typesafe-actions": "^5.1.0-1",
     "typescript": "^3.6.3",
-    "web-ext": "^3.2.0",
+    "web-ext": "^6.6.0",
     "webextension-polyfill": "^0.2.1",
-    "webpack": "^4.41.2",
+    "webpack": "4.41",
     "webpack-cli": "^3.3.9",
     "webpack-merge": "^4.2.2"
-  },
-  "dependencies": {}
+  }
 }
