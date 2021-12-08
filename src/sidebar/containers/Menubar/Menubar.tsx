@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Popover,
   Button,
   AnchorButton,
   Menu,
   MenuItem,
+  Divider,
 } from '@blueprintjs/core';
 import { FileInput } from '../../components';
 
@@ -22,31 +23,37 @@ const Menubar = ({
   deleteDocument,
 }) => {
   const [ fileMenuOpen, setFileMenuOpen ] = useState(false);
+  const handleNewDocument = useCallback((e)=> {
+    breakE(e);
+    newDocument();
+  }, [newDocument]);
+  const handleDeleteDocument = useCallback((e) => {
+    breakE(e);
+    deleteDocument();
+  }, [deleteDocument]);
+  const handleImportDocument = useCallback(e => importDocument(e.target.files[0]), [importDocument]);
 
   const newMenuItem = (
-    <MenuItem icon="document" text="New" onClick={(e)=> {
-      breakE(e);
-      newDocument()
-    }}/>
+    <MenuItem icon="document" text="New" onClick={handleNewDocument}/>
   );
 
   const importMenuItem = (
     <MenuItem icon="add-to-folder" text="Import">
       <FileInput
         onClick={() => setFileMenuOpen(false)}
-        onInputChange={e => importDocument(e.target.files[0])}
+        onInputChange={handleImportDocument}
         label='Word document (.docx)'
         inputProps={{ accept: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }}
       />
       <FileInput
         onClick={() => setFileMenuOpen(false)}
-        onInputChange={e => importDocument(e.target.files[0])}
+        onInputChange={handleImportDocument}
         label='Plain text (.txt)'
         inputProps={{ accept: 'text/plain' }}
       />
       <FileInput
         onClick={() => setFileMenuOpen(false)}
-        onInputChange={e => importDocument(e.target.files[0])}
+        onInputChange={handleImportDocument}
         label='Markdown (.md)'
       />
     </MenuItem>
@@ -67,10 +74,7 @@ const Menubar = ({
   );
 
   const deleteMenuItem = (
-    <MenuItem icon="delete" text="Delete" onClick={(e) => {
-      breakE(e);
-      deleteDocument()
-    }} />
+    <MenuItem icon="delete" text="Delete" onClick={handleDeleteDocument} />
   );
 
   const fileMenu = (
@@ -84,14 +88,8 @@ const Menubar = ({
 
   const quickActions = (
     <div className={classes.quickActions}>
-      <Button minimal icon="document" onClick={(e)=> {
-        breakE(e);
-        newDocument()
-      }} />
-      <Button minimal icon="delete" onClick={(e) => {
-        breakE(e);
-        deleteDocument()
-      }} />
+      <Button minimal icon="document" onClick={handleNewDocument} />
+      <Button minimal icon="delete" onClick={handleDeleteDocument} />
     </div>
   );
 
@@ -100,6 +98,7 @@ const Menubar = ({
       <Popover content={fileMenu} isOpen={fileMenuOpen} onInteraction={state => setFileMenuOpen(state)}>
         <Button minimal icon="document" rightIcon="caret-down" text="File"/>
       </Popover>
+      <Divider />
       {quickActions}
     </div>
   );

@@ -1,7 +1,11 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
 .menubar {
   display: flex;
 }
 
 .quickActions {
-  margin-left: auto;
+  > *:not(:first-child) {
+    margin-left: $pt-grid-size;
+  }
 }
