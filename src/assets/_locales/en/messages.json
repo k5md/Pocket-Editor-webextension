@@ -1,6 +1,53 @@
 {
   "extensionDescription": {
-    "message": "Text editor add-on for Firefox",
-    "description": "Description of the extension."
+    "message": "Text editor add-on for Firefox"
+  },
+
+  "menuNewDocument": {
+    "message": "New"
+  },
+  "menuImportDocument": {
+    "message": "Import"
+  },
+  "menuWordDocument": {
+    "message": "Word document (.docx)"
+  },
+  "menuPlainTextDocument": {
+    "message": "Plain text (.txt)"
+  },
+  "menuMarkdownDocument": {
+    "message": "Markdown (.md)"
+  },
+  "menuExport": {
+    "message": "Export"
+  },
+  "menuDeleteDocument": {
+    "message": "Delete"
+  },
+  "menuFile": {
+    "message": "File"
+  },
+
+  "documentGreetingsTitle": {
+    "message": "Greetings!"
+  },
+  "documentGreetingsContent": {
+    "message": "<div align=\"center\">$GREETINGS$</div><div>$WELCOME$<b>$POCKET_EDITOR$</b></div><div><br></div><div>$FEATURES$</div><div><ul><li>$FEATURE_1$</li><li>$FEATURE_2$<br></li><li>$FEATURE_3$</li><li><div align=\"right\">$FEATURE_4$</div></li></ul>$BUGS$</div><div><br></div><div>$ENCOURAGEMENT$<br></div><div><br></div>",
+    "description": "Welcome document text displayed on extension installation. When translating this one, please, translate only placeholders' content",
+    "placeholders": {
+      "GREETINGS": { "content": "Greetings traveller!" },
+      "WELCOME": { "content": "Welcome to just another text editor, right inside your browser - " },
+      "POCKET_EDITOR": { "content": "Pocket Editor" },
+      "FEATURES": { "content": "Enjoy its neat features, such as:"},
+      "FEATURE_1": { "content": "Slow text editing" },
+      "FEATURE_2": { "content": "You can edit multiple documents - use controls at the bottom of the screen to navigate through them. Click on document's title to change it" },
+      "FEATURE_3": { "content": "Import / Export files" },
+      "FEATURE_4": { "content": "...though currently only .doc is supported" },
+      "BUGS": { "content": "There may be bugs to encounter, since it is in early stage of development and is not block-based!" },
+      "ENCOURAGEMENT": { "content": "Use it just like a typical rich text editor!" }
+    }
+  },
+  "documentUntitled": {
+    "message": "Untitled"
   }
 }

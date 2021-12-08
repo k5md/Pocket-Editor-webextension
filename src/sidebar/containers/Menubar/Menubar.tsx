@@ -10,7 +10,7 @@ import {
 import { FileInput } from '../../components';
 
 // NOTE: as soon, as the BUG with MenuItems not dismissing the popover correctly because of 
-// isDefaultPrevented missing function ( https://github.com/palantir/blueprint/issues/2820 )
+// isDefaultPrevented missing function ( https://github.com/palantir/blueprint/issues/2820 ) is fixed
 // remove event modification, since it WILL cause bugs
 // TLDR: before refactoring, consider existing bugs with menu & popover
 import { breakE } from '../../../utils';
@@ -34,47 +34,47 @@ const Menubar = ({
   const handleImportDocument = useCallback(e => importDocument(e.target.files[0]), [importDocument]);
 
   const newMenuItem = (
-    <MenuItem icon="document" text="New" onClick={handleNewDocument}/>
+    <MenuItem icon="document" text={browser.i18n.getMessage('menuNewDocument')} onClick={handleNewDocument}/>
   );
 
   const importMenuItem = (
-    <MenuItem icon="add-to-folder" text="Import">
+    <MenuItem icon="add-to-folder" text={browser.i18n.getMessage('menuImportDocument')}>
       <FileInput
         onClick={() => setFileMenuOpen(false)}
         onInputChange={handleImportDocument}
-        label='Word document (.docx)'
+        label={browser.i18n.getMessage('menuWordDocument')}
         inputProps={{ accept: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }}
       />
       <FileInput
         onClick={() => setFileMenuOpen(false)}
         onInputChange={handleImportDocument}
-        label='Plain text (.txt)'
+        label={browser.i18n.getMessage('menuPlainTextDocument')}
         inputProps={{ accept: 'text/plain' }}
       />
       <FileInput
         onClick={() => setFileMenuOpen(false)}
         onInputChange={handleImportDocument}
-        label='Markdown (.md)'
+        label={browser.i18n.getMessage('menuMarkdownDocument')}
       />
     </MenuItem>
   );
 
   const exportMenuItem = (
-    <MenuItem icon="folder-shared" text="Export">
+    <MenuItem icon="folder-shared" text={browser.i18n.getMessage('menuExport')}>
       <AnchorButton minimal onClick={() => { exportDocument('doc'); setFileMenuOpen(false); }}>
-        Word document (.doc)
+        {browser.i18n.getMessage('menuWordDocument')}
       </AnchorButton>
       <AnchorButton minimal onClick={() => { exportDocument('txt'); setFileMenuOpen(false); }}>
-        Plain text (.txt)
+        {browser.i18n.getMessage('menuPlainTextDocument')}
       </AnchorButton>
       <AnchorButton minimal onClick={() => { exportDocument('md'); setFileMenuOpen(false); }}>
-        Markdown (.md)
+        {browser.i18n.getMessage('menuMarkdownDocument')}
       </AnchorButton>
     </MenuItem>
   );
 
   const deleteMenuItem = (
-    <MenuItem icon="delete" text="Delete" onClick={handleDeleteDocument} />
+    <MenuItem icon="delete" text={browser.i18n.getMessage('menuDeleteDocument')} onClick={handleDeleteDocument} />
   );
 
   const fileMenu = (
@@ -96,7 +96,7 @@ const Menubar = ({
   return (
     <div className={classes.menubar}>
       <Popover content={fileMenu} isOpen={fileMenuOpen} onInteraction={state => setFileMenuOpen(state)}>
-        <Button minimal icon="document" rightIcon="caret-down" text="File"/>
+        <Button minimal icon="document" rightIcon="caret-down" text={browser.i18n.getMessage('menuFile')} />
       </Popover>
       <Divider />
       {quickActions}
