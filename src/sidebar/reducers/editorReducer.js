@@ -2,14 +2,20 @@ import uniqueId from 'lodash/uniqueId';
 import * as types from '../constants/actionTypes';
 import { createReducer } from '../../utils';
 
-const documentId = () => uniqueId('document');
+const documentId = (documentIds) => {
+  let nextId = uniqueId('document'); // eslint-disable-line functional/no-let
+  while (documentIds.includes(nextId)) { // eslint-disable-line functional/no-loop-statement
+    nextId = uniqueId('document');
+  }
+  return nextId;
+};
 
 export const initialState = {
   documents: [
     {
       title: browser.i18n.getMessage('documentGreetingsTitle'),
       content: browser.i18n.getMessage('documentGreetingsContent'),
-      id: documentId(),
+      id: documentId([]),
     },
   ],
   currentDocument: 0,
@@ -18,10 +24,11 @@ export const initialState = {
 
 export const handlers = {
   [types.NEW_DOCUMENT]: (state) => {
+    const documentIds = state.documents.map(({ id }) => id);
     const newDocument = {
       title: browser.i18n.getMessage('documentUntitled'),
       content: '<p><br></p>',
-      id: documentId(),
+      id: documentId(documentIds),
     };
     return {
       ...state,
@@ -31,7 +38,8 @@ export const handlers = {
   },
   [types.SET_CURRENT_DOCUMENT]: (state, { index }) => ({ ...state, currentDocument: index }),
   [types.IMPORT_DOCUMENT_SUCCESS]: (state, { document }) => {
-    const newDocument = { ...document, id: documentId() };
+    const documentIds = state.documents.map(({ id }) => id);
+    const newDocument = { ...document, id: documentId(documentIds) };
     const documents = state.documents.concat(newDocument);
     return { ...state, documents, currentDocument: state.documents.length };
   },
