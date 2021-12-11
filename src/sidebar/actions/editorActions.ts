@@ -29,6 +29,30 @@ export const setCurrentDocument = (index) => ({
   index,
 });
 
+export const importDocumentSuccess = (document) => ({
+  type: types.IMPORT_DOCUMENT_SUCCESS,
+  document,
+});
+
+export const importDocumentError = (error) => ({
+  type: types.IMPORT_DOCUMENT_ERROR,
+  error,
+});
+
+export const exportDocumentSuccess = () => ({
+  type: types.EXPORT_DOCUMENT_SUCCESS,
+});
+
+export const exportDocumentError = (error) => ({
+  type: types.EXPORT_DOCUMENT_ERROR,
+  error,
+});
+
+export const setDocumentTitle = (title) => ({
+  type: types.SET_DOCUMENT_TITLE,
+  title,
+});
+
 export const importDocument = (file) => (dispatch) => {
   dispatch({ type: types.IMPORT_DOCUMENT, file });
 
@@ -61,38 +85,14 @@ export const importDocument = (file) => (dispatch) => {
   reader.readAsArrayBuffer(file);
 };
 
-export const importDocumentSuccess = (document) => ({
-  type: types.IMPORT_DOCUMENT_SUCCESS,
-  document,
-});
-
-export const importDocumentError = (error) => ({
-  type: types.IMPORT_DOCUMENT_ERROR,
-  error,
-});
-
 export const exportDocument = (extension) => (dispatch, getState) => {
   dispatch({ type: types.EXPORT_DOCUMENT, extension });
-
-  if (extensions[extension]) {
+  try {
     const { documents, currentDocument } = getState().editorReducer;
     const { content, title } = documents[currentDocument];
     extensions[extension].fromHTML(content, title);
+    dispatch(exportDocumentSuccess());
+  } catch (error) {
+    dispatch(exportDocumentError(error));
   }
-  return Promise.resolve();
 };
-
-export const exportDocumentSuccess = () => ({
-  type: types.EXPORT_DOCUMENT_SUCCESS,
-});
-
-export const exportDocumentError = (error) => ({
-  type: types.EXPORT_DOCUMENT_ERROR,
-  error,
-});
-
-export const setDocumentTitle = (title) => ({
-  type: types.SET_DOCUMENT_TITLE,
-  title,
-});
-
