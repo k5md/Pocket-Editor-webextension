@@ -1,38 +1,34 @@
-const path = require('path');
-
 module.exports = {
-  parser: '@typescript-eslint/parser', // Specifies the ESLint parser
-  plugins: ['@typescript-eslint'],
   extends: [
-    'eslint:recommended',
+    'airbnb-base',
+    'plugin:functional/external-recommended',
+    'plugin:functional/recommended',
     'plugin:react/recommended',
   ],
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'],
-      extends: [
-        'eslint:recommended',
-        'plugin:react/recommended',
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended',
-      ],
-      parser: '@typescript-eslint/parser',
-      plugins: ['@typescript-eslint']
-    }
+  plugins: [
+    'functional',
+    'react',
   ],
-  parserOptions: {
-    project: path.resolve(__dirname, './tsconfig.json'),
-    tsconfigRootDir: __dirname,
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    sourceType: 'module', // Allows for the use of imports
-  },
-  settings:  {
-    react:  {
-      version:  'detect',  // Tells eslint-plugin-react to automatically detect the version of React to use
-    },
-  },
   env: {
     browser: true,
     webextensions: true,
+    node: true
   },
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+  rules: {
+    'import/extensions': 0,
+    'react/prop-types': 0,
+    'no-console': 0,
+    'functional/no-conditional-statement': 0,
+    'functional/no-expression-statement': 0,
+    'functional/immutable-data': 0,
+    'functional/functional-parameters': 0,
+    'functional/no-try-statement': 0,
+    'functional/no-throw-statement': 0,
+  },
+  parser: '@babel/eslint-parser',
 };

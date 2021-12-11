@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import DocumentItem from '../DocumentItem';
 import { Panels, EditableText } from '../../components';
 
@@ -8,14 +8,12 @@ const DocumentList = ({
   currentDocument,
   setDocumentTitle,
 }) => {
-
-  const renderInput = (item, index) => {
+  const renderInput = useCallback((item, index) => {
     if (index !== currentDocument) {
       return item.props.title;
     }
-
-    return (<EditableText value={item.props.title} onChange={setDocumentTitle} />)
-  };
+    return (<EditableText value={item.props.title} onChange={setDocumentTitle} />);
+  }, [currentDocument, setDocumentTitle]);
 
   return (
     <Panels

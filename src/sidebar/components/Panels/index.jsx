@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 
 import { PanelList } from '../';
 import { PanelControls } from '../';
 import * as classes from './styles.scss';
 
-type Props = {
-  children: Array<React.ReactNode>,
-  activeIndex: number,
-  onActiveChange: (arg0: number, arg1: number) => void,
-  renderCaption: Function,
-}
-
-export const Panels: React.FC<Props>= ({
+export const Panels = ({
   children: items,
   activeIndex,
   onActiveChange,
@@ -21,18 +14,18 @@ export const Panels: React.FC<Props>= ({
     return null;
   }
 
-  const prevAvailable = activeIndex - 1 >= 0;
-  const nextAvailable = activeIndex + 1 < items.length;
+  const prevAvailable = useMemo(() => activeIndex - 1 >= 0, [activeIndex]);
+  const nextAvailable = useMemo(() => activeIndex + 1 < items.length, [activeIndex, items.length]);
 
-  const activatePrev = () => {
+  const activatePrev = useCallback(() => {
     if (!prevAvailable) return;
     onActiveChange(activeIndex - 1, activeIndex);
-  };
+  }, [onActiveChange, activeIndex, prevAvailable]);
 
-  const activateNext = () => {
+  const activateNext = useCallback(() => {
     if (!nextAvailable) return;
     onActiveChange(activeIndex + 1, activeIndex);
-  };
+  }, [onActiveChange, activeIndex, nextAvailable]);
 
   return (
     <div className={classes.container}>

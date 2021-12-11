@@ -14,12 +14,12 @@ module.exports = {
     path: DIST_DIR,
   },
   entry: {
-    sidebar: './src/sidebar/index.tsx',
+    sidebar: './src/sidebar/index.jsx',
     background: './src/background/index.js',
   },
   resolve: {
     modules: [SRC_DIR, 'node_modules'],
-    extensions: ['.js', '.json', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.json'],
     alias: {
       'react': 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',
@@ -84,16 +84,13 @@ module.exports = {
         ],
       },
       {
-        test: /\.(js|ts)x?$/, // TYPESCRIPT
+        test: /\.jsx?$/, // TYPESCRIPT
         use: [
           {
             loader: 'cache-loader',
           },
           {
-            loader: 'ts-loader',
-            options: {
-              transpileOnly: false,
-            },
+            loader: 'babel-loader',
           },
         ],
         exclude: /node_modules/,

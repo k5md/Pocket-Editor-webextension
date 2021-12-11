@@ -3,16 +3,11 @@ import { PanelItem } from '../';
 import { usePrevious } from '../../hooks';
 import * as classes from './styles.scss';
 
-type Props = {
-  items: Array<React.ReactNode>,
-  activeIndex: number,
-};
-
-export const PanelList: React.FC<Props> = ({
+export const PanelList = ({
   items,
   activeIndex,
 }) => {
-  const previousActiveIndex: number | undefined = usePrevious(activeIndex);
+  const previousActiveIndex = usePrevious(activeIndex);
   
   const [ scroll, setScroll ] = useState(0);
 
@@ -26,11 +21,9 @@ export const PanelList: React.FC<Props> = ({
     transition: 'transform 200ms linear 0ms',
   };
 
-  const itemRenderer = (item, index) => {
-    return (
-      <PanelItem active={activeIndex === index} key={item.key}>{item}</PanelItem>
-    );
-  };
+  const itemRenderer = (item, index) => (
+    <PanelItem active={activeIndex === index} key={item.key}>{item}</PanelItem>
+  );
 
   const renderedList = useMemo(() => items.map(itemRenderer), [ items ]);
 

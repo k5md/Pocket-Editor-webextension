@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { AnchorButton } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import cn from 'classnames';
@@ -14,11 +14,11 @@ export const PanelControls = ({
   items,
   renderCaption,
 }) => {
-  const captions = {
+  const captions = useMemo(() => ({
     left: prevAvailable && renderCaption(items[activeIndex - 1], activeIndex - 1),
     center: renderCaption(items[activeIndex], activeIndex),
     right: nextAvailable && renderCaption(items[activeIndex + 1], activeIndex + 1),
-  };
+  }), [ prevAvailable, items, activeIndex, nextAvailable, renderCaption ]);
 
   return (
     <div className={classes.controls}>

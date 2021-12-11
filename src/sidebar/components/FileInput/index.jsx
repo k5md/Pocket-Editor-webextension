@@ -10,7 +10,7 @@ export const FileInput = ({
   inputProps = {},
   ...containerProps
 }) => {
-  const [ id ] = useState(() => uniqueId());
+  const id = useRef(uniqueId()).current;
   const inputRef = useRef(null);
 
   // NOTE: use portal here to cover the case when fileInput is being used in popover children

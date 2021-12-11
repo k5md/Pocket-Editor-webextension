@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Card, Elevation } from '@blueprintjs/core';
 import { collectModifiersFromSelection } from '../../../utils';
 import * as classes from './styles.scss';
 
-type Props = {
-  documentId: string,
-  content: string,
-  saveDocument: (arg0: string) => void,
-  setModifiers: (arg0: object) => void,
-  title?: string,
-};
-
-const DocumentItem: React.FC<Props> = ({
+const DocumentItem = ({
   documentId,
   content: storedContent,
   saveDocument,
@@ -19,27 +11,27 @@ const DocumentItem: React.FC<Props> = ({
 }) => {
   const [ content ] = useState(storedContent);
 
-  const updateModifiers = (e) => {
+  const updateModifiers = useCallback((e) => {
     const modifiers = collectModifiersFromSelection(e.target);
     setModifiers(modifiers);
-  };
+  }, [collectModifiersFromSelection, setModifiers]);
 
   // reset toolbar state on mount
   useEffect(() => {
     setModifiers({});
   }, []);
 
-  const onPaste = (e) => {
+  const onPaste = useCallback((e) => {
     const paste = e.clipboardData.getData('Text');
     document.execCommand('insertText', false, paste);
     e.preventDefault();
     saveDocument(e.target.innerHTML);
-  };
+  }, [saveDocument]);
 
-  const onKeyUp = (e) => {
+  const onKeyUp = useCallback((e) => {
     updateModifiers(e);
     saveDocument(e.target.innerHTML);
-  };
+  }, [updateModifiers, saveDocument]);
 
   return (
     <Card elevation={Elevation.TWO} className={classes.editableArea}>           

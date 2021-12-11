@@ -1,8 +1,8 @@
 import React from 'react';
 import Editor from './containers/Editor';
 
-const App: React.FC = () => {
-  return (<Editor />);
-};
+const App = () => (
+  <Editor />
+);
 
 export default App;
