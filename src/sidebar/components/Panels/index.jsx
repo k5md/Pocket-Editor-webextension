@@ -1,10 +1,9 @@
-import React, { useCallback, useMemo } from "react";
-
-import { PanelList } from '../';
-import { PanelControls } from '../';
+import React, { useCallback, useMemo } from 'react';
+import List from './List';
+import Controls from './Controls';
 import * as classes from './styles.scss';
 
-export const Panels = ({
+const Panels = ({
   children: items,
   activeIndex,
   onActiveChange,
@@ -29,8 +28,8 @@ export const Panels = ({
 
   return (
     <div className={classes.container}>
-      <PanelList items={items} activeIndex={activeIndex}/>
-      <PanelControls
+      <List items={items} activeIndex={activeIndex}/>
+      <Controls
         activateNext={activateNext}
         activatePrev={activatePrev}
         nextAvailable={nextAvailable}
@@ -42,3 +41,5 @@ export const Panels = ({
     </div>
   );
 };
+
+export default Panels;

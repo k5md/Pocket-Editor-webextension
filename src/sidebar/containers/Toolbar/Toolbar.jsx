@@ -33,9 +33,10 @@ const Toolbar = ({
     return null;
   }
 
+  // NOTE: preventDefault everywhere so that focus (cursor place) on contentEditable
+  // is not lost as soon as the button is clicked
   const preventDefault = useCallback((e) => e.preventDefault(), []);
 
-  // NOTE: preventDefault everywhere so that focus (cursor place) on contentEditable is not lost as soon as the button is clicked
   return (
     <div className={classes.toolbar}>
       <ButtonGroup className={classes.commandGroup}>

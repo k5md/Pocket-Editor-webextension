@@ -1,6 +1,4 @@
-/* eslint no-console: off */
-
-export const saveToStorage = hash => browser.storage.local.set(hash);
+export const saveToStorage = (hash) => browser.storage.local.set(hash);
 
 export const loadFromStorage = (key = null) => browser.storage.local.get(key);
 
@@ -11,20 +9,7 @@ export const stringToRegex = (str) => {
   return new RegExp(pattern, flags);
 };
 
-export class Console {
-  constructor(title, level) {
-    this.title = title;
-    this.level = level;
-  }
-
-  log(...body) {
-    if (this.level !== 'debug') {
-      return;
-    }
-    console.log(`%c${this.title} ---`, 'color: red;', ...body);
-  }
-}
-
+// eslint-disable-next-line default-param-last
 export const createReducer = (handlers, initialState = {}) => (state = initialState, action) => {
   if (!Object.prototype.hasOwnProperty.call(handlers, action.type)) {
     return state;
@@ -34,14 +19,15 @@ export const createReducer = (handlers, initialState = {}) => (state = initialSt
 
 export const breakE = (e) => { e.isDefaultPrevented = () => false; };
 
-export const mutateDocumentWithModifiers = (command, value) => {
+export const mutateDocumentWithModifiers = (mutationCommand, mutationValue) => {
   // NOTE: actual commands may be different from their corresponding
   // modifiers (e.g strikeThrough), some modifiers can group many commands
   // (like justify) and some need additional actions (fontSize) taken
   // TODO: refactor to use queryCommandState instead?
-  const makeHandler = command => (value) => {
+  const makeHandler = (command) => (value) => {
     document.execCommand(command, false, value);
-    const commandStatus = document.queryCommandState(command); // indicates whether command is still active
+    // commandStatus indicates whether command is still active
+    const commandStatus = document.queryCommandState(command);
     const change = { [command]: commandStatus && value };
     return { change, commandStatus };
   };
@@ -57,15 +43,15 @@ export const mutateDocumentWithModifiers = (command, value) => {
     bold: makeHandler('bold'),
     underline: makeHandler('underline'),
     italic: makeHandler('italic'),
-    ordered: (value) => makeHandler('insertOrderedList')() && { change: { ordered: value, unordered: false, } },
-    unordered: (value) => makeHandler('insertUnorderedList')() && { change: { ordered: false, unordered: value, } },
+    ordered: (value) => makeHandler('insertOrderedList')() && { change: { ordered: value, unordered: false } },
+    unordered: (value) => makeHandler('insertUnorderedList')() && { change: { ordered: false, unordered: value } },
     justifyFull: () => makeHandler('justifyFull')() && { change: { justify: 'full' } },
     justifyLeft: () => makeHandler('justifyLeft')() && { change: { justify: 'left' } },
     justifyCenter: () => makeHandler('justifyCenter')() && { change: { justify: 'center' } },
     justifyRight: () => makeHandler('justifyRight')() && { change: { justify: 'right' } },
   };
 
-  return commandHandlers[command](value);
+  return commandHandlers[mutationCommand](mutationValue);
 };
 
 export const collectModifiersFromSelection = (container) => {
@@ -80,14 +66,14 @@ export const collectModifiersFromSelection = (container) => {
   };
 
   const selectorHandlers = {
-    'UL': () => ({ unordered: true }),
-    'OL': () => ({ ordered: true }),
-    'B': () => ({ bold: true }),
-    'STRONG': () => ({ bold: true }),
-    'I':() => ({ italic: true }),
-    'U': () => ({ underline: true }),
-    'STRIKE':() => ({ strikethrough: true }),
-    'DIV[align]': node => ({ justify: node.align }),
+    UL: () => ({ unordered: true }),
+    OL: () => ({ ordered: true }),
+    B: () => ({ bold: true }),
+    STRONG: () => ({ bold: true }),
+    I: () => ({ italic: true }),
+    U: () => ({ underline: true }),
+    STRIKE: () => ({ strikethrough: true }),
+    'DIV[align]': (node) => ({ justify: node.align }),
   };
 
   const { anchorNode, focusNode } = window.getSelection(); // anchor - start, focus - end

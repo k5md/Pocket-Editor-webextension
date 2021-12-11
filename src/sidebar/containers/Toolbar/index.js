@@ -12,9 +12,9 @@ const mapStateToProps = ({ editorReducer, documentReducer }) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  setModifiers: modifiers => dispatch(setModifiers(modifiers)),
-  saveDocument: content => dispatch(saveDocument(content)),
+const mapDispatchToProps = (dispatch) => ({
+  setModifiers: (modifiers) => dispatch(setModifiers(modifiers)),
+  saveDocument: (content) => dispatch(saveDocument(content)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);

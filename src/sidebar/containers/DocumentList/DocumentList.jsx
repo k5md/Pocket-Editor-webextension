@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback } from 'react';
 import DocumentItem from '../DocumentItem';
 import { Panels, EditableText } from '../../components';
 
@@ -17,7 +17,7 @@ const DocumentList = ({
 
   return (
     <Panels
-      onActiveChange={curIdx => setCurrentDocument(curIdx)}
+      onActiveChange={(curIdx) => setCurrentDocument(curIdx)}
       activeIndex={currentDocument}
       renderCaption={renderInput}
     >

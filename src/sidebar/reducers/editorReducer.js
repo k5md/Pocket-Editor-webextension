@@ -1,4 +1,4 @@
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import * as types from '../constants/actionTypes';
 import { createReducer } from '../../utils';
 
@@ -17,7 +17,7 @@ export const initialState = {
 };
 
 export const handlers = {
-  [types.NEW_DOCUMENT]: (state, action) => {
+  [types.NEW_DOCUMENT]: (state) => {
     const newDocument = {
       title: browser.i18n.getMessage('documentUntitled'),
       content: '<p><br></p>',
@@ -40,14 +40,13 @@ export const handlers = {
     errors: state.errors.concat(error),
   }),
   [types.SAVE_DOCUMENT]: (state, { content }) => {
-    const documents = state.documents.map((document, index) => index === state.currentDocument 
+    const documents = state.documents.map((document, index) => (index === state.currentDocument
       ? { ...document, content }
-      : document
-    );
+      : document));
     return { ...state, documents };
   },
   [types.DELETE_DOCUMENT]: (state) => {
-    const documents = state.documents.filter((document, index) => index !== state.currentDocument);
+    const documents = state.documents.filter((_document, index) => index !== state.currentDocument);
     return {
       ...state,
       documents,
@@ -55,10 +54,9 @@ export const handlers = {
     };
   },
   [types.SET_DOCUMENT_TITLE]: (state, { title }) => {
-    const documents = state.documents.map((document, index) => index === state.currentDocument 
+    const documents = state.documents.map((document, index) => (index === state.currentDocument
       ? { ...document, title }
-      : document
-    );
+      : document));
     return { ...state, documents };
   },
 };

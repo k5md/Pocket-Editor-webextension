@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const webpack = require('webpack');
 
@@ -21,7 +22,7 @@ module.exports = {
     modules: [SRC_DIR, 'node_modules'],
     extensions: ['.js', '.jsx', '.json'],
     alias: {
-      'react': 'preact/compat',
+      react: 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',
       'react-dom': 'preact/compat',
     },
@@ -29,7 +30,7 @@ module.exports = {
   module: {
     rules: [
       // CSS for node_modules
-      { 
+      {
         include: /node_modules/,
         test: /\.css$/i,
         use: [
@@ -39,10 +40,10 @@ module.exports = {
             loader: 'css-loader',
             options: {
               sourceMap: false,
-            }
+            },
           },
         ],
-        
+
       },
       {
         test: /\.s[ac]ss$/i, // SCSS
@@ -60,7 +61,7 @@ module.exports = {
             },
           },
           'cache-loader',
-          { 
+          {
             loader: 'sass-loader',
             options: {
               sourceMap: false,
@@ -71,7 +72,7 @@ module.exports = {
       {
         test: /\.(woff(2)?|ttf|eot|svg|png)$/, // FONTS
         use: [
-          { 
+          {
             loader: 'cache-loader',
           },
           {
@@ -98,7 +99,7 @@ module.exports = {
       {
         test: require.resolve('webextension-polyfill'),
         use: 'imports-loader?browser=>undefined',
-      },      
+      },
     ],
   },
   plugins: [
@@ -107,7 +108,7 @@ module.exports = {
     }),
     new CopyPlugin([
       { from: 'src/assets', to: '.' },
-      { from: 'src/manifest.json', to: '.'},
+      { from: 'src/manifest.json', to: '.' },
     ]),
     new HtmlWebpackPlugin({
       chunks: ['sidebar'],

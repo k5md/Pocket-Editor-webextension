@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import { Overlay } from '@blueprintjs/core';
-
 import * as classes from './styles.scss';
 
-export const EditableText = ({
+const EditableText = ({
   value,
   onChange,
 }) => {
-  const [ editing, setEditing ] = useState(false);
+  const [editing, setEditing] = useState(false);
   const inputRef = useRef(null);
 
   useEffect(() => () => {
@@ -25,7 +24,6 @@ export const EditableText = ({
   // autofocus on mount
   // NOTE: nope, regular autofocus attribute won't work since we're using blueprintjs focusManager
   useEffect(() => {
-    console.log('onmount');
     inputRef.current.focus();
   }, []);
 
@@ -46,3 +44,5 @@ export const EditableText = ({
     </Overlay>
   );
 };
+
+export default EditableText;

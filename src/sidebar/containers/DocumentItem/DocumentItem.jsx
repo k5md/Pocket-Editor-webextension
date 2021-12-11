@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, Elevation } from '@blueprintjs/core';
 import { collectModifiersFromSelection } from '../../../utils';
 import * as classes from './styles.scss';
@@ -9,7 +9,7 @@ const DocumentItem = ({
   saveDocument,
   setModifiers,
 }) => {
-  const [ content ] = useState(storedContent);
+  const [content] = useState(storedContent);
 
   const updateModifiers = useCallback((e) => {
     const modifiers = collectModifiersFromSelection(e.target);
@@ -34,7 +34,7 @@ const DocumentItem = ({
   }, [updateModifiers, saveDocument]);
 
   return (
-    <Card elevation={Elevation.TWO} className={classes.editableArea}>           
+    <Card elevation={Elevation.TWO} className={classes.editableArea}>
       <div
         id={documentId}
         onClick={updateModifiers}

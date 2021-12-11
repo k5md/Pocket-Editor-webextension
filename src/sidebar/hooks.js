@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { useRef, useEffect } from 'react';
 
 export const usePrevious = (value) => {

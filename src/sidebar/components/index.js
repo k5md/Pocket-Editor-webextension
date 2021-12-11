@@ -1,6 +1,9 @@
-export * from './PanelItem';
-export * from './PanelList';
-export * from './PanelControls';
-export * from './Panels';
-export * from './FileInput';
-export * from './EditableText';
+import Panels from './Panels';
+import FileInput from './FileInput';
+import EditableText from './EditableText';
+
+export {
+  Panels,
+  FileInput,
+  EditableText,
+};

@@ -1,10 +1,9 @@
-import React, { useState, useRef } from "react";
-import { uniqueId } from 'lodash';
+import React, { useRef } from 'react';
+import uniqueId from 'lodash/uniqueId';
 import { AnchorButton, Portal } from '@blueprintjs/core';
-
 import * as classes from './styles.scss';
 
-export const FileInput = ({
+const FileInput = ({
   onInputChange,
   label,
   inputProps = {},
@@ -26,8 +25,10 @@ export const FileInput = ({
             onChange={onInputChange}
             {...inputProps}
           />
-        </Portal>   
+        </Portal>
       </AnchorButton>
     </div>
   );
 };
+
+export default FileInput;

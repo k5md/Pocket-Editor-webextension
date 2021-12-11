@@ -1,14 +1,15 @@
+/* eslint-disable import/no-duplicates */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { FocusStyleManager, Spinner } from '@blueprintjs/core';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
-import { configureStore } from './store/configureStore';
+import configureStore from './store/configureStore';
 
-import "normalize.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import 'normalize.css';
+import '@blueprintjs/core/lib/css/blueprint.css';
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
 FocusStyleManager.onlyShowFocusOnTabs();
 

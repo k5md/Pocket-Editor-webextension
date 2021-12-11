@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback } from 'react';
 import {
   Popover,
   Button,
@@ -9,7 +9,7 @@ import {
 } from '@blueprintjs/core';
 import { FileInput } from '../../components';
 
-// NOTE: as soon, as the BUG with MenuItems not dismissing the popover correctly because of 
+// NOTE: as soon, as the BUG with MenuItems not dismissing the popover correctly because of
 // isDefaultPrevented missing function ( https://github.com/palantir/blueprint/issues/2820 ) is fixed
 // remove event modification, since it WILL cause bugs
 // TLDR: before refactoring, consider existing bugs with menu & popover
@@ -22,8 +22,8 @@ const Menubar = ({
   newDocument,
   deleteDocument,
 }) => {
-  const [ fileMenuOpen, setFileMenuOpen ] = useState(false);
-  const handleNewDocument = useCallback((e)=> {
+  const [fileMenuOpen, setFileMenuOpen] = useState(false);
+  const handleNewDocument = useCallback((e) => {
     breakE(e);
     newDocument();
   }, [newDocument]);
@@ -31,7 +31,9 @@ const Menubar = ({
     breakE(e);
     deleteDocument();
   }, [deleteDocument]);
-  const handleImportDocument = useCallback(e => importDocument(e.target.files[0]), [importDocument]);
+  const handleImportDocument = useCallback((e) => {
+    importDocument(e.target.files[0]);
+  }, [importDocument]);
 
   const newMenuItem = (
     <MenuItem icon="document" text={browser.i18n.getMessage('menuNewDocument')} onClick={handleNewDocument}/>
@@ -95,7 +97,11 @@ const Menubar = ({
 
   return (
     <div className={classes.menubar}>
-      <Popover content={fileMenu} isOpen={fileMenuOpen} onInteraction={state => setFileMenuOpen(state)}>
+      <Popover
+        content={fileMenu}
+        isOpen={fileMenuOpen}
+        onInteraction={(state) => setFileMenuOpen(state)}
+      >
         <Button minimal icon="document" rightIcon="caret-down" text={browser.i18n.getMessage('menuFile')} />
       </Popover>
       <Divider />

@@ -1,31 +1,33 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { PanelItem } from '../';
-import { usePrevious } from '../../hooks';
+import React, { useState, useMemo, useEffect } from 'react';
+import Item from '../Item';
+import { usePrevious } from '../../../hooks';
 import * as classes from './styles.scss';
 
-export const PanelList = ({
+const List = ({
   items,
   activeIndex,
 }) => {
   const previousActiveIndex = usePrevious(activeIndex);
-  
-  const [ scroll, setScroll ] = useState(0);
+
+  const [scroll, setScroll] = useState(0);
 
   useEffect(() => {
-    const offset = previousActiveIndex === undefined ? -activeIndex : previousActiveIndex - activeIndex;
+    const offset = previousActiveIndex === undefined
+      ? -activeIndex
+      : previousActiveIndex - activeIndex;
     setScroll(scroll + 100 * offset);
-  }, [ activeIndex ]);
-  
+  }, [activeIndex]);
+
   const scrollStyle = {
     transform: `translateX(${scroll}%)`,
     transition: 'transform 200ms linear 0ms',
   };
 
   const itemRenderer = (item, index) => (
-    <PanelItem active={activeIndex === index} key={item.key}>{item}</PanelItem>
+    <Item active={activeIndex === index} key={item.key}>{item}</Item>
   );
 
-  const renderedList = useMemo(() => items.map(itemRenderer), [ items ]);
+  const renderedList = useMemo(() => items.map(itemRenderer), [items]);
 
   return (
     <div className={classes.listContainer}>
@@ -35,3 +37,5 @@ export const PanelList = ({
     </div>
   );
 };
+
+export default List;

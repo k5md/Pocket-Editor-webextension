@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { uniqueId } from 'lodash';
-import { AnchorButton, Portal } from '@blueprintjs/core';
-
+import React, { useState, useEffect } from 'react';
 import * as classes from './styles.scss';
 
-export const PanelItem = ({
+const Item = ({
   children,
   active,
 }) => {
-  const [ animate, setAnimate ] = useState(false);
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setAnimate(!animate && active));
-  }, [ active ]);
+  }, [active]);
 
   return (
     <div className={[
@@ -24,3 +21,5 @@ export const PanelItem = ({
     </div>
   );
 };
+
+export default Item;

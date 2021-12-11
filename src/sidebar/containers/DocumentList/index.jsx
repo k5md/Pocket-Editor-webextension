@@ -11,8 +11,8 @@ const mapStateToProps = ({ editorReducer }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentDocument: index => dispatch(setCurrentDocument(index)),
-  setDocumentTitle: title => dispatch(setDocumentTitle(title)),
+  setCurrentDocument: (index) => dispatch(setCurrentDocument(index)),
+  setDocumentTitle: (title) => dispatch(setDocumentTitle(title)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentList);

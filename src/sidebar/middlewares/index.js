@@ -7,6 +7,7 @@ const middlewares = [
 ];
 
 if (!PRODUCTION) {
+  // eslint-disable-next-line global-require
   const { logger } = require('redux-logger');
   middlewares.push(logger);
 }

@@ -1,11 +1,10 @@
-import React, { useMemo } from "react";
-import { AnchorButton } from "@blueprintjs/core";
-import { IconNames } from "@blueprintjs/icons";
+import React, { useMemo } from 'react';
+import { AnchorButton } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 import cn from 'classnames';
-
 import * as classes from './styles.scss';
 
-export const PanelControls = ({
+const Controls = ({
   activateNext,
   activatePrev,
   nextAvailable,
@@ -18,7 +17,7 @@ export const PanelControls = ({
     left: prevAvailable && renderCaption(items[activeIndex - 1], activeIndex - 1),
     center: renderCaption(items[activeIndex], activeIndex),
     right: nextAvailable && renderCaption(items[activeIndex + 1], activeIndex + 1),
-  }), [ prevAvailable, items, activeIndex, nextAvailable, renderCaption ]);
+  }), [prevAvailable, items, activeIndex, nextAvailable, renderCaption]);
 
   return (
     <div className={classes.controls}>
@@ -57,3 +56,5 @@ export const PanelControls = ({
     </div>
   );
 };
+
+export default Controls;

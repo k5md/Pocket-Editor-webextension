@@ -60,7 +60,7 @@ export const importDocument = (file) => (dispatch) => {
   reader.onload = async (fileContainer) => {
     try {
       const arrayBuffer = fileContainer.target.result;
-      const extension = file.name.replace(/(.*)\.(.*?)$/, "$2");
+      const extension = file.name.replace(/(.*)\.(.*?)$/, '$2');
 
       if (!extensions[extension]) {
         throw new Error(`${extension} is not a supported file type`);
@@ -69,7 +69,7 @@ export const importDocument = (file) => (dispatch) => {
       const html = await extensions[extension].toHTML(arrayBuffer);
 
       const document = {
-        title: file.name.replace(/(.*)\.(.*?)$/, "$1"),
+        title: file.name.replace(/(.*)\.(.*?)$/, '$1'),
         content: html,
       };
       dispatch(importDocumentSuccess(document));
@@ -81,7 +81,7 @@ export const importDocument = (file) => (dispatch) => {
   reader.onerror = (error) => {
     reader.abort();
     dispatch(importDocumentError(error));
-  }
+  };
   reader.readAsArrayBuffer(file);
 };
 

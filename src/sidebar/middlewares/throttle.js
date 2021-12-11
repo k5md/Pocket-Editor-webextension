@@ -1,11 +1,11 @@
-import { hasIn } from 'lodash';
+import hasIn from 'lodash/hasIn';
 
 const throttled = {};
 
-const throttle = store => next => (action) => {
+const throttle = () => (next) => (action) => {
   if (!hasIn(action, 'meta.throttle')) return next(action);
 
-  if (throttled[action.type]) return;
+  if (throttled[action.type]) return null;
 
   const { time } = action.meta;
 
@@ -14,7 +14,7 @@ const throttle = store => next => (action) => {
     throttled[action.type] = false;
   }, time);
 
-  next(action);
+  return next(action);
 };
 
 export default throttle;

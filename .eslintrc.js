@@ -1,4 +1,9 @@
+const path = require('path');
+
 module.exports = {
+  globals: {
+    PRODUCTION: 'readonly',
+  },
   extends: [
     'airbnb-base',
     'plugin:functional/external-recommended',
@@ -12,7 +17,7 @@ module.exports = {
   env: {
     browser: true,
     webextensions: true,
-    node: true
+    node: true,
   },
   parserOptions: {
     ecmaFeatures: {
@@ -31,4 +36,14 @@ module.exports = {
     'functional/no-throw-statement': 0,
   },
   parser: '@babel/eslint-parser',
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/resolver': {
+      webpack: {
+        config: path.resolve(__dirname, 'webpack.common.js'),
+      },
+    },
+  },
 };
