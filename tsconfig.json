@@ -20,7 +20,8 @@
       "react",
       "react-dom",
       "react-redux",
-      "firefox-webext-browser"
+      "firefox-webext-browser",
+      "webpack-env"
     ]
   },
   "exclude": ["dist", "build", "node_modules"]
