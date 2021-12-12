@@ -21,8 +21,14 @@ const DocumentList = ({
       activeIndex={currentDocument}
       renderCaption={renderInput}
     >
-      {documents.map(({ content, id, title }) => (
-        <DocumentItem key={id} title={title} content={content} documentId={id} />
+      {documents.map(({ content, id, title }, index) => (
+        <DocumentItem
+          key={id}
+          title={title}
+          content={content}
+          documentId={id}
+          active={index === currentDocument}
+        />
       ))}
     </Panels>
   );
